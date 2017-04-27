@@ -37,7 +37,8 @@ class TableGenTest {
         factory.setSqlLoader(ClasspathLoader("sql"))
 
         val sqlManager = factory.`object`
-        sqlManager.genPojoCodeToConsole("User_Passport")
-        sqlManager.genSQLTemplateToConsole("User_Passport")
+        var  name = "User_Role"
+        sqlManager.genPojoCodeToConsole(name)
+        sqlManager.genSQLTemplateToConsole(name)
     }
 }

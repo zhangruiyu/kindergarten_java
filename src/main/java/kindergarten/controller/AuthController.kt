@@ -2,6 +2,7 @@ package kindergarten.controller
 
 import kindergarten.service.PassportService
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.RequestMapping
@@ -12,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController
  * Created by zhangruiyu on 2017/4/11.
  */
 @RestController
-@RequestMapping(value = "/users")
+@RequestMapping(value = "/user")
 open class AuthController {
     @Autowired
     lateinit var mPassportService: PassportService

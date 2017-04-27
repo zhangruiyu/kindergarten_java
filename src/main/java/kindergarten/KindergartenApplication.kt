@@ -12,6 +12,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties
 import org.springframework.boot.context.properties.EnableConfigurationProperties
 import com.sun.tools.javac.tree.TreeInfo.args
 import kindergarten.helper.DBHelper
+import org.apache.activemq.command.ActiveMQQueue
 import org.springframework.boot.Banner
 import org.springframework.jdbc.datasource.DataSourceTransactionManager
 import org.springframework.boot.autoconfigure.jdbc.DataSourceBuilder
@@ -36,6 +37,7 @@ import org.springframework.core.io.support.ResourcePatternUtils
 import org.springframework.core.io.support.ResourcePatternResolver
 import org.springframework.http.converter.HttpMessageConverter
 import java.io.IOException
+import javax.jms.Queue
 import javax.sql.DataSource
 
 
@@ -48,6 +50,7 @@ class KindergartenApplication : CommandLineRunner {
     override fun run(vararg args: String?) {
 //        System.out.println(this.mPersonDao!!.getById(1))
     }
+
     //用fastjson解析
     @Bean
     fun fastJsonHttpMessageConverters(): HttpMessageConverters {
@@ -87,7 +90,6 @@ class KindergartenApplication : CommandLineRunner {
     }
 
 
-
     @Bean(name = arrayOf("beetlSqlScannerConfigurer"))
     fun getBeetlSqlScannerConfigurer(): BeetlSqlScannerConfigurer {
         val conf = BeetlSqlScannerConfigurer()
@@ -116,6 +118,7 @@ class KindergartenApplication : CommandLineRunner {
     @Bean(name = arrayOf("datasource"))
     @ConfigurationProperties(prefix = "spring.datasource")
     fun getDataSource(): DataSource {
+//        TaobaoClient
         println("-------------------- primaryDataSource init ---------------------")
         return DBHelper.getInstance().db
     }
@@ -126,6 +129,10 @@ class KindergartenApplication : CommandLineRunner {
         dsm.dataSource = datasource
         return dsm
     }
+
+    @Bean
+    fun queue(): Queue=ActiveMQQueue("com.kindergarten")
+
 }
 
 fun main(args: Array<String>) {

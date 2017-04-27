@@ -10,7 +10,7 @@ import java.util.stream.Collectors
  */
 class JwtUserFactory private constructor() {
     companion object {
-        fun JewUser(passport: User_Passport): JwtUser {
+        fun create(passport: User_Passport): JwtUser {
             return JwtUser(passport.passport_id.toString(), passport.tel!!, passport.login_password!!, mapToGrantedAuthorities(passport.roles))
         }
 
