@@ -14,6 +14,15 @@ interface TPassportDao : BaseMapper<User_Passport> {
 
     fun queryUser(user_Passport: User_Passport): User_Passport?
 
-    @SqlStatement(params = "tel,login_password,register_ip")
-    fun insertPassport(tel: String, login_password: String, register_ip: String)
+    @SqlStatement(params = "tel")
+    fun queryUserAndRole(tel: String): User_Passport?
+
+    @SqlStatement(params = "tel,login_password")
+    fun insertPassport(tel: String, login_password: String)
+
+    @SqlStatement(params = "passport_id,role_id")
+    fun insertUserRole(passport_id: Int?, role_id: String)
+
+    @SqlStatement(params = "passport_id,tel,register_ip")
+    fun insertProfile(passport_id: Int?, tel: String, register_ip: String)
 }

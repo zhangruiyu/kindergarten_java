@@ -1,20 +1,22 @@
 package kindergarten.web.controller
 
-import org.springframework.stereotype.Controller
-import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.PathVariable
-import org.springframework.web.servlet.ModelAndView
+import kindergarten.annotation.PoKo
+import kindergarten.utils.CustomConstants
+import org.springframework.security.access.prepost.PreAuthorize
+import org.springframework.web.bind.annotation.RequestMapping
+import org.springframework.web.bind.annotation.RestController
 
 
 /**
  * Created by zhangruiyu on 2017/4/11.
  */
-@Controller
-open class ViewController {
+@RestController
+@PreAuthorize(value = CustomConstants.CustomPermission.ADMIN)
+@PoKo class ViewController {
 
-    @GetMapping(value = "/view/{user}")
-    fun register(@PathVariable user: Int): ModelAndView {
-        val view = ModelAndView("/index.btl")
-        return view
+    @RequestMapping("/")
+    fun index(): Any {
+
+        return 123
     }
 }

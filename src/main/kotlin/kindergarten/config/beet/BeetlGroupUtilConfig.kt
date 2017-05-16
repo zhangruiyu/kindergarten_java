@@ -19,7 +19,7 @@ open class BeetlGroupUtilConfig {
         val beetlGroupUtilConfiguration = BeetlGroupUtilConfiguration()
         val patternResolver = ResourcePatternUtils.getResourcePatternResolver(DefaultResourceLoader())
         try {
-            val root = patternResolver.getResource("classpath:templates").file.toString()
+            val root = patternResolver.getResource("templates").file.toString()
             val webAppResourceLoader = WebAppResourceLoader(root)
             beetlGroupUtilConfiguration.setResourceLoader(webAppResourceLoader)
 

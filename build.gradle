@@ -6,8 +6,9 @@ buildscript {
     }
     repositories {
         mavenCentral()
-        maven { url "https://repo.spring.io/snapshot" }
-        maven { url "https://repo.spring.io/milestone" }
+        maven{ url 'http://maven.aliyun.com/nexus/content/groups/public/'}
+        /*maven { url "https://repo.spring.io/snapshot" }
+        maven { url "https://repo.spring.io/milestone" }*/
     }
     dependencies {
         classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
@@ -65,7 +66,7 @@ dependencies {
     compile('org.springframework.integration:spring-integration-mail')
     compile('org.springframework.security.oauth:spring-security-oauth')
     runtime('mysql:mysql-connector-java')
-    compile 'com.ibeetl:beetlsql:2.8.11'
+    compile 'com.ibeetl:beetlsql:2.8.12'
     compile('org.springframework.boot:spring-boot-starter-data-redis')
 
     compile('io.jsonwebtoken:jjwt:0.7.0')

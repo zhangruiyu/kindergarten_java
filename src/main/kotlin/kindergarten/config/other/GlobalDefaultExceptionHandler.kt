@@ -17,6 +17,7 @@ open class GlobalDefaultExceptionHandler {
     @ExceptionHandler(value = RuntimeException::class)
     fun defaultValidateFailedException(req: HttpServletRequest, e: RuntimeException): Any {
         e.message.let {
+            e.printStackTrace()
             return JsonUtils.json(it)
         }
     }

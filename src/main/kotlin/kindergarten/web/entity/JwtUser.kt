@@ -3,21 +3,24 @@ package kindergarten.web.entity
 import com.alibaba.fastjson.annotation.JSONField
 import org.springframework.security.core.GrantedAuthority
 import org.springframework.security.core.userdetails.UserDetails
+import java.util.*
 
 /**
  * Created by zhangruiyu on 2017/4/21.
  */
 class JwtUser constructor() : UserDetails {
     var id: String? = null
-    private var tel: String ? = null
-    private var password: String ? = null
+    private var tel: String? = null
+    private var password: String? = null
     private var authorities: Collection<GrantedAuthority>? = null
-    private  var expirationDate: java.util.Date? = null
-    constructor(id: String,tel: String,password: String,authorities: Collection<GrantedAuthority>) : this() {
+    var lastPasswordResetDate: Date? = null
+
+    constructor(id: String, tel: String, password: String, authorities: Collection<GrantedAuthority>, lastPasswordResetDate: Date) : this() {
         this.id = id
         this.tel = tel
         this.password = password
         this.authorities = authorities
+        this.lastPasswordResetDate = lastPasswordResetDate
     }
 
 
@@ -58,7 +61,6 @@ class JwtUser constructor() : UserDetails {
     override fun isEnabled(): Boolean {
         return true
     }
-
 
 
 }

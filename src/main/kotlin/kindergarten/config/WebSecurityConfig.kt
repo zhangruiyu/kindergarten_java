@@ -1,20 +1,22 @@
 package kindergarten.config
 
 import kindergarten.annotation.PoKo
+import kindergarten.utils.PrivateBCryptPasswordEncoder
 import kindergarten.web.service.JwtUserDetailsServiceImpl
+import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
+import org.springframework.http.HttpMethod
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter
-import org.springframework.security.core.userdetails.UserDetailsService
-import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.http.HttpMethod
-import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity
 import org.springframework.security.config.http.SessionCreationPolicy
+import org.springframework.security.core.userdetails.UserDetailsService
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import org.springframework.security.crypto.password.PasswordEncoder
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter
 
 
 /**
@@ -23,7 +25,8 @@ import org.springframework.security.crypto.password.PasswordEncoder
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
-@PoKo class WebSecurityConfig : WebSecurityConfigurerAdapter() {
+@PoKo
+open class WebSecurityConfig : WebSecurityConfigurerAdapter() {
     // Spring会自动寻找同样类型的具体类注入，这里就是JwtUserDetailsServiceImpl了
     @Autowired
     private val userDetailsService: JwtUserDetailsServiceImpl? = null
@@ -38,10 +41,16 @@ import org.springframework.security.crypto.password.PasswordEncoder
                 .passwordEncoder(passwordEncoder())
     }
 
+    @Bean
+    @Throws(Exception::class)
+    fun authenticationTokenFilterBean(): JwtAuthenticationTokenFilter {
+        return JwtAuthenticationTokenFilter()
+    }
+
     // 装载BCrypt密码编码器
     @Bean
     open fun passwordEncoder(): PasswordEncoder {
-        return BCryptPasswordEncoder()
+        return PrivateBCryptPasswordEncoder()
     }
 
     @Bean
@@ -79,9 +88,13 @@ import org.springframework.security.crypto.password.PasswordEncoder
                 // 对于获取token的rest api要允许匿名访问
                 .antMatchers("/auth/**").permitAll()
         // 除上面外的所有请求全部需要鉴权认证
-//                .anyRequest().authenticated()
+                .anyRequest().authenticated()
 
+
+        // 添加JWT filter
+        httpSecurity
+                .addFilterBefore(authenticationTokenFilterBean(), UsernamePasswordAuthenticationFilter::class.java)
         // 禁用缓存
-        httpSecurity.headers().cacheControl();
+        httpSecurity.headers().cacheControl()
     }
 }
