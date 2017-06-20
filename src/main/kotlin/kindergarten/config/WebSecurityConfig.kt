@@ -1,7 +1,6 @@
 package kindergarten.config
 
-import kindergarten.annotation.PoKo
-import kindergarten.utils.PrivateBCryptPasswordEncoder
+import kindergarten.custom.PrivateBCryptPasswordEncoder
 import kindergarten.web.service.JwtUserDetailsServiceImpl
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.context.annotation.Bean
@@ -14,7 +13,6 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter
 import org.springframework.security.config.http.SessionCreationPolicy
 import org.springframework.security.core.userdetails.UserDetailsService
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter
 
@@ -25,8 +23,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
-@PoKo
-open class WebSecurityConfig : WebSecurityConfigurerAdapter() {
+class WebSecurityConfig : WebSecurityConfigurerAdapter() {
     // Spring会自动寻找同样类型的具体类注入，这里就是JwtUserDetailsServiceImpl了
     @Autowired
     private val userDetailsService: JwtUserDetailsServiceImpl? = null
@@ -84,11 +81,14 @@ open class WebSecurityConfig : WebSecurityConfigurerAdapter() {
                         "/**/*.html",
                         "/**/*.css",
                         "/**/*.js"
-                ).permitAll()
-                // 对于获取token的rest api要允许匿名访问
-                .antMatchers("/auth/**").permitAll()
+                ).permitAll().
+                //只有是含有permission url的才去拦截
+                antMatchers("**/permission/**")
+                .authenticated()
+        // 对于获取token的rest api要允许匿名访问
+//                .antMatchers("/auth/**").permitAll()
         // 除上面外的所有请求全部需要鉴权认证
-                .anyRequest().authenticated()
+//                .anyRequest().authenticated()
 
 
         // 添加JWT filter

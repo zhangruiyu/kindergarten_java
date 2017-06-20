@@ -1,7 +1,10 @@
 package kindergarten.web.controller
 
-import kindergarten.annotation.PoKo
-import kindergarten.utils.HttpServletRequestUtils
+import kindergarten.config.custom.MessageException
+import kindergarten.ext.getIpAddr
+import kindergarten.ext.otherwise
+import kindergarten.ext.yes
+import kindergarten.custom.CustomConstants
 import kindergarten.web.service.AuthService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.security.access.prepost.PreAuthorize
@@ -16,34 +19,35 @@ import javax.servlet.http.HttpServletRequest
  */
 @RestController
 @RequestMapping(value = "/auth")
-@PoKo class AuthController {
+class AuthController {
     @Autowired
     lateinit var mPassportService: AuthService
 
     @RequestMapping(value = "/login")
     fun login(@RequestParam(required = true) tel: String, @RequestParam(required = true) password: String): Any? {
-        if (tel.isEmpty() || password.isEmpty()) {
-            throw RuntimeException("手机号或者密码不能不填")
+        return (tel.isEmpty() || password.isEmpty()).yes {
+            throw MessageException("手机号或者密码不能不填")
+        }.otherwise {
+            mPassportService.login(tel, password)
         }
-        return mPassportService.login(tel, password)
-//        return mSQLManager.selectSingle("tPassport.queryNewUser", null, User_Passport::class.java)
     }
 
     @RequestMapping(value = "/register1")
     fun register1(httpServletRequest: HttpServletRequest, @RequestParam(required = true) tel: String, @RequestParam(required = true) password: String): Any {
-        if (tel.isEmpty() || password.isEmpty()) {
-            throw RuntimeException("手机号或者密码不能不填")
+        return (tel.length > 11 || tel.isEmpty() || password.isEmpty()).yes {
+            throw MessageException("手机号或者密码格式错误")
+        }.otherwise {
+            mPassportService.registerUser(tel, password, httpServletRequest.getIpAddr())
         }
-        val user_Passport = mPassportService.registerUser(tel, password, HttpServletRequestUtils.getIpAddr(httpServletRequest))
-        return user_Passport
     }
-    @RequestMapping(value = "/register2")
-    @PreAuthorize("hasRole('ADMIN')")
+
+    @RequestMapping(value = "/permission/register2")
+    @PreAuthorize(CustomConstants.CustomPermission.USER)
     fun test(httpServletRequest: HttpServletRequest, @RequestParam(required = true) tel: String, @RequestParam(required = true) password: String): Any {
-        if (tel.isEmpty() || password.isEmpty()) {
-            throw RuntimeException("手机号或者密码不能不填")
+        return (tel.isEmpty() || password.isEmpty()).yes {
+            throw MessageException("手机号或者密码不能不填")
+        }.otherwise {
+            mPassportService.registerUser(tel, password, httpServletRequest.getIpAddr())
         }
-        val user_Passport = mPassportService.registerUser(tel, password, HttpServletRequestUtils.getIpAddr(httpServletRequest))
-        return user_Passport
     }
 }

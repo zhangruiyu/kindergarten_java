@@ -1,11 +1,10 @@
 package kindergarten.config.other
 
-import kindergarten.utils.JsonUtils
+import kindergarten.config.custom.MessageException
+import kindergarten.ext.jsonNormalFail
 import org.springframework.web.bind.annotation.ControllerAdvice
 import org.springframework.web.bind.annotation.ExceptionHandler
 import org.springframework.web.bind.annotation.ResponseBody
-import org.springframework.web.bind.annotation.RestController
-import java.io.File
 import javax.servlet.http.HttpServletRequest
 
 /**
@@ -14,12 +13,10 @@ import javax.servlet.http.HttpServletRequest
 @ControllerAdvice
 open class GlobalDefaultExceptionHandler {
     @ResponseBody
-    @ExceptionHandler(value = RuntimeException::class)
-    fun defaultValidateFailedException(req: HttpServletRequest, e: RuntimeException): Any {
-        e.message.let {
-            e.printStackTrace()
-            return JsonUtils.json(it)
-        }
+    @ExceptionHandler(value = MessageException::class)
+    fun defaultValidateFailedException(req: HttpServletRequest, e: MessageException): Any {
+        e.printStackTrace()
+        return e.message.jsonNormalFail()
     }
 
     @ResponseBody

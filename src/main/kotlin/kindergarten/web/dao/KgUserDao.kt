@@ -1,21 +1,22 @@
 package kindergarten.web.dao
 
-import kindergarten.web.entity.User_Passport
+import kindergarten.web.entity.KgUser
 import org.beetl.sql.core.annotatoin.SqlStatement
 import org.beetl.sql.core.mapper.BaseMapper
 import org.springframework.stereotype.Repository
 
+
 @Repository
-interface TPassportDao : BaseMapper<User_Passport> {
+interface KgUserDao : BaseMapper<KgUser> {
 
 
     @SqlStatement(params = "tel")
-    fun queryUser(tel: String): User_Passport?
+    fun queryUser(tel: String): KgUser?
 
-    fun queryUser(user_Passport: User_Passport): User_Passport?
+    fun queryUser(user_Passport: KgUser): KgUser?
 
     @SqlStatement(params = "tel")
-    fun queryUserAndRole(tel: String): User_Passport?
+    fun queryUserAndRole(tel: String): KgUser?
 
     @SqlStatement(params = "tel,login_password")
     fun insertPassport(tel: String, login_password: String)

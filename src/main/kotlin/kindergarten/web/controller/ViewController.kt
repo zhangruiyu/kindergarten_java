@@ -1,7 +1,7 @@
 package kindergarten.web.controller
 
 import kindergarten.annotation.PoKo
-import kindergarten.utils.CustomConstants
+import kindergarten.custom.CustomConstants
 import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController
 @PoKo class ViewController {
 
     @RequestMapping("/")
+    @PreAuthorize("hasRole('ADMIN')")
     fun index(): Any {
 
         return 123

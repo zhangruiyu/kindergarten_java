@@ -3,6 +3,7 @@ package kindergarten.config.beetlsql
 import org.beetl.sql.core.ClasspathLoader
 import org.beetl.sql.core.DefaultNameConversion
 import org.beetl.sql.core.Interceptor
+import org.beetl.sql.core.UnderlinedNameConversion
 import org.beetl.sql.core.db.MySqlStyle
 import org.beetl.sql.ext.DebugInterceptor
 import org.beetl.sql.ext.spring4.BeetlSqlDataSource
@@ -28,7 +29,7 @@ open class BeetlsqlConfig {
         factory.setCs(source)
         factory.setDbStyle(MySqlStyle())
         factory.setInterceptors(arrayOf<Interceptor>(DebugInterceptor()))
-        factory.setNc(DefaultNameConversion())
+        factory.setNc(UnderlinedNameConversion())
         factory.setSqlLoader(ClasspathLoader("sql"))
         return factory
     }

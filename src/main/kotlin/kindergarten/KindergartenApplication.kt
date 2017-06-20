@@ -1,27 +1,19 @@
 package kindergarten
 
-import org.apache.activemq.command.ActiveMQQueue
 import org.springframework.boot.Banner
 import org.springframework.boot.CommandLineRunner
 import org.springframework.boot.SpringApplication
 import org.springframework.boot.autoconfigure.SpringBootApplication
-import org.springframework.context.annotation.Bean
 import java.lang.Exception
-import javax.jms.Queue
 
 
 @SpringBootApplication
-open //@MapperScan("com.kindergarten.dao")
-//@EnableConfigurationProperties(Profile::class) //从application.properties添加属性的类
 class KindergartenApplication : CommandLineRunner {
     //    @Autowired
 //    private val mPersonDao: AuthDao? = null
     override fun run(vararg args: String?) {
 //        System.out.println(this.mPersonDao!!.getById(1))
     }
-
-    @Bean
-    open fun queue(): Queue = ActiveMQQueue("com.kindergarten")
 
 }
 

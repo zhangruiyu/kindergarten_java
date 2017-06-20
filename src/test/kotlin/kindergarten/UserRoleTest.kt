@@ -21,8 +21,8 @@ class UserRoleTest {
     @Autowired lateinit var sqlManagerFactoryBean: SQLManager
     @Test
     fun getTablePojoSqlTemplate() {
-        val use_Role_Passport = Use_Role_Passport()
-        use_Role_Passport.passport_id = 1
-        print(  sqlManagerFactoryBean.select("tRole.selectUserAndRoles", Use_Role_Passport::class.java,use_Role_Passport))
+//        val use_Role_Passport = Use_Role_Passport()
+//        use_Role_Passport.passport_id = 1
+//        print(  sqlManagerFactoryBean.select("tRole.selectUserAndRoles", Use_Role_Passport::class.java,use_Role_Passport))
     }
 }

@@ -1,6 +1,6 @@
 package kindergarten.web.service
 
-import kindergarten.web.dao.TPassportDao
+import kindergarten.web.dao.KgUserDao
 import kindergarten.web.entity.JwtUserFactory
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.security.core.userdetails.UserDetails
@@ -15,7 +15,7 @@ import org.springframework.stereotype.Service
 @Service
 open class JwtUserDetailsServiceImpl : UserDetailsService {
     @Autowired
-    private lateinit var mTPassportDao: TPassportDao
+    private lateinit var mTPassportDao: KgUserDao
 
     //可以从缓存里取数据  不一定从数据库里取
     override fun loadUserByUsername(username: String): UserDetails {

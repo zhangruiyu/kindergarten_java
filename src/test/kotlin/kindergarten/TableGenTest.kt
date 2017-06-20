@@ -1,13 +1,11 @@
 package kindergarten
 
-import kindergarten.helper.DBHelper
-import org.beetl.sql.core.*
-import org.beetl.sql.core.db.MySqlStyle
-import org.beetl.sql.ext.DebugInterceptor
-import org.beetl.sql.ext.spring4.BeetlSqlDataSource
-import org.beetl.sql.ext.spring4.SqlManagerFactoryBean
+import org.beetl.sql.core.SQLManager
+import org.beetl.sql.ext.gen.GenConfig
+import org.beetl.sql.ext.gen.GenFilter
 import org.junit.Test
 import org.junit.runner.RunWith
+import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.test.context.junit4.SpringRunner
@@ -20,21 +18,19 @@ import org.springframework.test.context.junit4.SpringRunner
 @SpringBootTest
 @AutoConfigureMockMvc
 class TableGenTest {
+    val genTabNames = arrayOf("kg_user","kg_profile","kg_role","kg_role_user")
+    @Autowired
+    lateinit var sqlManager: SQLManager
 
     @Test
     fun getTablePojoSqlTemplate() {
-        val factory = SqlManagerFactoryBean()
-        val source = BeetlSqlDataSource()
-        source.masterSource = DBHelper.getInstance().db
-        factory.setCs(source)
-        factory.setDbStyle(MySqlStyle())
-        factory.setInterceptors(arrayOf<Interceptor>(DebugInterceptor()))
-        factory.setNc(DefaultNameConversion())
-        factory.setSqlLoader(ClasspathLoader("sql"))
-
-        val sqlManager = factory.`object`
-        var  name = "User_Passport"
 //        sqlManager.genPojoCodeToConsole(name)
-        sqlManager.genSQLTemplateToConsole(name)
+        sqlManager.genALL("main.kotlin.kindergarten.web.entity", GenConfig(), MyGenFilter())
+    }
+
+    inner class MyGenFilter : GenFilter() {
+        override fun accept(tableName: String?): Boolean {
+            return !genTabNames.contains(tableName)
+        }
     }
 }
