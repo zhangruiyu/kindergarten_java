@@ -2,8 +2,9 @@ package kindergarten.web.service
 
 import kindergarten.annotation.PoKo
 import kindergarten.config.JwtTokenUtil
-import kindergarten.config.custom.MessageException
+import kindergarten.custom.MessageException
 import kindergarten.custom.PrivateBCryptPasswordEncoder
+import kindergarten.ext.throwMessageException
 import kindergarten.web.dao.KgUserDao
 import kindergarten.web.entity.JwtUserFactory
 import kindergarten.web.entity.KgUser
@@ -38,18 +39,18 @@ import org.springframework.transaction.annotation.Transactional
 
             return user_Passport
         } else {
-            throw MessageException("该手机号已经注册")
+            "该手机号已经注册".throwMessageException()
         }
     }
 
     fun login(tel: String, password: String): KgUser? {
-        val queryUser = passportDao.queryUser(tel) ?: throw MessageException("该手机号没有注册")
+        val queryUser = passportDao.queryUser(tel) ?: "该手机号没有注册".throwMessageException()
         val matches = PrivateBCryptPasswordEncoder().matches(password, queryUser.loginPassword)
         if (matches) {
             val generateToken = jwtTokenUtil.generateToken(JwtUserFactory.create(queryUser))
             queryUser.set("token", generateToken)
         } else {
-            throw MessageException("手机号或密码错误")
+            "手机号或密码错误".throwMessageException()
         }
 
         return queryUser

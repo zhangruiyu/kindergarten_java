@@ -30,10 +30,10 @@ class SwaggerConfig {
 
     private fun apiInfo(): ApiInfo {
         return ApiInfoBuilder()
-                .title("Spring Boot中使用Swagger2构建RESTful APIs")
-                .description("更多Spring Boot相关文章请关注：http://blog.didispace.com/")
+                .title("张瑞宇的RESTful APIs")
+                .description("幼儿园app的api接口文档 www.baidu.com ")
                 .termsOfServiceUrl("http://blog.didispace.com/")
-                .contact(Contact("程序猿DD", "152", "1231"))
+                .contact(Contact("张瑞宇", "www.baidu.com", "157418979@qq.com"))
                 .version("1.0")
                 .build()
     }

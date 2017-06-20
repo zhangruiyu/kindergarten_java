@@ -64,6 +64,7 @@ dependencies {
     compile 'com.ibeetl:beetl:2.7.16'
 
     compile 'com.alibaba:fastjson:1.2.33'
+    compile 'com.qcloud:qcloud-sdk:2.1.6'
     compile("io.springfox:springfox-swagger2:$swaggerVersion",
             "io.springfox:springfox-swagger-ui:$swaggerVersion")
 

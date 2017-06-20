@@ -1,4 +1,4 @@
-package kindergarten.config.custom
+package kindergarten.custom
 
 /**
  * Created by zhangruiyu on 2017/5/24.

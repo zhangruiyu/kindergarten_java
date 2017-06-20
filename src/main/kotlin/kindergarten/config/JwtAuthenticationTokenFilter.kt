@@ -1,6 +1,7 @@
 package kindergarten.config
 
 import kindergarten.annotation.PoKo
+import kindergarten.ext.yes
 import kindergarten.web.service.JwtUserDetailsServiceImpl
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.beans.factory.annotation.Value
@@ -39,28 +40,30 @@ class JwtAuthenticationTokenFilter : OncePerRequestFilter() {
             request: HttpServletRequest,
             response: HttpServletResponse,
             chain: FilterChain) {
-        val authHeader = request.getHeader(this.tokenHeader)
-        authHeader.let {
-            val authToken = authHeader/*.substring(tokenHead.length) // The part after "Bearer "*/
-            val username = jwtTokenUtil!!.getUsernameFromToken(authToken)
+        request.requestURI.contains("permission").yes {
+            val authHeader = request.getHeader(this.tokenHeader)
+            authHeader.let {
+                val authToken = authHeader/*.substring(tokenHead.length) // The part after "Bearer "*/
+                val username = jwtTokenUtil!!.getUsernameFromToken(authToken)
 
-            logger.info("checking authentication " + username)
+                logger.info("checking authentication " + username)
 
-            if (username != null && SecurityContextHolder.getContext().authentication == null) {
+                if (username != null && SecurityContextHolder.getContext().authentication == null) {
 
-                val userDetails = this.userDetailsService!!.loadUserByUsername(username)
+                    val userDetails = this.userDetailsService!!.loadUserByUsername(username)
 
-                if (jwtTokenUtil.validateToken(authToken, userDetails)!!) {
-                    val authentication = UsernamePasswordAuthenticationToken(
-                            userDetails, null, userDetails.authorities)
-                    authentication.details = WebAuthenticationDetailsSource().buildDetails(
-                            request)
-                    logger.info("authenticated user $username, setting security context")
-                    SecurityContextHolder.getContext().authentication = authentication
+                    if (jwtTokenUtil.validateToken(authToken, userDetails)!!) {
+                        val authentication = UsernamePasswordAuthenticationToken(
+                                userDetails, null, userDetails.authorities)
+                        authentication.details = WebAuthenticationDetailsSource().buildDetails(
+                                request)
+                        logger.info("authenticated user $username, setting security context")
+                        SecurityContextHolder.getContext().authentication = authentication
+                    }
                 }
             }
-        }
 
+        }
         chain.doFilter(request, response)
     }
 }

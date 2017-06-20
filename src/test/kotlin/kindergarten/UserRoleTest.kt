@@ -1,6 +1,5 @@
 package kindergarten
 
-import kindergarten.web.entity.Use_Role_Passport
 import org.beetl.sql.core.SQLManager
 import org.junit.Test
 import org.junit.runner.RunWith

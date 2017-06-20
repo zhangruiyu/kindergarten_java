@@ -1,6 +1,6 @@
 package kindergarten.config.other
 
-import kindergarten.config.custom.MessageException
+import kindergarten.custom.MessageException
 import kindergarten.ext.jsonNormalFail
 import org.springframework.web.bind.annotation.ControllerAdvice
 import org.springframework.web.bind.annotation.ExceptionHandler
