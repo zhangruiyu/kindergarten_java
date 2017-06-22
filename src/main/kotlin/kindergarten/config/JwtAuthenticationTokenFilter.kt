@@ -1,7 +1,7 @@
 package kindergarten.config
 
 import kindergarten.annotation.PoKo
-import kindergarten.ext.yes
+import com.utils.kindergartens.yes
 import kindergarten.web.service.JwtUserDetailsServiceImpl
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.beans.factory.annotation.Value

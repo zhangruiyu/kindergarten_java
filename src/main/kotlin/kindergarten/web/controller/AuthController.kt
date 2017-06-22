@@ -6,9 +6,9 @@ import io.swagger.annotations.ApiImplicitParams
 import io.swagger.annotations.ApiOperation
 import kindergarten.custom.CustomConstants
 import kindergarten.ext.getIpAddr
-import kindergarten.ext.otherwise
+import com.utils.kindergartens.otherwise
 import kindergarten.ext.throwMessageException
-import kindergarten.ext.yes
+import com.utils.kindergartens.yes
 import kindergarten.web.service.AuthService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.security.access.prepost.PreAuthorize
