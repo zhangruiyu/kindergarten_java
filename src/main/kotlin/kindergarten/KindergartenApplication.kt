@@ -1,5 +1,6 @@
 package kindergarten
 
+import kindergarten.custom.CustomConstants
 import org.springframework.boot.Banner
 import org.springframework.boot.CommandLineRunner
 import org.springframework.boot.SpringApplication
