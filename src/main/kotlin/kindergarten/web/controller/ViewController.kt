@@ -17,6 +17,8 @@ import org.springframework.web.bind.annotation.RestController
     @RequestMapping("/")
             //    @PreAuthorize("hasRole('ADMIN')")
     fun index(): String {
-        return CustomConstants.MessageConstants.sendMessageCode().jsonOk()
+//        return CustomConstants.sendMessageCode().jsonOk()
+        return "woaichi"
     }
+
 }

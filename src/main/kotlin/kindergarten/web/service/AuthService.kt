@@ -5,18 +5,43 @@ import kindergarten.custom.PrivateBCryptPasswordEncoder
 import com.utils.kindergartens.otherwise
 import kindergarten.ext.throwMessageException
 import com.utils.kindergartens.yes
+import kindergarten.costoMethods.MessageUitils
+import kindergarten.ext.jsonOKNoData
+import kindergarten.utils.RandomUtils
 import kindergarten.web.dao.KgUserDao
 import kindergarten.web.entity.JwtUserFactory
 import kindergarten.web.entity.KgUser
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
+import org.springframework.data.redis.core.StringRedisTemplate
+import java.util.concurrent.TimeUnit
 
 
 @Service
-class AuthService(@Autowired val passportDao: KgUserDao, @Autowired val jwtTokenUtil: JwtTokenUtil) {
+class AuthService(@Autowired val passportDao: KgUserDao,
+                  @Autowired val jwtTokenUtil: JwtTokenUtil,
+                  @Autowired val stringRedisTemplate: StringRedisTemplate) {
+
+
+    //尝试发送验证码
+    fun trySendAuthCode(tel: String, ipAddress: String): Any {
+        //根据手机号查找
+        val queryUserByTel = passportDao.queryUser(tel)
+        if (queryUserByTel == null) {
+            val authCode = RandomUtils.getRandNum()
+            //写入redis  1小时过期
+            stringRedisTemplate.opsForValue().set("$authCodePrefix:$tel", authCode, 1, TimeUnit.HOURS)
+            MessageUitils.sendMessageCode(authCode,tel)
+            return jsonOKNoData("验证码发送成功")
+        } else {
+            "该手机号已经注册".throwMessageException()
+        }
+    }
+
+    //写入用户到数据库
     @Transactional
-    fun registerUser(tel: String, password: String, ipAddress: String): KgUser {
+    fun registerUser(tel: String, password: String, ipAddress: String) {
         //根据手机号查找
         val queryUserByTel = passportDao.queryUser(tel)
         if (queryUserByTel == null) {
@@ -32,7 +57,6 @@ class AuthService(@Autowired val passportDao: KgUserDao, @Autowired val jwtToken
             user_Passport.set("role_name", "USER")
             user_Passport.set("token", jwtTokenUtil.generateToken(JwtUserFactory.create(user_Passport)))
 
-            return user_Passport
         } else {
             "该手机号已经注册".throwMessageException()
         }
@@ -48,5 +72,9 @@ class AuthService(@Autowired val passportDao: KgUserDao, @Autowired val jwtToken
         }
 
         return queryUser
+    }
+
+    companion object {
+        const val authCodePrefix: String = "KINDERGARTEN_AUTH_CODE"
     }
 }

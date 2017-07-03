@@ -83,7 +83,7 @@ class WebSecurityConfig : WebSecurityConfigurerAdapter() {
                         "/**/*.js"
                 ).permitAll().
                 //只有是含有permission url的才去拦截
-                antMatchers("**/permission/**")
+                antMatchers("/**/permission/**")
                 .authenticated()
         // 对于获取token的rest api要允许匿名访问
 //                .antMatchers("/auth/**").permitAll()

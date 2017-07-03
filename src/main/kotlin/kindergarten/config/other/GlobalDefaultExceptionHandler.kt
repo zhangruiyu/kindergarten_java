@@ -1,6 +1,7 @@
 package kindergarten.config.other
 
 import kindergarten.custom.MessageException
+import kindergarten.ext.ResponseData
 import kindergarten.ext.jsonNormalFail
 import org.springframework.web.bind.annotation.ControllerAdvice
 import org.springframework.web.bind.annotation.ExceptionHandler
@@ -14,7 +15,7 @@ import javax.servlet.http.HttpServletRequest
 open class GlobalDefaultExceptionHandler {
     @ResponseBody
     @ExceptionHandler(value = MessageException::class)
-    fun defaultValidateFailedException(req: HttpServletRequest, e: MessageException): Any {
+    fun defaultValidateFailedException(req: HttpServletRequest, e: MessageException): ResponseData {
         e.printStackTrace()
         return e.message.jsonNormalFail()
     }

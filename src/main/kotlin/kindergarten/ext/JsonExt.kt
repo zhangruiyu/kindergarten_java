@@ -7,6 +7,13 @@ package kindergarten.ext
 /**
  * 返回json给客户端
  */
-fun Any?.jsonOk(code: Int = 200, msg: String = "") = "{'code': $code, 'msg': $msg,'data':$this}"
+//有返回值给客户端
+fun Any?.jsonOk(code: Int = 200, msg: String = "") = ResponseData(code, msg, this)
 
-fun Any?.jsonNormalFail(code: Int = 1001, msg: String = "") = "{'code': $code, 'msg': $msg,'data':$this}"
+//没返回值 只有提示
+fun Any?.jsonOKNoData(msg: String = "", code: Int = 200) = ResponseData(code, msg, this)
+
+//失败了
+fun Any?.jsonNormalFail(code: Int = 1001, msg: String = "") = ResponseData(code, msg, this)
+
+data  class ResponseData(var code: Int, var msg: String, var `data`: Any?)
