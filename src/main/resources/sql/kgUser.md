@@ -14,7 +14,7 @@ queryUserAndRole
         ,r.role_name
     from kg_user u
         LEFT JOIN kg_role_user sru on u.id= sru.user_id
-        LEFT JOIN kg_role r on sru.role_id=r.role_id
+        LEFT JOIN kg_role r on sru.role_id=r.id
     where tel= #tel# 
   
 

@@ -1,4 +1,4 @@
-package kindergarten.web.entity
+package kindergarten.security
 
 import com.alibaba.fastjson.annotation.JSONField
 import org.springframework.security.core.GrantedAuthority
@@ -14,11 +14,13 @@ class JwtUser constructor() : UserDetails {
     private var password: String? = null
     private var authorities: Collection<GrantedAuthority>? = null
     var lastPasswordResetDate: Date? = null
+    var token: String? = null
 
-    constructor(id: String, tel: String, password: String, authorities: Collection<GrantedAuthority>, lastPasswordResetDate: Date) : this() {
+    constructor(id: String, tel: String, password: String, token: String, authorities: Collection<GrantedAuthority>, lastPasswordResetDate: Date) : this() {
         this.id = id
         this.tel = tel
         this.password = password
+        this.token = token
         this.authorities = authorities
         this.lastPasswordResetDate = lastPasswordResetDate
     }

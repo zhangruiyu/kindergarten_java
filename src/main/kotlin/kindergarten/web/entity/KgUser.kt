@@ -16,10 +16,11 @@ class KgUser : TailBean(), Serializable {
     @JSONField(serialize = false)
     var loginPassword: String? = null
     @JSONField(serialize = false)
+    var wxOpenId: String? = null
+
+    var token: String? = null
     var tel: String? = null
     @JSONField(serialize = false)
-    var wxOpenId: String? = null
-    @JSONField(serialize = false)
-    var roles: Array<String> = arrayOf()
+    var roleName: String? = null
 
 }

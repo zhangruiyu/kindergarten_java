@@ -1,9 +1,8 @@
-package kindergarten.config;
+package kindergarten.security;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
-import kindergarten.web.entity.JwtUser;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
@@ -40,7 +39,7 @@ public class JwtTokenUtil  implements Serializable {
         return username;
     }
 
-    public Date getCreatedDateFromToken(String token) {
+    private Date getCreatedDateFromToken(String token) {
         Date created;
         try {
             final Claims claims = getClaimsFromToken(token);
@@ -51,7 +50,7 @@ public class JwtTokenUtil  implements Serializable {
         return created;
     }
 
-    public Date getExpirationDateFromToken(String token) {
+    private Date getExpirationDateFromToken(String token) {
         Date expiration;
         try {
             final Claims claims = getClaimsFromToken(token);
@@ -84,13 +83,10 @@ public class JwtTokenUtil  implements Serializable {
         return expiration.before(new Date());
     }
 
-    private Boolean isCreatedBeforeLastPasswordReset(Date created, Date lastPasswordReset) {
-        return (lastPasswordReset != null && created.before(lastPasswordReset));
-    }
-
-    public String generateToken(UserDetails userDetails) {
+    //用用用户名和创建时间创建token
+    public String generateToken(String tel) {
         Map<String, Object> claims = new HashMap<>();
-        claims.put(CLAIM_KEY_USERNAME, userDetails.getUsername());
+        claims.put(CLAIM_KEY_USERNAME, tel);
         claims.put(CLAIM_KEY_CREATED, new Date());
         return generateToken(claims);
     }
@@ -104,9 +100,7 @@ public class JwtTokenUtil  implements Serializable {
     }
 
     public Boolean canTokenBeRefreshed(String token, Date lastPasswordReset) {
-        final Date created = getCreatedDateFromToken(token);
-        return !isCreatedBeforeLastPasswordReset(created, lastPasswordReset)
-                && !isTokenExpired(token);
+        return  !isTokenExpired(token);
     }
 
     public String refreshToken(String token) {
@@ -128,8 +122,7 @@ public class JwtTokenUtil  implements Serializable {
         //final Date expiration = getExpirationDateFromToken(token);
         return (
                 username.equals(user.getUsername())
-                        && !isTokenExpired(token)
-                        && !isCreatedBeforeLastPasswordReset(created, user.getLastPasswordResetDate()));
+                        && !isTokenExpired(token));
     }
 
 }

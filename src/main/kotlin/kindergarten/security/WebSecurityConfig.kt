@@ -1,4 +1,4 @@
-package kindergarten.config
+package kindergarten.security
 
 import kindergarten.custom.PrivateBCryptPasswordEncoder
 import kindergarten.web.service.JwtUserDetailsServiceImpl
@@ -82,13 +82,11 @@ class WebSecurityConfig : WebSecurityConfigurerAdapter() {
                         "/**/*.css",
                         "/**/*.js"
                 ).permitAll().
-                //只有是含有permission url的才去拦截
-                antMatchers("/**/permission/**")
-                .authenticated()
-        // 对于获取token的rest api要允许匿名访问
-//                .antMatchers("/auth/**").permitAll()
+                // 对于获取token的rest api要允许匿名访问
+                antMatchers("/public/**")
+                .permitAll()
         // 除上面外的所有请求全部需要鉴权认证
-//                .anyRequest().authenticated()
+                .anyRequest().authenticated()
 
 
         // 添加JWT filter

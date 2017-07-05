@@ -17,7 +17,7 @@ open class GlobalDefaultExceptionHandler {
     @ExceptionHandler(value = MessageException::class)
     fun defaultValidateFailedException(req: HttpServletRequest, e: MessageException): ResponseData {
         e.printStackTrace()
-        return e.message.jsonNormalFail()
+        return e.message.jsonNormalFail(code = e.code)
     }
 
     @ResponseBody
@@ -39,7 +39,6 @@ open class GlobalDefaultExceptionHandler {
 
         //打印异常信息：
         e.printStackTrace()
-        println("${e.message})")
 
         /*
         * 返回json数据或者String数据：

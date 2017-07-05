@@ -14,6 +14,6 @@ fun Any?.jsonOk(code: Int = 200, msg: String = "") = ResponseData(code, msg, thi
 fun Any?.jsonOKNoData(msg: String = "", code: Int = 200) = ResponseData(code, msg, this)
 
 //失败了
-fun Any?.jsonNormalFail(code: Int = 1001, msg: String = "") = ResponseData(code, msg, this)
+fun String?.jsonNormalFail(code: Int = 1001,data: Any? = null) = ResponseData(code, this!!,data)
 
-data  class ResponseData(var code: Int, var msg: String, var `data`: Any?)
+class ResponseData(var code: Int, var msg: String, var `data`: Any?)

@@ -18,7 +18,13 @@ import org.springframework.test.context.junit4.SpringRunner
 @SpringBootTest
 @AutoConfigureMockMvc
 class TableGenTest {
-    val genTabNames = arrayOf("kg_user","kg_profile","kg_role","kg_role_user")
+    val genTabNames = arrayOf(
+            "kg_user",
+            "kg_profile",
+            "kg_role",
+            "kg_role_user",
+            "kg_message_list"
+            )
     @Autowired
     lateinit var sqlManager: SQLManager
 
