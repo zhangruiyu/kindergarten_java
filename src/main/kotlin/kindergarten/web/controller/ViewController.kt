@@ -15,14 +15,11 @@ import org.springframework.web.bind.annotation.RestController
 @RestController
 //@PreAuthorize(value = CustomConstants.CustomPermission.ADMIN)
 @PoKo class ViewController {
-    @Autowired
-    lateinit var cachemanager: CacheManager
 
     @RequestMapping("/")
             //    @PreAuthorize("hasRole('ADMIN')")
     fun index(): String {
 //        return CustomConstants.sendMessageCode().jsonOk()
-        val cacheNames = cachemanager.cacheNames
         return "woaichi"
     }
 

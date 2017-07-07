@@ -1,66 +1,69 @@
 package kindergarten.security
 
-import com.alibaba.fastjson.annotation.JSONField
+import com.fasterxml.jackson.annotation.JsonIgnore
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties
+import com.fasterxml.jackson.annotation.JsonIgnoreType
+import kindergarten.annotation.PoKo
 import org.springframework.security.core.GrantedAuthority
+import org.springframework.security.core.authority.SimpleGrantedAuthority
 import org.springframework.security.core.userdetails.UserDetails
-import java.util.*
 
 /**
  * Created by zhangruiyu on 2017/4/21.
  */
-class JwtUser constructor() : UserDetails {
-    var id: String? = null
-    private var tel: String? = null
-    private var password: String? = null
-    private var authorities: Collection<GrantedAuthority>? = null
-    var lastPasswordResetDate: Date? = null
-    var token: String? = null
+@PoKo
+open class JwtUser : UserDetails {
 
-    constructor(id: String, tel: String, password: String, token: String, authorities: Collection<GrantedAuthority>, lastPasswordResetDate: Date) : this() {
+    open var id: String? = null
+    open var tel: String? = null
+    open var encryptPassword: String? = null
+    open var userAuthorities:  List<GrantedAuthority> = emptyList()
+    open var token: String? = null
+
+    constructor(id: String?, tel: String?, encryptPassword: String?, authorities: List<CustomGrantedAuthority>, token: String?) {
         this.id = id
         this.tel = tel
-        this.password = password
+        this.encryptPassword = encryptPassword
+        this.userAuthorities = authorities
         this.token = token
-        this.authorities = authorities
-        this.lastPasswordResetDate = lastPasswordResetDate
     }
-
 
     //返回分配给用户的角色列表
-    override fun getAuthorities(): Collection<GrantedAuthority> {
-        return authorities!!
+    @JsonIgnore
+    open override fun getAuthorities(): Collection<GrantedAuthority> {
+        return userAuthorities
     }
 
-    @JSONField(serialize = false)
-    override fun getPassword(): String {
-        return password!!
+    @JsonIgnoreProperties(ignoreUnknown = true)
+    open override fun getPassword(): String {
+        return encryptPassword!!
     }
 
-    override fun getUsername(): String {
+    @JsonIgnoreProperties(ignoreUnknown = true)
+    open override fun getUsername(): String {
         return tel!!
     }
 
     // 账户是否未过期
-    @JSONField(serialize = false)
-    override fun isAccountNonExpired(): Boolean {
+    @JsonIgnoreProperties(ignoreUnknown = true)
+    open override fun isAccountNonExpired(): Boolean {
         return true
     }
 
     // 账户是否未锁定
-    @JSONField(serialize = false)
-    override fun isAccountNonLocked(): Boolean {
+    open override fun isAccountNonLocked(): Boolean {
         return true
     }
 
     // 密码是否未过期
-    @JSONField(serialize = false)
-    override fun isCredentialsNonExpired(): Boolean {
+    @JsonIgnoreProperties(ignoreUnknown = true)
+    open override fun isCredentialsNonExpired(): Boolean {
         return true
     }
 
     // 账户是否激活
-    @JSONField(serialize = false)
-    override fun isEnabled(): Boolean {
+    @JsonIgnoreProperties(ignoreUnknown = true)
+    open override fun isEnabled(): Boolean {
         return true
     }
 

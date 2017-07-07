@@ -11,6 +11,7 @@ object CustomConstants {
     object CustomPermission {
         const val USER = "hasAnyRole('USER','ADMIN')"
         const val ADMIN = "hasRole('ADMIN')"
+//        const val ONLY_USER = "hasRole('USER')"
         const val USER_ADMIN = "hasRole('USER') AND hasRole('ADMIN')"
 
         val Bucket = "kindergartens"

@@ -14,7 +14,7 @@ class JwtUserFactory private constructor() {
         //创建jwtUser
         fun create(passport: KgUser): JwtUser {
             return with(passport) {
-                JwtUser(id.toString(), tel!!, loginPassword!!, token!!, listOf(SimpleGrantedAuthority(roleName)), Date())
+                JwtUser(id.toString(), tel!!, loginPassword!!, listOf(CustomGrantedAuthority(roleName!!)), token!!)
             }
         }
 

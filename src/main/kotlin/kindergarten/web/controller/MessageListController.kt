@@ -21,8 +21,9 @@ class MessageListController(@Autowired val messageListService: MessageListServic
 
     @PostMapping(value = "/getSchoolMessage")
     @PreAuthorize(CustomConstants.CustomPermission.USER)
-    fun getMessageListBySchoolId(request: HttpServletRequest) {
-        val jwtUserAfterFilter = JwtUserFactory.getJwtUserAfterFilter()
+    fun getMessageListBySchoolId(request: HttpServletRequest):Any {
+        val jwt = JwtUserFactory.getJwtUserAfterFilter()
         messageListService.getMessageListBySchoolId()
+        return "1"
     }
 }

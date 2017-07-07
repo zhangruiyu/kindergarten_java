@@ -1,4 +1,4 @@
-package kindergarten
+package kindergarten.sql
 
 import org.beetl.sql.core.SQLManager
 import org.beetl.sql.ext.gen.GenConfig

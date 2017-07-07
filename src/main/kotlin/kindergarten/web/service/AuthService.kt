@@ -7,6 +7,7 @@ import kindergarten.custom.PrivateBCryptPasswordEncoder
 import kindergarten.ext.jsonOKNoData
 import kindergarten.ext.throwMessageException
 import kindergarten.security.JwtTokenUtil
+import kindergarten.security.JwtUser
 import kindergarten.security.JwtUserFactory
 import kindergarten.utils.RandomUtils
 import kindergarten.web.dao.KgUserDao
@@ -16,18 +17,19 @@ import org.springframework.data.redis.core.StringRedisTemplate
 import org.springframework.data.redis.core.ValueOperations
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
-import java.io.Serializable
 import java.util.concurrent.TimeUnit
-
+import javax.annotation.Resource
 
 @Service
 class AuthService(@Autowired val passportDao: KgUserDao,
                   @Autowired val jwtTokenUtil: JwtTokenUtil,
                   @Autowired val stringRedisTemplate: StringRedisTemplate,
-                  @Autowired val privateBCryptPasswordEncoder: PrivateBCryptPasswordEncoder,
-                  @Autowired val valueOperations: ValueOperations<String, Serializable>
-) {
+                  @Autowired val privateBCryptPasswordEncoder: PrivateBCryptPasswordEncoder
+                ) {
 
+    @Suppress("SpringKotlinAutowiring")
+    @Resource(name = "redisTemplate")
+    lateinit var valueOperations: ValueOperations<String, JwtUser>
 
     //尝试发送验证码
     fun trySendAuthCode(tel: String, ipAddress: String): Any {

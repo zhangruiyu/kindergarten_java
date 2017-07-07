@@ -1,22 +1,17 @@
 package kindergarten.web.controller
 
+import com.utils.kindergartens.otherwise
+import com.utils.kindergartens.yes
 import io.swagger.annotations.Api
 import io.swagger.annotations.ApiImplicitParam
 import io.swagger.annotations.ApiImplicitParams
 import io.swagger.annotations.ApiOperation
-import kindergarten.custom.CustomConstants
 import kindergarten.ext.getIpAddr
-import com.utils.kindergartens.otherwise
-import kindergarten.ext.throwMessageException
-import com.utils.kindergartens.yes
 import kindergarten.ext.jsonOKNoData
+import kindergarten.ext.throwMessageException
 import kindergarten.web.service.AuthService
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.cache.CacheManager
-import org.springframework.data.redis.core.StringRedisTemplate
-import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.web.bind.annotation.PostMapping
-import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
 import javax.servlet.http.HttpServletRequest
@@ -28,8 +23,9 @@ import javax.servlet.http.HttpServletRequest
 @RestController
 //@RequestMapping(value = "/")
 @Api(description = "登陆注册")
-class AuthController(@Autowired val stringRedisTemplate: StringRedisTemplate,
-                     @Autowired var mPassportService: AuthService) {
+class AuthController(
+        @Autowired var mPassportService: AuthService) {
+
     @PostMapping(value = "/public/auth/login")
     fun login(@RequestParam(required = true) tel: String, @RequestParam(required = true) password: String): Any? {
         return (tel.isEmpty() || password.isEmpty()).yes {

@@ -73,6 +73,10 @@ class JwtAuthenticationTokenFilter : OncePerRequestFilter() {
                         }
                     }
 
+                }else{
+                    val printWriter = response.writer
+                    printWriter.use { response.writer.append(JSON.toJSONString("认证已失效,请尝试重新登录!".jsonNormalFail(code = MessageException.TRY_AGAIN_LOGIN_CODE))) }
+                    return
                 }
             }
 
