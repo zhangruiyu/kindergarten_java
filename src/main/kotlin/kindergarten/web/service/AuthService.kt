@@ -2,7 +2,7 @@ package kindergarten.web.service
 
 import com.utils.kindergartens.otherwise
 import com.utils.kindergartens.yes
-import kindergarten.costoMethods.MessageUitils
+import kindergarten.costs.method.MessageUitils
 import kindergarten.custom.PrivateBCryptPasswordEncoder
 import kindergarten.ext.jsonOKNoData
 import kindergarten.ext.throwMessageException

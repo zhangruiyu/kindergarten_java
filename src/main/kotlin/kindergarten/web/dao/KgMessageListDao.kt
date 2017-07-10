@@ -1,6 +1,7 @@
 package kindergarten.web.dao
 
 import kindergarten.web.entity.KgMessageList
+import org.beetl.sql.core.annotatoin.SqlStatement
 import org.beetl.sql.core.mapper.BaseMapper
 import org.springframework.stereotype.Repository
 
@@ -9,5 +10,6 @@ import org.springframework.stereotype.Repository
  */
 @Repository
 interface KgMessageListDao : BaseMapper<KgMessageList> {
-    fun getMessage(): List<KgMessageList>
+    @SqlStatement(params = "user_id")
+    fun getMessage(user_id: String): List<KgMessageList>
 }

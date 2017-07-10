@@ -1,7 +1,7 @@
 package kindergarten.web.controller
 
 import io.swagger.annotations.Api
-import kindergarten.custom.CustomConstants
+import kindergarten.costs.vals.CustomConstants
 import kindergarten.ext.jsonOk
 import kindergarten.security.JwtUserFactory
 import kindergarten.web.service.MessageListService
@@ -9,9 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
-import javax.servlet.http.HttpServletRequest
 
 /**
  * Created by zhangruiyu on 2017/7/3.

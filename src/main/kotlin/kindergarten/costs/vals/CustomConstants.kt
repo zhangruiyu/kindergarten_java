@@ -1,4 +1,4 @@
-package kindergarten.custom
+package kindergarten.costs.vals
 
 import org.apache.commons.codec.binary.Base64
 import org.apache.commons.codec.digest.HmacUtils
@@ -11,9 +11,12 @@ object CustomConstants {
     object CustomPermission {
         const val USER = "hasAnyRole('USER','ADMIN')"
         const val ADMIN = "hasRole('ADMIN')"
-//        const val ONLY_USER = "hasRole('USER')"
+        //        const val ONLY_USER = "hasRole('USER')"
         const val USER_ADMIN = "hasRole('USER') AND hasRole('ADMIN')"
 
+    }
+
+    object Other {
         val Bucket = "kindergartens"
         val APPID = "1253631018"
         val SecretID = "AKIDJXZP5QMPCqIYcUzlCSWP8h6JKBrLfljW"

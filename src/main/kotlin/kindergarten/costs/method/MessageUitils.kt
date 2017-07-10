@@ -1,4 +1,4 @@
-package kindergarten.costoMethods
+package kindergarten.costs.method
 
 import com.aliyuncs.DefaultAcsClient
 import com.aliyuncs.dysmsapi.model.v20170525.SendSmsRequest

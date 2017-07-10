@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service
 @Service
 class MessageListService(@Autowired val kgMessageListDao: KgMessageListDao) {
     fun getMessageListBySchoolId(id: String): List<KgMessageList> {
-        val message = kgMessageListDao.getMessage()
+        val message = kgMessageListDao.getMessage(id)
         return message
     }
 }
