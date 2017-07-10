@@ -81,4 +81,7 @@ dependencies {
     compile files("libs/aliyun-java-sdk-dysmsapi-1.0.0-SNAPSHOT.jar")
 
     testCompile('org.springframework.boot:spring-boot-starter-test')
+
+    //tools
+    compile 'com.xiaoleilu:hutool-core:3.0.8'
 }

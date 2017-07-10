@@ -8,4 +8,6 @@ import org.springframework.stereotype.Repository
  * Created by zhangruiyu on 2017/7/3.
  */
 @Repository
-interface KgMessageListDao : BaseMapper<KgMessageList>
+interface KgMessageListDao : BaseMapper<KgMessageList> {
+    fun getMessage(): List<KgMessageList>
+}
