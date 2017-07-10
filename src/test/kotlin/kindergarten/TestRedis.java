@@ -1,6 +1,7 @@
 package kindergarten;
 
 import kindergarten.config.redis.RedisUtil;
+import kindergarten.security.CustomGrantedAuthority;
 import kindergarten.security.JwtUser;
 import org.junit.Assert;
 import org.junit.Test;
@@ -13,6 +14,7 @@ import org.springframework.data.redis.serializer.Jackson2JsonRedisSerializer;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.concurrent.TimeUnit;
 
@@ -35,7 +37,7 @@ public class TestRedis {
 
     @Test
     public void testObj() throws Exception {
-        JwtUser user = new JwtUser("aa@126.com", "aa", "aa123456", "", "123");
+        JwtUser user = new JwtUser("aa@126.com", "aa", "aa123456", new CustomGrantedAuthority("USER"), "123");
 //        new RedisUtil().set("user",user);
 //        BoundValueOperations<String, User> op = redisTemplate.boundValueOps("person");
         op.set("aaaaa", user);

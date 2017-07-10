@@ -1,16 +1,16 @@
 package kindergarten.security
 
+import kindergarten.annotation.PoKo
 import org.springframework.security.core.GrantedAuthority
 import org.springframework.util.Assert
 
 /**
  * Created by zhangruiyu on 2017/7/7.
  */
-open class CustomGrantedAuthority : GrantedAuthority {
+@PoKo class CustomGrantedAuthority : GrantedAuthority {
 
     var role: String = ""
 
-    constructor()
     constructor(role: String) {
         Assert.hasText(role, "A granted authority textual representation is required")
         this.role = role
@@ -26,7 +26,7 @@ open class CustomGrantedAuthority : GrantedAuthority {
         }
 
         if (obj is CustomGrantedAuthority) {
-            return role == obj.role
+            return role.trim() == obj.role.trim()
         }
 
         return false
