@@ -1,7 +1,7 @@
 package kindergarten.web.controller
 
 import io.swagger.annotations.Api
-import kindergarten.costs.vals.CustomConstants
+import kindergarten.comm.vals.CustomConstants
 import kindergarten.ext.jsonOk
 import kindergarten.security.JwtUserFactory
 import kindergarten.web.service.MessageListService

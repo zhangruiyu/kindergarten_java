@@ -1,4 +1,4 @@
-package kindergarten.costs.vals
+package kindergarten.comm.vals
 
 import org.apache.commons.codec.binary.Base64
 import org.apache.commons.codec.digest.HmacUtils
