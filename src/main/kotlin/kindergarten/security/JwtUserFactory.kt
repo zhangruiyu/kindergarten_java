@@ -19,15 +19,9 @@ class JwtUserFactory private constructor() {
         }
 
         //在拦截之后获取jwtUser
-        fun getJwtUserAfterFilter(): JwtUser? {
+        fun getJwtUserAfterFilter(): JwtUser {
             val securityContext = SecurityContextHolder.getContext()
-            if (securityContext == null) {
-                return null
-            } else {
-                if (securityContext.authentication != null && securityContext.authentication.principal is JwtUser) {
-                    return securityContext.authentication.principal as JwtUser
-                } else return null
-            }
+            return securityContext.authentication.principal as JwtUser
         }
 
     }

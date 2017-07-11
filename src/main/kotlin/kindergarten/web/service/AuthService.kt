@@ -10,6 +10,7 @@ import kindergarten.security.JwtTokenUtil
 import kindergarten.security.JwtUser
 import kindergarten.security.JwtUserFactory
 import kindergarten.utils.RandomUtils
+import kindergarten.web.dao.KgProfileDao
 import kindergarten.web.dao.KgUserDao
 import kindergarten.web.entity.KgUser
 import org.springframework.beans.factory.annotation.Autowired
@@ -21,11 +22,13 @@ import java.util.concurrent.TimeUnit
 import javax.annotation.Resource
 
 @Service
-class AuthService(@Autowired val passportDao: KgUserDao,
-                  @Autowired val jwtTokenUtil: JwtTokenUtil,
-                  @Autowired val stringRedisTemplate: StringRedisTemplate,
-                  @Autowired val privateBCryptPasswordEncoder: PrivateBCryptPasswordEncoder
-                ) {
+class AuthService(
+        @Autowired val passportDao: KgUserDao,
+        @Autowired val kgProfileDao: KgProfileDao,
+        @Autowired val jwtTokenUtil: JwtTokenUtil,
+        @Autowired val stringRedisTemplate: StringRedisTemplate,
+        @Autowired val privateBCryptPasswordEncoder: PrivateBCryptPasswordEncoder
+) {
 
     @Suppress("SpringKotlinAutowiring")
     @Resource(name = "redisTemplate")
@@ -57,7 +60,7 @@ class AuthService(@Autowired val passportDao: KgUserDao,
             //查询到passport_id
             val user_Passport = passportDao.queryUser(tel)!!
             //添加profile
-            passportDao.insertProfile(user_Passport.id, tel, ipAddress)
+            kgProfileDao.insertProfile(user_Passport.id, tel, ipAddress)
             //添加权限
             passportDao.insertUserRole(user_Passport.id, "2")
             //不从数据库取了

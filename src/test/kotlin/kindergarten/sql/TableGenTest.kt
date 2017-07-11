@@ -31,7 +31,12 @@ class TableGenTest {
     @Test
     fun getTablePojoSqlTemplate() {
 //        sqlManager.genPojoCodeToConsole(name)
-        sqlManager.genALL("main.kotlin.kindergarten.web.entity", GenConfig(), MyGenFilter())
+//        sqlManager.genALL("main.kotlin.kindergarten.web.entity", GenConfig(), MyGenFilter())
+    }
+    @Test
+    fun printPojiSqlTemplate(){
+        sqlManager.genPojoCodeToConsole("kg_profile")
+        sqlManager.genSQLTemplateToConsole("kg_profile")
     }
 
     inner class MyGenFilter : GenFilter() {

@@ -12,13 +12,13 @@ import org.springframework.security.core.userdetails.UserDetails
 @PoKo
 class JwtUser : UserDetails {
 
-    final var id: String? = null
+    final var id: String
     final var tel: String? = null
     final var encryptPassword: String? = null
     final var userAuthorities: List<GrantedAuthority> = emptyList()
     final var token: String? = null
 
-    constructor(id: String?, tel: String?, encryptPassword: String?, authorities: List<CustomGrantedAuthority>, token: String?) {
+    constructor(id: String, tel: String?, encryptPassword: String?, authorities: List<CustomGrantedAuthority>, token: String?) {
         this.id = id
         this.tel = tel
         this.encryptPassword = encryptPassword
@@ -26,7 +26,7 @@ class JwtUser : UserDetails {
         this.token = token
     }
 
-    constructor(id: String?, tel: String?, encryptPassword: String?, anchorite: CustomGrantedAuthority, token: String?) :
+    constructor(id: String, tel: String?, encryptPassword: String?, anchorite: CustomGrantedAuthority, token: String?) :
             this(id, tel, encryptPassword, listOf(anchorite), token)
 
 

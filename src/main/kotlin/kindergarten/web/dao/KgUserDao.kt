@@ -13,7 +13,6 @@ interface KgUserDao : BaseMapper<KgUser> {
     @SqlStatement(params = "tel")
     fun queryUser(tel: String): KgUser?
 
-    fun queryUser(user_Passport: KgUser): KgUser?
 
     @SqlStatement(params = "tel")
     fun queryUserAndRole(tel: String): KgUser?
@@ -24,6 +23,5 @@ interface KgUserDao : BaseMapper<KgUser> {
     @SqlStatement(params = "passport_id,role_id")
     fun insertUserRole(passport_id: Int?, role_id: String)
 
-    @SqlStatement(params = "passport_id,tel,register_ip")
-    fun insertProfile(passport_id: Int?, tel: String, register_ip: String)
+
 }

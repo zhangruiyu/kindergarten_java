@@ -8,11 +8,11 @@ import java.util.*
 * gen by beetlsql 2017-06-20
 */
 class KgProfile : Serializable {
-    var id: Int? = null
     var genderId: Int? = null
     var loginCount: Int? = null
     var userId: Int? = null
     var schoolId: Int? = null
+    var classroomId: Int? = null
     var address: String? = null
     var avatar: String? = null
     var lastLoginIp: String? = null
