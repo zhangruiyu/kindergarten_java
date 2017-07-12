@@ -2,6 +2,7 @@ package kindergarten.web.controller
 
 import io.swagger.annotations.Api
 import kindergarten.comm.vals.CustomConstants
+import kindergarten.ext.ResponseData
 import kindergarten.ext.jsonOk
 import kindergarten.security.JwtUserFactory
 import kindergarten.web.service.MessageListService
@@ -21,9 +22,9 @@ class MessageListController(@Autowired val messageListService: MessageListServic
 
     @PostMapping(value = "/getSchoolMessage")
     @PreAuthorize(CustomConstants.CustomPermission.USER)
-    fun getMessageListBySchoolId(): Any {
+    fun getMessageListBySchoolId(): ResponseData {
         val jwt = JwtUserFactory.getJwtUserAfterFilter()
-        return messageListService.getMessageListBySchoolId(jwt!!.id!!).jsonOk()
+        return messageListService.getMessageListBySchoolId(jwt.id).jsonOk()
 
     }
 }

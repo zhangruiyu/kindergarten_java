@@ -4,15 +4,13 @@ import com.utils.kindergartens.otherwise
 import com.utils.kindergartens.yes
 import kindergarten.comm.method.MessageUitils
 import kindergarten.custom.PrivateBCryptPasswordEncoder
-import kindergarten.ext.jsonOKNoData
-import kindergarten.ext.throwMessageException
+import kindergarten.ext.*
 import kindergarten.security.JwtTokenUtil
 import kindergarten.security.JwtUser
 import kindergarten.security.JwtUserFactory
 import kindergarten.utils.RandomUtils
 import kindergarten.web.dao.KgProfileDao
 import kindergarten.web.dao.KgUserDao
-import kindergarten.web.entity.KgUser
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.data.redis.core.StringRedisTemplate
 import org.springframework.data.redis.core.ValueOperations
@@ -35,23 +33,23 @@ class AuthService(
     lateinit var valueOperations: ValueOperations<String, JwtUser>
 
     //尝试发送验证码
-    fun trySendAuthCode(tel: String, ipAddress: String): Any {
+    fun trySendAuthCode(tel: String, ipAddress: String): ResponseData {
         //根据手机号查找
         val queryUserByTel = passportDao.queryUser(tel)
-        if (queryUserByTel == null) {
+        return if (queryUserByTel == null) {
             val authCode = RandomUtils.getRandNum()
             //写入redis  1小时过期
             stringRedisTemplate.opsForValue().set("$authCodePrefix:$tel", authCode, 1, TimeUnit.HOURS)
             MessageUitils.sendMessageCode(authCode, tel)
-            return jsonOKNoData("验证码发送成功")
+            jsonOKNoData("验证码发送成功")
         } else {
-            "该手机号已经注册".throwMessageException()
+            "该手机号已经注册".jsonNormalFail()
         }
     }
 
     //写入用户到数据库
     @Transactional
-    fun registerUser(tel: String, password: String, ipAddress: String) {
+    fun registerUser(tel: String, password: String, ipAddress: String): ResponseData? {
         //根据手机号查找
         val queryUserByTel = passportDao.queryUser(tel)
         if (queryUserByTel == null) {
@@ -66,24 +64,24 @@ class AuthService(
             //不从数据库取了
             user_Passport.set("role_name", "USER")
             user_Passport.set("token", jwtTokenUtil.generateToken(tel))
-
+            return user_Passport.jsonOk()
         } else {
-            "该手机号已经注册".throwMessageException()
+            return "该手机号已经注册".jsonNormalFail()
         }
     }
 
-    fun login(tel: String, password: String): KgUser? {
-        val queryUser = passportDao.queryUserAndRole(tel) ?: "该手机号没有注册".throwMessageException()
+    fun login(tel: String, password: String): ResponseData? {
+        val queryUser = passportDao.queryUserAndRole(tel) ?: return "该手机号没有注册".jsonNormalFail()
         privateBCryptPasswordEncoder.matches(password, queryUser.loginPassword).yes {
             val generateToken = jwtTokenUtil.generateToken(tel)
             queryUser.token = generateToken
             val jwtUser = JwtUserFactory.create(queryUser)
             valueOperations.set("$authTokenPrefix:$tel", jwtUser, 60, TimeUnit.DAYS)
         }.otherwise {
-            "手机号或密码错误".throwMessageException()
+            return "手机号或密码错误".jsonNormalFail()
         }
 
-        return queryUser
+        return queryUser.jsonOk()
     }
 
     companion object {

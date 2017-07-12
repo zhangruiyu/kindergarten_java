@@ -13,7 +13,8 @@ selectDynamic
     	 and `classroom_id`=#selectId#
     @}else{
      and `school_id`=#selectId#
-    @}
+    @} 
+    ORDER BY  create_time DESC LIMIT #offset# ,#max_size#
   	@ orm.many({"id":"dynamic_id"},"kgDynamic.selectDynamicPic","KgDynamicPics");
    
 selectDynamicPic
