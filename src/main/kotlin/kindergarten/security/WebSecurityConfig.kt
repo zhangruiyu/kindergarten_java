@@ -1,5 +1,6 @@
 package kindergarten.security
 
+import kindergarten.comm.vals.CustomConstants
 import kindergarten.custom.PrivateBCryptPasswordEncoder
 import kindergarten.web.service.JwtUserDetailsServiceImpl
 import org.springframework.beans.factory.annotation.Autowired
@@ -81,12 +82,10 @@ class WebSecurityConfig : WebSecurityConfigurerAdapter() {
                         "/**/*.html",
                         "/**/*.css",
                         "/**/*.js"
-                ).permitAll().
+                ).permitAll()
                 // 对于获取token的rest api要允许匿名访问
-                antMatchers("/public/**")
-                .permitAll()
-        // 除上面外的所有请求全部需要鉴权认证
-                .anyRequest().authenticated()
+                .antMatchers("/user/**").hasAnyRole("USER", "ADMIN")
+                .anyRequest().permitAll()
 
 
         // 添加JWT filter

@@ -1,14 +1,16 @@
 package kindergarten
 
+import kindergarten.config.cos.OCSConfig
 import org.springframework.boot.Banner
 import org.springframework.boot.CommandLineRunner
 import org.springframework.boot.SpringApplication
 import org.springframework.boot.autoconfigure.SpringBootApplication
-import org.springframework.cache.annotation.EnableCaching
+import org.springframework.boot.context.properties.EnableConfigurationProperties
 import java.lang.Exception
 
 
 @SpringBootApplication
+@EnableConfigurationProperties(OCSConfig::class)
 class KindergartenApplication : CommandLineRunner {
     //    @Autowired
 //    private val mPersonDao: AuthDao? = null

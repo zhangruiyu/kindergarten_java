@@ -32,7 +32,23 @@ selectDynamicLiked
     FROM kg_profile p INNER JOIN kg_dynamic_liked l ON l.user_id = p.user_id
     WHERE l.dynamic_id = #dynamic_id#
     ORDER BY l.create_time DESC
-
+    
+commitDynamic
+====
+* 发布动态
+   INSERT INTO kg_dynamic (school_id, classroom_id, content, visibility_type, user_id, dynamic_type)
+   VALUES ( #schoolId#,#classroomId#,#dynamic_content#,#visibilityType#,#userId#,#dynamic_type#);
+     
+commitDynamicVideo
+====
+* 插入视频
+   INSERT INTO kg_dynamic_video (dynamic_id, video_url, video_length, video_pic) SELECT LAST_INSERT_ID(),#video_server_url#,#video_long#, #screenshot_server_url#
+    
+commitDynamicPic
+====
+* 插入图片
+   INSERT INTO kg_dynamic_pics (dynamic_id,pic_url, sequence) VALUES  #values#
+  
 cols
 ===
 

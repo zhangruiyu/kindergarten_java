@@ -8,6 +8,7 @@ import io.swagger.annotations.ApiImplicitParams
 import io.swagger.annotations.ApiOperation
 import kindergarten.ext.*
 import kindergarten.web.service.AuthService
+import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestParam
@@ -23,9 +24,16 @@ import javax.servlet.http.HttpServletRequest
 @Api(description = "登陆注册")
 class AuthController(
         @Autowired var mPassportService: AuthService) {
+    val logger = LoggerFactory.getLogger(this.javaClass)
+
 
     @PostMapping(value = "/public/auth/login")
     fun login(@RequestParam(required = true) tel: String, @RequestParam(required = true) password: String): ResponseData? {
+        logger.debug("试着登陆")
+        logger.error("试着登陆")
+        logger.info("试着登陆")
+        logger.warn("试着登陆")
+        logger.trace("试着登陆")
         return (tel.isEmpty() || password.isEmpty()).yes {
             "手机号或者密码不能不填".jsonNormalFail()
         }.otherwise {

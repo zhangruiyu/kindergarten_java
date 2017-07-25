@@ -11,6 +11,7 @@ import kindergarten.security.JwtUserFactory
 import kindergarten.utils.RandomUtils
 import kindergarten.web.dao.KgProfileDao
 import kindergarten.web.dao.KgUserDao
+import kindergarten.web.entity.KgProfile
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.data.redis.core.StringRedisTemplate
 import org.springframework.data.redis.core.ValueOperations
@@ -82,6 +83,11 @@ class AuthService(
         }
 
         return queryUser.jsonOk()
+    }
+
+    fun getKgProfile(id: String): KgProfile {
+        val kgProfile = kgProfileDao.single(id)
+        return kgProfile
     }
 
     companion object {

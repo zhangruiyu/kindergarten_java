@@ -45,14 +45,14 @@ class JwtAuthenticationTokenFilter : OncePerRequestFilter() {
             response: HttpServletResponse,
             chain: FilterChain) {
         //不包含public才去查用户
-        request.requestURI.contains("/public").no {
+        if (request.requestURI.contains("/user")){
             val authHeader = request.getHeader(this.tokenHeader)
             if (authHeader == null) {
                 val printWriter = response.writer
                 printWriter.use {
                     printWriter.append(JSON.toJSONString("请登录后再试".jsonNormalFail(code = MessageException.TRY_LOGIN_CODE)))
                 }
-                return
+                return@doFilterInternal
             } else {
                 val authToken = authHeader/*.substring(tokenHead.length) // The part after "Bearer "*/
                 val username = jwtTokenUtil.getUsernameFromToken(authToken)
@@ -69,7 +69,7 @@ class JwtAuthenticationTokenFilter : OncePerRequestFilter() {
                         } else {
                             val printWriter = response.writer
                             printWriter.use { response.writer.append(JSON.toJSONString("认证已失效,请重新登录!".jsonNormalFail(code = MessageException.TRY_AGAIN_LOGIN_CODE))) }
-                            return
+                            return@doFilterInternal
                         }
                     }
 
