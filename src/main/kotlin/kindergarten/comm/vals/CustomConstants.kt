@@ -20,4 +20,9 @@ object CustomConstants {
         //0是发表动态
         val types = arrayOf("dynamic/pic_dynamic", "dynamic/video_dynamic")
     }
+    object COSURL {
+        //图片类型
+        //0是发表动态
+        val picUrl = "http://kindergartens-1253631018.pictj.myqcloud.com"
+    }
 }

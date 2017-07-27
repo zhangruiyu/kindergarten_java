@@ -1,10 +1,12 @@
 package kindergarten.web.service
 
+import kindergarten.config.cos.OCSConfig
 import kindergarten.ext.ResponseData
 import kindergarten.ext.jsonOKNoData
 import kindergarten.security.JwtUser
 import kindergarten.web.dao.KgDynamicDao
 import kindergarten.web.dao.KgProfileDao
+import kindergarten.web.entity.KgDynamicPics
 import kindergarten.web.entity.custom.DynamicPicUrl
 import kindergarten.web.entity.custom.LastIsertId
 import org.beetl.sql.core.SQLManager
@@ -26,7 +28,8 @@ interface DynamicService {
 class DynamicServiceImpl(@Autowired private val kgProfileDao: KgProfileDao,
                          @Autowired private val dynamicDao: KgDynamicDao,
                          @Autowired private val authService: AuthService,
-                         @Autowired val sqlManager: SQLManager
+                         @Autowired val sqlManager: SQLManager,
+                         @Autowired val oCSConfig: OCSConfig
 ) : DynamicService {
 
     // dynamic_type 默认是0  获取的是班级的动态  1是全校
@@ -39,9 +42,17 @@ class DynamicServiceImpl(@Autowired private val kgProfileDao: KgProfileDao,
                 0
             } else profile.classroomId
         } else profile.schoolId
-
+        oCSConfig.picPrefix
+        val dynamics = dynamicDao.selectDynamic(selectId, dynamic_type, page_index * page_size, page_size)
+     /*   dynamics?.forEach {
+            dynamic ->
+            @Suppress("UNCHECKED_CAST")
+            (dynamic["kgDynamicPics"] as List<KgDynamicPics>).forEach {
+                it.picUrl = oCSConfig.picPrefix + it.picUrl
+            }
+        }*/
 //        dynamicDao.selectDynamic(selectId,dynamic_type)
-        return dynamicDao.selectDynamic(selectId, dynamic_type, page_index * page_size, page_size)
+        return dynamics
     }
 
     override fun commitDynamicVideo(userId: String, dynamic_content: String, screenshot_server_url: String, video_server_url: String, video_long: String): ResponseData {
@@ -53,14 +64,15 @@ class DynamicServiceImpl(@Autowired private val kgProfileDao: KgProfileDao,
 
     override fun commitDynamicPic(id: String, dynamic_content: String, urls: List<DynamicPicUrl>): ResponseData {
         val kgProfile = authService.getKgProfile(id)
-        val commitDynamic = dynamicDao.commitDynamic(id, kgProfile.schoolId, kgProfile.classroomId, dynamic_content, DynamicTypePic, 0)
+        dynamicDao.commitDynamic(id, kgProfile.schoolId, kgProfile.classroomId, dynamic_content, DynamicTypePic, 0)
         val dynamicId = sqlManager.execute(SQLReady("SELECT LAST_INSERT_ID()"), LastIsertId::class.java)[0]["lastInsertId()"]
-        //随便返回结果
-//        sqlManager.insert(SQLReady(sql), LastIsertId::class.java)
-        val values = urls.map {
+
+        val sql = "INSERT INTO kg_dynamic_pics (dynamic_id,pic_url, sequence) VALUES ${
+        urls.map {
             "($dynamicId,'${it.url}',${it.position})"
         }.joinToString()
-        dynamicDao.commitDynamicPic(values)
+        } "
+        sqlManager.executeUpdate(SQLReady(sql))
         return "动态发布成功".jsonOKNoData()
     }
 

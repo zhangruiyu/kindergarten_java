@@ -1,7 +1,6 @@
 package kindergarten.web.dao
 
 import kindergarten.web.entity.KgDynamic
-import kindergarten.web.entity.custom.DynamicPicUrl
 import org.beetl.sql.core.annotatoin.SqlStatement
 import org.beetl.sql.core.mapper.BaseMapper
 import org.springframework.stereotype.Repository
@@ -20,6 +19,4 @@ interface KgDynamicDao : BaseMapper<KgDynamic> {
     @SqlStatement(params = "screenshot_server_url,video_server_url,video_long")
     fun commitDynamicVideo(screenshot_server_url: String, video_server_url: String, video_long: String)
 
-    @SqlStatement(params = "values")
-    fun commitDynamicPic(values: String)
 }

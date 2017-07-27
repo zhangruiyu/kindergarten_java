@@ -8,7 +8,7 @@ selectDynamic
 ====
 * 获取用户对应的校园信息 dynamic_type 0是班级
 
-    SELECT id,content,create_time,d.user_id,p.nick_name FROM kg_dynamic d INNER JOIN kg_profile p ON 1 = 1
+    SELECT id,content,create_time,d.user_id,p.nick_name FROM kg_dynamic d INNER JOIN kg_profile p ON  d.user_id = p.user_id
     @if(dynamic_type == 0){
     	 and  d.classroom_id = #selectId#
     @}else{
@@ -44,11 +44,7 @@ commitDynamicVideo
 * 插入视频
    INSERT INTO kg_dynamic_video (dynamic_id, video_url, video_length, video_pic) SELECT LAST_INSERT_ID(),#video_server_url#,#video_long#, #screenshot_server_url#
     
-commitDynamicPic
-====
-* 插入图片
-   INSERT INTO kg_dynamic_pics (dynamic_id,pic_url, sequence) VALUES  #values#
-  
+    
 cols
 ===
 
