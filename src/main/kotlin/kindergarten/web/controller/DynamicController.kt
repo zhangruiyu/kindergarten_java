@@ -18,6 +18,8 @@ import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 
 /**
  * Created by zhangruiyu on 2017/7/3.
@@ -29,8 +31,8 @@ class DynamicController(private val dynamicService: DynamicService) {
     @PostMapping(value = "/user/dynamic/list")
             //默认是0  获取的是班级的动态  1是全校
     fun dynamicList(@RequestParam(defaultValue = "0") dynamic_type: Int,
-                              @RequestParam(defaultValue = "0") page_index: Int,
-                              @RequestParam(defaultValue = "5") page_size: Int): ResponseData {
+                    @RequestParam(defaultValue = "0") page_index: Int,
+                    @RequestParam(defaultValue = "5") page_size: Int): ResponseData {
         val jwt = JwtUserFactory.getJwtUserAfterFilter()
         val dynamic = dynamicService.getDynamic(jwt, dynamic_type, page_index, page_size)
         print(dynamic)
@@ -66,6 +68,17 @@ class DynamicController(private val dynamicService: DynamicService) {
         val jwt = JwtUserFactory.getJwtUserAfterFilter()
         return dynamicService.commitDynamicVideo(jwt.id, dynamic_content,
                 OCSUtils.toLocation(screenshot_server_url), OCSUtils.toLocation(video_server_url), video_long)
+
+    }
+
+    @PostMapping(value = "/user/dynamic/commitComment")
+    fun commitComment(@RequestParam(required = true) commentContent: String,
+                      @RequestParam(required = true) dynamicId: String,
+                      @RequestParam(required = true, defaultValue = "0") parentCommentId: Int
+    ): ResponseData {
+        val jwt = JwtUserFactory.getJwtUserAfterFilter()
+        return dynamicService.commitComment(jwt.id, commentContent,
+                dynamicId, parentCommentId, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss").toString() + jwt.id)
 
     }
 }

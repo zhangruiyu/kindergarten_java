@@ -17,7 +17,8 @@ selectDynamic
     ORDER BY  create_time DESC LIMIT #offset# ,#max_size#
   	@ orm.many({"id":"dynamic_id"},"kgDynamic.selectDynamicPic","KgDynamicPics");
   	@ orm.many({"id":"dynamic_id"},"kgDynamic.selectDynamicLiked","KgDynamicLiked");
-   
+  	@ orm.many({"id":"dynamic_id"},"kgDynamic.examineComment","KgDynamicComment");
+
 selectDynamicPic
 ====
 * 查询动态的图片
@@ -44,7 +45,31 @@ commitDynamicVideo
 * 插入视频
    INSERT INTO kg_dynamic_video (dynamic_id, video_url, video_length, video_pic) SELECT LAST_INSERT_ID(),#video_server_url#,#video_long#, #screenshot_server_url#
     
-    
+     
+examineComment
+====
+* 查看评论
+
+    SELECT
+    	id,
+    	user_id,
+    	dynamic_id,
+    	comment_content,
+    	create_time,
+    	parent_comment_id,
+    	group_tag
+    FROM kg_dynamic_comment
+    WHERE dynamic_id =  #dynamic_id#
+
+
+commitComment
+====
+* 添加评论
+
+
+    INSERT INTO kg_dynamic_comment (user_id, dynamic_id, comment_content, state, parent_comment_id, group_tag)
+    VALUES ()
+
 cols
 ===
 
