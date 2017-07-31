@@ -91,7 +91,7 @@ dependencies {
     testCompile('org.springframework.boot:spring-boot-starter-test')
 
     //tools
-    compile 'com.xiaoleilu:hutool-core:3.0.8'
+    compile 'com.xiaoleilu:hutool-core:3.0.9'
     compile 'org.jetbrains.kotlinx:kotlinx-coroutines-core:0.16'
     compile 'com.qcloud:cos_api:4.4'
 }

@@ -8,7 +8,7 @@ selectDynamic
 ====
 * 获取用户对应的校园信息 dynamic_type 0是班级
 
-    SELECT id,content,create_time,d.user_id,p.nick_name FROM kg_dynamic d INNER JOIN kg_profile p ON  d.user_id = p.user_id
+    SELECT d.id,content,create_time,d.user_id,p.nick_name FROM kg_dynamic d INNER JOIN kg_profile p ON  d.user_id = p.user_id
     @if(dynamic_type == 0){
     	 and  d.classroom_id = #selectId#
     @}else{
@@ -59,7 +59,7 @@ examineComment
     	parent_comment_id,
     	group_tag
     FROM kg_dynamic_comment
-    WHERE dynamic_id =  #dynamic_id#
+    WHERE dynamic_id =  #dynamic_id# ORDER BY create_time
 
 
 commitComment

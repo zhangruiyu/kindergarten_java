@@ -1,21 +1,15 @@
 package kindergarten.web.controller
 
 import io.swagger.annotations.Api
-import kindergarten.comm.vals.CustomConstants
 import kindergarten.ext.ResponseData
 import kindergarten.ext.jsonNormalFail
 import kindergarten.ext.jsonOk
 import kindergarten.security.JwtUserFactory
 import kindergarten.utils.OCSUtils
 import kindergarten.web.entity.custom.DynamicPicUrl
-import kindergarten.web.service.AuthService
 import kindergarten.web.service.DynamicService
-import org.apache.http.util.TextUtils
 import org.slf4j.LoggerFactory
-import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.web.bind.annotation.PostMapping
-import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
 import java.time.LocalDateTime
@@ -74,11 +68,24 @@ class DynamicController(private val dynamicService: DynamicService) {
     @PostMapping(value = "/user/dynamic/commitComment")
     fun commitComment(@RequestParam(required = true) commentContent: String,
                       @RequestParam(required = true) dynamicId: String,
-                      @RequestParam(required = true, defaultValue = "0") parentCommentId: Int
+                      @RequestParam(defaultValue = "0") parentCommentId: Int,
+                      @RequestParam(defaultValue = "") groupTag: String
     ): ResponseData {
+        //说明子评论 那么parentID也不会为空
+        if (groupTag.isNotEmpty()) {
+            if (parentCommentId == 0) {
+                return "子评论参数缺失:parentCommentId".jsonNormalFail()
+            }
+        }
         val jwt = JwtUserFactory.getJwtUserAfterFilter()
+        //如果是空 那么就是第一级评论 需要手动加group_tag
+        val timePoke = if (groupTag.isEmpty()) {
+            LocalDateTime.now().toString() + jwt.id
+        } else {
+            groupTag
+        }
         return dynamicService.commitComment(jwt.id, commentContent,
-                dynamicId, parentCommentId, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss").toString() + jwt.id)
+                dynamicId, parentCommentId, timePoke)
 
     }
 }

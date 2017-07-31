@@ -6,7 +6,8 @@ import kindergarten.ext.jsonOKNoData
 import kindergarten.security.JwtUser
 import kindergarten.web.dao.KgDynamicDao
 import kindergarten.web.dao.KgProfileDao
-import kindergarten.web.entity.KgDynamicPics
+import kindergarten.web.entity.DynamicProfile
+import kindergarten.web.entity.WrapperDynamic
 import kindergarten.web.entity.custom.DynamicPicUrl
 import kindergarten.web.entity.custom.LastIsertId
 import org.beetl.sql.core.SQLManager
@@ -22,15 +23,17 @@ interface DynamicService {
     fun getDynamic(jwt: JwtUser, dynamic_type: Int, page_index: Int, page_size: Int): Any?
     fun commitDynamicVideo(userId: String, dynamic_content: String, screenshot_server_url: String, video_server_url: String, video_long: String): ResponseData
     fun commitDynamicPic(id: String, dynamic_content: String, urls: List<DynamicPicUrl>): ResponseData
+    fun commitComment(id: String, commentContent: String, dynamicId: String, parentCommentId: Int, timePoke: String): ResponseData
 }
 
 @Service
 class DynamicServiceImpl(@Autowired private val kgProfileDao: KgProfileDao,
                          @Autowired private val dynamicDao: KgDynamicDao,
                          @Autowired private val authService: AuthService,
-                         @Autowired val sqlManager: SQLManager,
-                         @Autowired val oCSConfig: OCSConfig
+                         @Autowired private val sqlManager: SQLManager,
+                         @Autowired private val oCSConfig: OCSConfig
 ) : DynamicService {
+
 
     // dynamic_type 默认是0  获取的是班级的动态  1是全校
     override fun getDynamic(jwt: JwtUser, dynamic_type: Int, page_index: Int, page_size: Int): Any? {
@@ -42,17 +45,20 @@ class DynamicServiceImpl(@Autowired private val kgProfileDao: KgProfileDao,
                 0
             } else profile.classroomId
         } else profile.schoolId
+
         oCSConfig.picPrefix
         val dynamics = dynamicDao.selectDynamic(selectId, dynamic_type, page_index * page_size, page_size)
-     /*   dynamics?.forEach {
-            dynamic ->
-            @Suppress("UNCHECKED_CAST")
-            (dynamic["kgDynamicPics"] as List<KgDynamicPics>).forEach {
-                it.picUrl = oCSConfig.picPrefix + it.picUrl
-            }
-        }*/
+        /*   dynamics?.forEach {
+               dynamic ->
+               @Suppress("UNCHECKED_CAST")
+               (dynamic["kgDynamicPics"] as List<KgDynamicPics>).forEach {
+                   it.picUrl = oCSConfig.picPrefix + it.picUrl
+               }
+           }*/
 //        dynamicDao.selectDynamic(selectId,dynamic_type)
-        return dynamics
+        //只有第一次时候查询
+        val selectAllClassUserInfo = if (page_index == 0) kgProfileDao.selectAllClassUserInfo(profile.classroomId!!) else emptyList<DynamicProfile>()
+        return WrapperDynamic(selectAllClassUserInfo, dynamics)
     }
 
     override fun commitDynamicVideo(userId: String, dynamic_content: String, screenshot_server_url: String, video_server_url: String, video_long: String): ResponseData {
@@ -74,6 +80,12 @@ class DynamicServiceImpl(@Autowired private val kgProfileDao: KgProfileDao,
         } "
         sqlManager.executeUpdate(SQLReady(sql))
         return "动态发布成功".jsonOKNoData()
+    }
+
+    //提交评论
+    override fun commitComment(id: String, commentContent: String, dynamicId: String, parentCommentId: Int, timePoke: String): ResponseData {
+        dynamicDao.commitComment(id, commentContent, dynamicId, parentCommentId, timePoke)
+        return "评论成功".jsonOKNoData()
     }
 
     companion object {

@@ -1,6 +1,7 @@
 package kindergarten.web.dao
 
 import kindergarten.web.entity.KgDynamic
+import org.beetl.sql.core.annotatoin.Sql
 import org.beetl.sql.core.annotatoin.SqlStatement
 import org.beetl.sql.core.mapper.BaseMapper
 import org.springframework.stereotype.Repository
@@ -18,5 +19,8 @@ interface KgDynamicDao : BaseMapper<KgDynamic> {
 
     @SqlStatement(params = "screenshot_server_url,video_server_url,video_long")
     fun commitDynamicVideo(screenshot_server_url: String, video_server_url: String, video_long: String)
+
+    @Sql(value = "INSERT INTO kg_dynamic_comment (user_id,comment_content, dynamic_id, state, parent_comment_id, group_tag) VALUES (?,?,?,1,?,?)")
+    fun commitComment(id: String, commentContent: String, dynamicId: String, parentCommentId: Int, timePoke: String)
 
 }

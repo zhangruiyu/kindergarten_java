@@ -1,8 +1,11 @@
 package kindergarten.web.dao
 
+import kindergarten.web.entity.DynamicProfile
 import kindergarten.web.entity.KgProfile
+import org.beetl.sql.core.annotatoin.Sql
 import org.beetl.sql.core.annotatoin.SqlStatement
 import org.beetl.sql.core.mapper.BaseMapper
+import java.util.ArrayList
 
 /**
  * Created by zhangruiyu on 2017/7/11.
@@ -13,4 +16,7 @@ interface KgProfileDao : BaseMapper<KgProfile> {
 
     @SqlStatement(params = "passport_id,tel,register_ip")
     fun insertProfile(passport_id: Int?, tel: String, register_ip: String)
+
+    @Sql("SELECT user_id,nick_name FROM kg_profile WHERE classroom_id = ?")
+    fun selectAllClassUserInfo(classroomId: Int): ArrayList<DynamicProfile>
 }
