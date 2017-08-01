@@ -28,6 +28,10 @@ class AuthService(
         @Autowired val stringRedisTemplate: StringRedisTemplate,
         @Autowired val privateBCryptPasswordEncoder: PrivateBCryptPasswordEncoder
 ) {
+    companion object {
+        const val authCodePrefix: String = "KINDERGARTEN_AUTH_CODE"
+        const val authTokenPrefix: String = "KINDERGARTEN_AUTH_TOKEN"
+    }
 
     @Suppress("SpringKotlinAutowiring")
     @Resource(name = "redisTemplate")
@@ -90,8 +94,8 @@ class AuthService(
         return kgProfile
     }
 
-    companion object {
-        const val authCodePrefix: String = "KINDERGARTEN_AUTH_CODE"
-        const val authTokenPrefix: String = "KINDERGARTEN_AUTH_TOKEN"
+
+    fun getProfile(id: String): ResponseData {
+        return getKgProfile(id).jsonOk()
     }
 }

@@ -7,6 +7,7 @@ import io.swagger.annotations.ApiImplicitParam
 import io.swagger.annotations.ApiImplicitParams
 import io.swagger.annotations.ApiOperation
 import kindergarten.ext.*
+import kindergarten.security.JwtUserFactory
 import kindergarten.web.service.AuthService
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
@@ -75,5 +76,12 @@ class AuthController(
             }
 
         }
+    }
+
+    @PostMapping(value = "/user/profile")
+    @ApiImplicitParam(name = "获取用户信息")
+    fun getProfile(httpServletRequest: HttpServletRequest): ResponseData {
+        val jwt = JwtUserFactory.getJwtUserAfterFilter()
+        return mPassportService.getProfile(jwt.id)
     }
 }
