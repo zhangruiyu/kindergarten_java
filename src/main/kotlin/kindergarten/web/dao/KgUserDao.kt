@@ -23,5 +23,8 @@ interface KgUserDao : BaseMapper<KgUser> {
     @SqlStatement(params = "passport_id,role_id")
     fun insertUserRole(passport_id: Int?, role_id: String)
 
+    @SqlStatement(params = "id,checkGender,relationCheck,address,avatarUrl")
+    fun updateProfile(id: String, checkGender: Int, relationCheck: Int, address: String, avatarUrl: String)
+
 
 }

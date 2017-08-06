@@ -84,4 +84,17 @@ class AuthController(
         val jwt = JwtUserFactory.getJwtUserAfterFilter()
         return mPassportService.getProfile(jwt.id)
     }
+
+    @PostMapping(value = "/user/reviseProfile")
+    @ApiImplicitParam(name = "修改用户信息")
+    fun reviseProfile(httpServletRequest: HttpServletRequest, @RequestParam(required = true) checkGender: Int
+                      , @RequestParam(required = true) relationCheck: Int,
+                      @RequestParam(required = true) address: String,
+                      @RequestParam(required = true) avatarUrl: String): ResponseData {
+        if (relationCheck < 0 || relationCheck > 6 || checkGender < 0 || checkGender > 1) {
+            return "数据格式不对,请联系管理人员".jsonNormalFail()
+        }
+        val jwt = JwtUserFactory.getJwtUserAfterFilter()
+        return mPassportService.reviseProfile(jwt.id,checkGender,relationCheck,address,avatarUrl)
+    }
 }

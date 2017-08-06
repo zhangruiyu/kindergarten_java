@@ -21,5 +21,8 @@ class KgUser : TailBean(), Serializable {
     var tel: String? = null
     @JSONField(serialize = false)
     var roleName: String? = null
+    var gender: String? = null
+    var address: String? = null
+    var relation: String? = null
 
 }

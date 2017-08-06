@@ -98,4 +98,9 @@ class AuthService(
     fun getProfile(id: String): ResponseData {
         return getKgProfile(id).jsonOk()
     }
+
+    fun reviseProfile(id: String, checkGender: Int, relationCheck: Int, address: String, avatarUrl: String): ResponseData {
+        passportDao.updateProfile(id,checkGender,relationCheck,address,avatarUrl)
+        return "修改个人信息成功".jsonOKNoData()
+    }
 }

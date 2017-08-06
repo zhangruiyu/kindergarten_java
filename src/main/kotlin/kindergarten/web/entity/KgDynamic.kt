@@ -26,7 +26,7 @@ class KgDynamic : TailBean() {
 //    var kgDynamicPics: List<KgDynamicPics>? = null
 }
 
-class WrapperDynamic(var allClassRoomUserInfo: List<DynamicProfile>?, var dynamics: List<KgDynamic>?)
+class WrapperDynamic(var allClassRoomUserInfo: List<DynamicProfile>, var dynamics: List<KgDynamic>)
 
 class DynamicProfile {
     var userId: String? = null

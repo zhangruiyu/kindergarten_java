@@ -10,13 +10,28 @@ queryUserAndRole
 
 * 根据手机号查找用户和权限
     
-    select u.id,u.tel,u.login_password
-        ,r.role_name
-    from kg_user u
-        LEFT JOIN kg_role_user sru on u.id= sru.user_id
-        LEFT JOIN kg_role r on sru.role_id=r.id
-    where tel= #tel# 
+    SELECT
+      u.id,
+      u.tel,
+      u.login_password,
+      r.role_name,
+      pro.gender,
+      pro.address,
+      pro.relation
+    FROM (kg_user u
+      LEFT JOIN kg_role_user sru ON u.id = sru.user_id
+      LEFT JOIN kg_role r ON sru.role_id = r.id)
+      LEFT JOIN kg_profile pro ON pro.user_id = u.id
+    WHERE u.tel =  #tel#
   
+updateProfile
+===
+
+*更新部分字段
+
+    UPDATE kg_profile
+    SET gender = #checkGender#, relation = #relationCheck#, address = #address#, avatar = #avatarUrl#
+    WHERE user_id = #id#
 
 insertUserRole
 ===

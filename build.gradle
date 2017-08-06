@@ -65,13 +65,15 @@ dependencies {
     compile('org.springframework.integration:spring-integration-mail')
     compile('org.springframework.security.oauth:spring-security-oauth')
     runtime('mysql:mysql-connector-java')
-    compile 'com.ibeetl:beetlsql:2.8.16'
+//    替换此处版本号后需要替换spring-devtools.properties里面的版本号
+    compile 'com.ibeetl:beetlsql:2.9.2'
     compile("com.alibaba:druid:1.1.1")
     compile('org.springframework.boot:spring-boot-starter-data-redis')
 
     compile('io.jsonwebtoken:jjwt:0.7.0')
 
     compile 'com.ibeetl:beetl:2.7.16'
+//    compile 'com.ibeetl:beetl-framework-starter:1.1.9.RELEASE'
 
     compile 'com.alibaba:fastjson:1.2.35'
     compile 'com.qcloud:qcloud-sdk:2.1.6'

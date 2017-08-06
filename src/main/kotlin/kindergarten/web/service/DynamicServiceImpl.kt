@@ -3,6 +3,7 @@ package kindergarten.web.service
 import kindergarten.config.cos.OCSConfig
 import kindergarten.ext.ResponseData
 import kindergarten.ext.jsonOKNoData
+import kindergarten.ext.jsonOk
 import kindergarten.security.JwtUser
 import kindergarten.web.dao.KgDynamicDao
 import kindergarten.web.dao.KgProfileDao
@@ -20,7 +21,7 @@ import org.springframework.stereotype.Service
  */
 interface DynamicService {
 
-    fun getDynamic(jwt: JwtUser, dynamic_type: Int, page_index: Int, page_size: Int): Any?
+    fun getDynamic(jwt: JwtUser, dynamic_type: Int, page_index: Int, page_size: Int): WrapperDynamic?
     fun commitDynamicVideo(userId: String, dynamic_content: String, screenshot_server_url: String, video_server_url: String, video_long: String): ResponseData
     fun commitDynamicPic(id: String, dynamic_content: String, urls: List<DynamicPicUrl>): ResponseData
     fun commitComment(id: String, commentContent: String, dynamicId: String, parentCommentId: Int, timePoke: String): ResponseData
@@ -36,7 +37,7 @@ class DynamicServiceImpl(@Autowired private val kgProfileDao: KgProfileDao,
 
 
     // dynamic_type 默认是0  获取的是班级的动态  1是全校
-    override fun getDynamic(jwt: JwtUser, dynamic_type: Int, page_index: Int, page_size: Int): Any? {
+    override fun getDynamic(jwt: JwtUser, dynamic_type: Int, page_index: Int, page_size: Int): WrapperDynamic? {
         //用户信息
         val profile = kgProfileDao.selectProfile(jwt.id)
         //判断是用校园id还是教室id获取动态

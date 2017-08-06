@@ -12,7 +12,7 @@ import org.springframework.stereotype.Repository
 @Repository
 interface KgDynamicDao : BaseMapper<KgDynamic> {
     @SqlStatement(params = "selectId,dynamic_type,offset,max_size")
-    fun selectDynamic(selectId: Int?, dynamic_type: Int, offset: Int, max_size: Int): List<KgDynamic>?
+    fun selectDynamic(selectId: Int?, dynamic_type: Int, offset: Int, max_size: Int): List<KgDynamic>
 
     @SqlStatement(params = "userId,schoolId,classroomId,dynamic_content,dynamic_type,visibilityType")
     fun commitDynamic(userId: String, schoolId: Int?, classroomId: Int?, dynamic_content: String, dynamic_type: Int, visibilityType: Int)

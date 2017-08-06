@@ -13,12 +13,12 @@ insertProfile
 cols
 ===
   
-  	user_id,tel,real_name,gender_id,birthday,address,avatar,add_time,school_id,login_count,register_time,register_ip,last_login_time,last_login_ip,classroom_id
+  	user_id,tel,real_name,birthday,address,avatar,add_time,school_id,login_count,register_time,register_ip,last_login_time,last_login_ip,classroom_id
   
 updateSample
 ===
   
-  	`user_id`=#userId#,`tel`=#tel#,`real_name`=#realName#,`gender_id`=#genderId#,`birthday`=#birthday#,`address`=#address#,`avatar`=#avatar#,`add_time`=#addTime#,`school_id`=#schoolId#,`login_count`=#loginCount#,`register_time`=#registerTime#,`register_ip`=#registerIp#,`last_login_time`=#lastLoginTime#,`last_login_ip`=#lastLoginIp#
+  	`user_id`=#userId#,`tel`=#tel#,`real_name`=#realName#,`birthday`=#birthday#,`address`=#address#,`avatar`=#avatar#,`add_time`=#addTime#,`school_id`=#schoolId#,`login_count`=#loginCount#,`register_time`=#registerTime#,`register_ip`=#registerIp#,`last_login_time`=#lastLoginTime#,`last_login_ip`=#lastLoginIp#
   
 condition
 ===
@@ -29,9 +29,6 @@ condition
   	@}
   	@if(!isEmpty(realName)){
   	 and `real_name`=#realName#
-  	@}
-  	@if(!isEmpty(genderId)){
-  	 and `gender_id`=#genderId#
   	@}
   	@if(!isEmpty(birthday)){
   	 and `birthday`=#birthday#
