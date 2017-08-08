@@ -8,6 +8,7 @@ import io.swagger.annotations.ApiImplicitParams
 import io.swagger.annotations.ApiOperation
 import kindergarten.ext.*
 import kindergarten.security.JwtUserFactory
+import kindergarten.utils.OCSUtils
 import kindergarten.web.service.AuthService
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
@@ -86,7 +87,7 @@ class AuthController(
     }
 
     @PostMapping(value = "/user/reviseProfile")
-    @ApiImplicitParam(name = "修改用户信息")
+    @ApiImplicitParams(ApiImplicitParam(name = "avatarUrl", value = "如果没修改 传入空字符串", required = true, dataType = "String"))
     fun reviseProfile(httpServletRequest: HttpServletRequest, @RequestParam(required = true) checkGender: Int
                       , @RequestParam(required = true) relationCheck: Int,
                       @RequestParam(required = true) address: String,
@@ -95,6 +96,6 @@ class AuthController(
             return "数据格式不对,请联系管理人员".jsonNormalFail()
         }
         val jwt = JwtUserFactory.getJwtUserAfterFilter()
-        return mPassportService.reviseProfile(jwt.id,checkGender,relationCheck,address,avatarUrl)
+        return mPassportService.reviseProfile(jwt.id, checkGender, relationCheck, address, OCSUtils.toLocation(avatarUrl))
     }
 }

@@ -30,7 +30,10 @@ updateProfile
 *更新部分字段
 
     UPDATE kg_profile
-    SET gender = #checkGender#, relation = #relationCheck#, address = #address#, avatar = #avatarUrl#
+    SET gender = #checkGender#, relation = #relationCheck#, address = #address#
+    @if(!(avatarUrl=='')){
+      , `avatar` = #avatarUrl#
+    @}
     WHERE user_id = #id#
 
 insertUserRole

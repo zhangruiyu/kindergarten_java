@@ -3,15 +3,18 @@ package kindergarten.web.service
 import com.utils.kindergartens.otherwise
 import com.utils.kindergartens.yes
 import kindergarten.comm.method.MessageUitils
+import kindergarten.comm.vals.CustomConstants
 import kindergarten.custom.PrivateBCryptPasswordEncoder
 import kindergarten.ext.*
 import kindergarten.security.JwtTokenUtil
 import kindergarten.security.JwtUser
 import kindergarten.security.JwtUserFactory
+import kindergarten.utils.OCSUtils
 import kindergarten.utils.RandomUtils
 import kindergarten.web.dao.KgProfileDao
 import kindergarten.web.dao.KgUserDao
 import kindergarten.web.entity.KgProfile
+import kindergarten.web.entity.custom.ProfileAlteredInfo
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.data.redis.core.StringRedisTemplate
 import org.springframework.data.redis.core.ValueOperations
@@ -100,7 +103,7 @@ class AuthService(
     }
 
     fun reviseProfile(id: String, checkGender: Int, relationCheck: Int, address: String, avatarUrl: String): ResponseData {
-        passportDao.updateProfile(id,checkGender,relationCheck,address,avatarUrl)
-        return "修改个人信息成功".jsonOKNoData()
+        passportDao.updateProfile(id, checkGender, relationCheck, address, avatarUrl)
+        return ProfileAlteredInfo(checkGender, relationCheck, address, OCSUtils.getPicUrl(avatarUrl)).jsonOk()
     }
 }

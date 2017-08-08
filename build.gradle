@@ -66,7 +66,7 @@ dependencies {
     compile('org.springframework.security.oauth:spring-security-oauth')
     runtime('mysql:mysql-connector-java')
 //    替换此处版本号后需要替换spring-devtools.properties里面的版本号
-    compile 'com.ibeetl:beetlsql:2.9.2'
+    compile 'com.ibeetl:beetlsql:2.9.4'
     compile("com.alibaba:druid:1.1.1")
     compile('org.springframework.boot:spring-boot-starter-data-redis')
 

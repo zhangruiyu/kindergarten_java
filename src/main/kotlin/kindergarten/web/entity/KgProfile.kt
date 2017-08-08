@@ -1,6 +1,7 @@
 package kindergarten.web.entity
 
 import com.alibaba.fastjson.annotation.JSONField
+import kindergarten.comm.vals.CustomConstants
 import java.io.Serializable
 import java.util.*
 
@@ -20,6 +21,11 @@ class KgProfile : Serializable {
     @JSONField(serialize = false)
     var address: String? = null
     var avatar: String? = null
+        set(value) {
+            if(field?.isNotEmpty()?:false) {
+                field = CustomConstants.COSURL.picUrl + value
+            }
+        }
     @JSONField(serialize = false)
     var lastLoginIp: String? = null
     @JSONField(serialize = false)
