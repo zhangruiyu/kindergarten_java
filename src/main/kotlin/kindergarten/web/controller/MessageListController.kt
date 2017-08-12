@@ -11,20 +11,22 @@ import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
+import java.util.concurrent.Callable
 
 /**
  * Created by zhangruiyu on 2017/7/3.
  */
 @RestController
-@RequestMapping(value = "/messageList")
+@RequestMapping(value = "/user/messageList")
 @Api(description = "学校消息")
-class MessageListController(@Autowired val messageListService: MessageListService) {
+class MessageListController(@Autowired private val messageListService: MessageListService) {
 
-    @PostMapping(value = "/getSchoolMessage")
+    @PostMapping(value = "/schoolMessage")
     @PreAuthorize(CustomConstants.CustomPermission.USER)
-    fun getMessageListBySchoolId(): ResponseData {
-        val jwt = JwtUserFactory.getJwtUserAfterFilter()
-        return messageListService.getMessageListBySchoolId(jwt.id).jsonOk()
-
+    fun getMessageListBySchoolId(): Callable<ResponseData> {
+        return Callable {
+            val jwt = JwtUserFactory.getJwtUserAfterFilter()
+            messageListService.getMessageListBySchoolId(jwt.id).jsonOk()
+        }
     }
 }

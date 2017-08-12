@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
+import java.util.concurrent.Callable
 import javax.servlet.http.HttpServletRequest
 
 
@@ -30,17 +31,21 @@ class AuthController(
 
 
     @PostMapping(value = "/public/auth/login")
-    fun login(@RequestParam(required = true) tel: String, @RequestParam(required = true) password: String): ResponseData? {
+    fun login(@RequestParam(required = true) tel: String, @RequestParam(required = true) password: String): Callable<ResponseData> {
         logger.debug("试着登陆")
         logger.error("试着登陆")
         logger.info("试着登陆")
         logger.warn("试着登陆")
         logger.trace("试着登陆")
-        return (tel.isEmpty() || password.isEmpty()).yes {
-            "手机号或者密码不能不填".jsonNormalFail()
-        }.otherwise {
-            mPassportService.login(tel, password)
+        return Callable<ResponseData> {
+            (tel.isEmpty() || password.isEmpty()).yes {
+                "手机号或者密码不能不填".jsonNormalFail()
+            }.otherwise {
+                mPassportService.login(tel, password)
+            }
+
         }
+
     }
 
     @PostMapping(value = "/public/auth/register1")
