@@ -9,3 +9,7 @@ import kindergarten.custom.MessageException
 fun String.throwMessageException(code: Int = MessageException.NORMAL_ERROR_CODE): Nothing {
     throw MessageException(this, code)
 }
+
+fun String.throwSuccess(code: Int = 200): Nothing {
+    throw MessageException(this, code)
+}

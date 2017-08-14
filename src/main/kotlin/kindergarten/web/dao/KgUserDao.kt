@@ -17,11 +17,11 @@ interface KgUserDao : BaseMapper<KgUser> {
     @SqlStatement(params = "tel")
     fun queryUserAndRole(tel: String): KgUser?
 
-    @SqlStatement(params = "tel,login_password")
-    fun insertPassport(tel: String, login_password: String)
+    @SqlStatement(params = "id,tel,login_password")
+    fun insertPassport(id: String, tel: String, login_password: String)
 
     @SqlStatement(params = "passport_id,role_id")
-    fun insertUserRole(passport_id: Int?, role_id: String)
+    fun insertUserRole(passport_id: String?, role_id: String)
 
     @SqlStatement(params = "id,checkGender,relationCheck,address,avatarUrl")
     fun updateProfile(id: String, checkGender: Int, relationCheck: Int, address: String, avatarUrl: String)

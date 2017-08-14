@@ -43,7 +43,7 @@ class DynamicServiceImpl(@Autowired private val kgProfileDao: KgProfileDao,
         //判断是用校园id还是教室id获取动态
         val selectId = if (dynamic_type == 0) {
             if (profile.classroomId == null) {
-                0
+                "0"
             } else profile.classroomId
         } else profile.schoolId
 

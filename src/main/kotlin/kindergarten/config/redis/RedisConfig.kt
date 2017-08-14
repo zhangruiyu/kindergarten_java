@@ -67,9 +67,10 @@ class RedisConfig : CachingConfigurerSupport() {
 
         template.connectionFactory = factory
 //        template.stringSerializer = StringRedisSerializer()
-        template.defaultSerializer = GenericJackson2JsonRedisSerializer(om)
-//        template.defaultSerializer = jackson2JsonRedisSerializer
-//        template.hashKeySerializer = template.keySerializer
+//        template.defaultSerializer = GenericJackson2JsonRedisSerializer(om)
+        template.keySerializer = StringRedisSerializer()
+        template.defaultSerializer = jackson2JsonRedisSerializer
+        template.hashKeySerializer = template.keySerializer
 //        template.hashValueSerializer = template.valueSerializer
         template.isEnableDefaultSerializer = true
         template.afterPropertiesSet()

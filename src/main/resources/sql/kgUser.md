@@ -46,7 +46,7 @@ insertUserRole
 insertPassport
 ===
 
-    INSERT INTO kg_user(tel,login_password) values (#tel#,#login_password#)
+    INSERT INTO kg_user(id,tel,login_password) values (#id#,#tel#,#login_password#)
 
 insertProfile
 ===

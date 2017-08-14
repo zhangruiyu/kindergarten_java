@@ -73,7 +73,8 @@ dependencies {
     compile('io.jsonwebtoken:jjwt:0.7.0')
 
     compile 'com.ibeetl:beetl:2.7.16'
-//    compile 'com.ibeetl:beetl-framework-starter:1.1.9.RELEASE'
+    compile 'com.ibeetl:beetl-framework-starter:1.1.13.RELEASE'
+    compile 'com.alibaba:druid-spring-boot-starter:1.1.2'
 
     compile 'com.alibaba:fastjson:1.2.35'
     compile 'com.qcloud:qcloud-sdk:2.1.6'

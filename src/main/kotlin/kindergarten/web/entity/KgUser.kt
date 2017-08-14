@@ -9,7 +9,7 @@ import java.io.Serializable
 * gen by beetlsql 2017-06-20
 */
 class KgUser : TailBean(), Serializable {
-    var id: Int? = null
+    var id: String? = null
     @JSONField(serialize = false)
     var loginCount: Int? = null
     @JSONField(serialize = false)

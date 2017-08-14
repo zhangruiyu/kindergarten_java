@@ -26,8 +26,8 @@ import javax.servlet.http.HttpServletRequest
 //@RequestMapping(value = "/")
 @Api(description = "登陆注册")
 class AuthController(
-        @Autowired var mPassportService: AuthService) {
-    val logger = LoggerFactory.getLogger(this.javaClass)
+        @Autowired private var mPassportService: AuthService) {
+    private val logger = LoggerFactory.getLogger(this.javaClass)
 
 
     @PostMapping(value = "/public/auth/login")
@@ -37,11 +37,11 @@ class AuthController(
         logger.info("试着登陆")
         logger.warn("试着登陆")
         logger.trace("试着登陆")
-        return Callable<ResponseData> {
+        return Callable {
             (tel.isEmpty() || password.isEmpty()).yes {
                 "手机号或者密码不能不填".jsonNormalFail()
             }.otherwise {
-                mPassportService.login(tel, password)
+                mPassportService.login(tel, password).jsonOk()
             }
 
         }
@@ -88,7 +88,7 @@ class AuthController(
     @ApiImplicitParam(name = "获取用户信息")
     fun getProfile(httpServletRequest: HttpServletRequest): ResponseData {
         val jwt = JwtUserFactory.getJwtUserAfterFilter()
-        return mPassportService.getProfile(jwt.id)
+        return mPassportService.getKgProfile(jwt.id).jsonOk()
     }
 
     @PostMapping(value = "/user/reviseProfile")
@@ -101,6 +101,6 @@ class AuthController(
             return "数据格式不对,请联系管理人员".jsonNormalFail()
         }
         val jwt = JwtUserFactory.getJwtUserAfterFilter()
-        return mPassportService.reviseProfile(jwt.id, checkGender, relationCheck, address, OCSUtils.toLocation(avatarUrl))
+        return mPassportService.reviseProfile(jwt.id, checkGender, relationCheck, address, OCSUtils.toLocation(avatarUrl)).jsonOk()
     }
 }

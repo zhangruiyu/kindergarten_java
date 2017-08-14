@@ -15,9 +15,9 @@ class KgProfile : Serializable {
     @JSONField(serialize = false)
     var loginCount: Int? = null
     @JSONField(serialize = false)
-    var userId: Int? = null
-    var schoolId: Int? = null
-    var classroomId: Int? = null
+    var userId: String? = null
+    var schoolId: String? = null
+    var classroomId: String? = null
     @JSONField(serialize = false)
     var address: String? = null
     var avatar: String? = null
