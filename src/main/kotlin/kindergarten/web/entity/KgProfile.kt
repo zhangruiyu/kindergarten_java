@@ -43,6 +43,7 @@ class KgProfile : Serializable {
     @JSONField(serialize = false)
     var registerTime: Date? = null
     var nickName: String? = null
+    var ysRegisterPassword: String? = null
 
 
 }

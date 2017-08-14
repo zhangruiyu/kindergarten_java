@@ -9,7 +9,7 @@ class RandomUtils {
     companion object {
         fun getRandNum(charCount: Int = 6): String {
             var charValue = ""
-            for (i in 0..charCount - 1) {
+            for (i in 0 until charCount) {
                 charValue += randomInt(0, 10).toString()
             }
             return charValue

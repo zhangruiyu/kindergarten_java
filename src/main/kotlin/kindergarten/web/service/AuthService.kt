@@ -3,7 +3,7 @@ package kindergarten.web.service
 import com.utils.kindergartens.otherwise
 import com.utils.kindergartens.yes
 import kindergarten.comm.method.MessageUitils
-import kindergarten.comm.rest.RestApi
+import kindergarten.comm.rest.ys.RestApi
 import kindergarten.custom.PrivateBCryptPasswordEncoder
 import kindergarten.ext.*
 import kindergarten.security.JwtTokenUtil
@@ -96,6 +96,8 @@ class AuthService(
     }
 
     fun getKgProfile(id: String): KgProfile = kgProfileDao.single(id)
+
+    fun updateKgProfile(kgProfile: KgProfile) = kgProfileDao.updateById(kgProfile)
 
 
     fun reviseProfile(id: String, checkGender: Int, relationCheck: Int, address: String, avatarUrl: String): ProfileAlteredInfo {

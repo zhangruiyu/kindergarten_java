@@ -77,5 +77,5 @@ class RedisConfig : CachingConfigurerSupport() {
         return template
     }
 
-//    @Resource(name = "redisTemplate") val valueOperations: ValueOperations<String, JwtUser>
+//    @DeviceYSResource(name = "redisTemplate") val valueOperations: ValueOperations<String, JwtUser>
 }

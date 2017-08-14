@@ -30,7 +30,7 @@ class Redis {
 //    private lateinit var ser: ValueOperations<String, Serializable>
 
 
-//    @Resource(name="redisTemplate")
+//    @DeviceYsResource(name="redisTemplate")
 //    lateinit var feedOp: ValueOperations<String, User>
 
     @Test

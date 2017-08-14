@@ -2,7 +2,7 @@ package kindergarten.utils
 
 import kindergarten.comm.vals.CustomConstants
 
-class OCSUtils() {
+class OCSUtils {
     companion object {
         //去除仓库前缀
         fun toLocation(path: String): String {

@@ -1,4 +1,4 @@
-package kindergarten.comm.rest.entity
+package kindergarten.comm.rest.ys.entity
 
 import kindergarten.annotation.PoKo
 

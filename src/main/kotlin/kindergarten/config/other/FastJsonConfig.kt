@@ -1,6 +1,5 @@
 package kindergarten.config.other
 
-import com.alibaba.fastjson.serializer.AfterFilter
 import com.alibaba.fastjson.serializer.SerializerFeature
 import com.alibaba.fastjson.support.config.FastJsonConfig
 import com.alibaba.fastjson.support.spring.FastJsonHttpMessageConverter

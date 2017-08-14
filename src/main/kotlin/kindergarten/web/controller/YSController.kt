@@ -1,7 +1,7 @@
 package kindergarten.web.controller
 
 import io.swagger.annotations.ApiOperation
-import kindergarten.comm.rest.RestApi
+import kindergarten.comm.rest.ys.RestApi
 import kindergarten.ext.ResponseData
 import kindergarten.ext.jsonNormalFail
 import kindergarten.ext.jsonOKNoData
@@ -28,11 +28,19 @@ class YSController(val restApi: RestApi, val authService: AuthService) {
     fun getCoSSign(): Callable<ResponseData>? {
         return Callable {
             val jwtUserAfterFilter = JwtUserFactory.getJwtUserAfterFilter()
-            if (authService.getKgProfile(jwtUserAfterFilter.id).classroomId.isNullOrEmpty()) {
-                "请加入班级后再次尝试".jsonNormalFail()
+            val kgProfile = authService.getKgProfile(jwtUserAfterFilter.id)
+            if (kgProfile.ysRegisterPassword.isNullOrEmpty()) {
+                if (authService.getKgProfile(jwtUserAfterFilter.id).classroomId.isNullOrEmpty()) {
+                    "请加入班级后再次尝试".jsonNormalFail()
+                } else {
+                    val password = AlternativeJdkIdGenerator().generateId().toString()
+                    restApi.registerYSAccount(jwtUserAfterFilter.username, password)
+                    kgProfile.ysRegisterPassword = password
+                    authService.updateKgProfile(kgProfile)
+                    "视频服务开通成功".jsonOKNoData()
+                }
             } else {
-                restApi.registerYSAccount(jwtUserAfterFilter.username, AlternativeJdkIdGenerator().generateId().toString())
-                "开通成功".jsonOKNoData()
+                "已经过视频服务".jsonOKNoData()
             }
 
         }

@@ -1,8 +1,6 @@
-package kindergarten.comm.rest
+package kindergarten.comm.rest.ys
 
-import kindergarten.comm.rest.entity.YSBasicEntity
-import kindergarten.comm.rest.entity.YSRegisterEntity
-import kindergarten.comm.rest.entity.YSToken
+import kindergarten.comm.rest.ys.entity.*
 import kindergarten.ext.throwMessageException
 import org.springframework.beans.factory.config.BeanDefinition.SCOPE_SINGLETON
 import org.springframework.context.annotation.Scope
@@ -49,12 +47,42 @@ class RestApi(var restTemplate: RestTemplate) {
         requestEntity.add("password", DigestUtils.md5DigestAsHex(password.toByteArray()).toLowerCase())
         restTemplate.postForEntity("https://open.ys7.com/api/lapp/ram/account/create", requestEntity, YSRegisterEntity::class.java).body.composeApi()
     }
-}
 
-fun <T> YSBasicEntity<T>.composeApi(): T {
-    if (code == 200) {
-        return data as T
-    } else {
-        msg.throwMessageException()
+    fun policySet(accountId: String, password: String) {
+        val requestEntity = LinkedMultiValueMap<String, String>()
+        requestEntity.add("accessToken", restYSAdminToken())
+        requestEntity.add("accountId", accountId)
+        val statement = YSStatement(DeviceYSPermission().addPatriarchPermission(), DeviceYSResource().addDev("655816720"))
+        val ysPolicy = YSPolicy()
+        ysPolicy.statements.add(statement)
+        requestEntity.add("policy", ysPolicy.toString())
+        restTemplate.postForEntity("https://open.ys7.com/api/lapp/ram/policy/set", requestEntity, YSRegisterEntity::class.java).body.composeApi()
+    }
+
+    fun <T> YSBasicEntity<T>.composeApi(): T {
+        when (code) {
+            200 -> return data as T
+            10002 -> {
+                valueOperations.set("YSTOKEN", "")
+                restYSAdminToken()
+                "请再次尝试".throwMessageException()
+            }
+            else -> msg.throwMessageException(code)
+        }
+    }
+
+    companion object {
+        fun getPatriarch(devId: String): String {
+            return "{\n" +
+                    "    \"Statement\": [\n" +
+                    "        {\n" +
+                    "            \"DeviceYsPermission\": \"Get,Real,Replay\",\n" +
+                    "            \"DeviceYSResource\": [\n" +
+                    "                \"dev:$devId\"\n" +
+                    "            ]\n" +
+                    "        }\n" +
+                    "    ]\n" +
+                    "}"
+        }
     }
 }
