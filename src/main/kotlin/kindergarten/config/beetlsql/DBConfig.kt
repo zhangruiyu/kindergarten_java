@@ -16,7 +16,7 @@ import javax.sql.DataSource
 @Configuration
 open class DBConfig {
 
-    @Bean(name = ["dataSource"])
+    @Bean(name = arrayOf("dataSource"))
     fun druidDataSource(env: Environment): DataSource {
         val druidDataSource = DruidDataSource()
         druidDataSource.driverClassName = env.getProperty("spring.datasource.driver-class-name")
@@ -29,7 +29,7 @@ open class DBConfig {
         return druidDataSource
     }
 
-    @Bean(name = ["txManager"])
+    @Bean(name = arrayOf("txManager"))
     fun getDataSourceTransactionManager(@Qualifier("dataSource") datasource: DataSource): DataSourceTransactionManager {
         val dsm = DataSourceTransactionManager()
         dsm.dataSource = datasource
