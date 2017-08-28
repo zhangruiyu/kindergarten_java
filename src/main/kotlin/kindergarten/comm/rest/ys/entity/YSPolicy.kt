@@ -7,7 +7,7 @@ class YSPolicy {
 }
 
 class YSStatement(var permission: DeviceYSPermission, var resource: DeviceYSResource) {
-//    val tag = "DeviceYsPermission"
+    //    val tag = "DeviceYsPermission"
     override fun toString(): String {
         return "{$permission$resource}\n"
     }
@@ -36,7 +36,7 @@ class DeviceYSResource {
     }
 
     fun addDev(devId: String): DeviceYSResource {
-        content.add("dev:" + devId)
+        content.add("\"dev:$devId\"")
         return this
     }
 }

@@ -5,11 +5,13 @@ import kindergarten.web.entity.KgProfile
 import org.beetl.sql.core.annotatoin.Sql
 import org.beetl.sql.core.annotatoin.SqlStatement
 import org.beetl.sql.core.mapper.BaseMapper
+import org.springframework.stereotype.Repository
 import java.util.ArrayList
 
 /**
  * Created by zhangruiyu on 2017/7/11.
  */
+@Repository
 interface KgProfileDao : BaseMapper<KgProfile> {
     @SqlStatement(params = "user_id")
     fun selectProfile(user_id: String?): KgProfile

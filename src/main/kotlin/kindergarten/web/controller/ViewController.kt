@@ -1,7 +1,9 @@
 package kindergarten.web.controller
 
-import kindergarten.annotation.PoKo
-import org.springframework.web.bind.annotation.RequestMapping
+import kindergarten.web.entity.KgMessageList
+import kindergarten.web.service.MessageListService
+import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RestController
 
 
@@ -10,13 +12,15 @@ import org.springframework.web.bind.annotation.RestController
  */
 @RestController
 //@PreAuthorize(value = CustomConstants.CustomPermission.ADMIN)
-@PoKo class ViewController {
+class ViewController {
+    @Autowired
+    lateinit var messageListService: MessageListService
 
-    @RequestMapping("/")
+    @PostMapping("/")
             //    @PreAuthorize("hasRole('ADMIN')")
-    fun index(): String {
+    fun index(): List<KgMessageList> {
 //        return CustomConstants.sendMessageCode().jsonOk()
-        return "woaichi"
+        return messageListService.getMessageListBySchoolId("1")
     }
 
 }

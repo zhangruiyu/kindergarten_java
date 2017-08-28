@@ -1,12 +1,10 @@
 package kindergarten.config.beetlsql
 
 import com.alibaba.druid.pool.DruidDataSource
-import org.springframework.beans.factory.annotation.Qualifier
+import org.springframework.boot.autoconfigure.jdbc.DataSourceBuilder
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
-import org.springframework.context.annotation.Primary
 import org.springframework.core.env.Environment
-import org.springframework.jdbc.datasource.DataSourceTransactionManager
 import javax.sql.DataSource
 
 /**
@@ -14,9 +12,9 @@ import javax.sql.DataSource
  */
 
 @Configuration
-open class DBConfig {
+open class DataSourceConfig {
 
-    @Bean(name = arrayOf("dataSource"))
+    @Bean(name = arrayOf("datasource"))
     fun druidDataSource(env: Environment): DataSource {
         val druidDataSource = DruidDataSource()
         druidDataSource.driverClassName = env.getProperty("spring.datasource.driver-class-name")
@@ -29,10 +27,5 @@ open class DBConfig {
         return druidDataSource
     }
 
-    @Bean(name = arrayOf("txManager"))
-    fun getDataSourceTransactionManager(@Qualifier("dataSource") datasource: DataSource): DataSourceTransactionManager {
-        val dsm = DataSourceTransactionManager()
-        dsm.dataSource = datasource
-        return dsm
-    }
+
 }

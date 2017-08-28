@@ -3,18 +3,16 @@ package kindergarten.web.service
 import kindergarten.config.cos.OCSConfig
 import kindergarten.ext.ResponseData
 import kindergarten.ext.jsonOKNoData
-import kindergarten.ext.jsonOk
 import kindergarten.security.JwtUser
 import kindergarten.web.dao.KgDynamicDao
 import kindergarten.web.dao.KgProfileDao
 import kindergarten.web.entity.DynamicProfile
 import kindergarten.web.entity.WrapperDynamic
 import kindergarten.web.entity.custom.DynamicPicUrl
-import kindergarten.web.entity.custom.LastIsertId
 import org.beetl.sql.core.SQLManager
-import org.beetl.sql.core.SQLReady
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
+import org.springframework.util.AlternativeJdkIdGenerator
 
 /**
  * Created by zhangruiyu on 2017/7/11.
@@ -31,7 +29,7 @@ interface DynamicService {
 class DynamicServiceImpl(@Autowired private val kgProfileDao: KgProfileDao,
                          @Autowired private val dynamicDao: KgDynamicDao,
                          @Autowired private val authService: AuthService,
-                         @Autowired private val sqlManager: SQLManager,
+//                         @Autowired private val sqlManager: SQLManager,
                          @Autowired private val oCSConfig: OCSConfig
 ) : DynamicService {
 
@@ -64,22 +62,22 @@ class DynamicServiceImpl(@Autowired private val kgProfileDao: KgProfileDao,
 
     override fun commitDynamicVideo(userId: String, dynamic_content: String, screenshot_server_url: String, video_server_url: String, video_long: String): ResponseData {
         val kgProfile = authService.getKgProfile(userId)
-        dynamicDao.commitDynamic(userId, kgProfile.schoolId, kgProfile.classroomId, dynamic_content, DynamicTypeVideo, 0)
+        val dynamicId = AlternativeJdkIdGenerator().generateId().toString()
+        dynamicDao.commitDynamic(userId, dynamicId, kgProfile.schoolId, kgProfile.classroomId, dynamic_content, DynamicTypeVideo, 0)
         dynamicDao.commitDynamicVideo(screenshot_server_url, video_server_url, video_long)
         return "动态发布成功".jsonOKNoData()
     }
 
     override fun commitDynamicPic(id: String, dynamic_content: String, urls: List<DynamicPicUrl>): ResponseData {
         val kgProfile = authService.getKgProfile(id)
-        dynamicDao.commitDynamic(id, kgProfile.schoolId, kgProfile.classroomId, dynamic_content, DynamicTypePic, 0)
-        val dynamicId = sqlManager.execute(SQLReady("SELECT LAST_INSERT_ID()"), LastIsertId::class.java)[0]["lastInsertId()"]
-
+        val dynamicId = AlternativeJdkIdGenerator().generateId().toString()
+        dynamicDao.commitDynamic(id, dynamicId, kgProfile.schoolId, kgProfile.classroomId, dynamic_content, DynamicTypePic, 0)
         val sql = "INSERT INTO kg_dynamic_pics (dynamic_id,pic_url, sequence) VALUES ${
-        urls.map {
+        urls.joinToString {
             "($dynamicId,'${it.url}',${it.position})"
-        }.joinToString()
+        }
         } "
-        sqlManager.executeUpdate(SQLReady(sql))
+//        sqlManager.executeUpdate(SQLReady(sql))
         return "动态发布成功".jsonOKNoData()
     }
 

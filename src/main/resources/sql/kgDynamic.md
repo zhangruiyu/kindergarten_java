@@ -37,8 +37,8 @@ selectDynamicLiked
 commitDynamic
 ====
 * 发布动态
-   INSERT INTO kg_dynamic (school_id, classroom_id, content, visibility_type, user_id, dynamic_type)
-   VALUES ( #schoolId#,#classroomId#,#dynamic_content#,#visibilityType#,#userId#,#dynamic_type#);
+   INSERT INTO kg_dynamic (school_id,dynamic_id, classroom_id, content, visibility_type, user_id, dynamic_type)
+   VALUES ( #schoolId#,#dynamicId#,#classroomId#,#dynamic_content#,#visibilityType#,#userId#,#dynamic_type#);
      
 commitDynamicVideo
 ====

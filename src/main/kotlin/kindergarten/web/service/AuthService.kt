@@ -31,8 +31,7 @@ class AuthService(
         @Autowired val kgProfileDao: KgProfileDao,
         @Autowired val jwtTokenUtil: JwtTokenUtil,
         @Autowired val stringRedisTemplate: StringRedisTemplate,
-        @Autowired val privateBCryptPasswordEncoder: PrivateBCryptPasswordEncoder,
-        val restApi: RestApi
+        @Autowired val privateBCryptPasswordEncoder: PrivateBCryptPasswordEncoder
 ) {
     companion object {
         const val authCodePrefix: String = "KINDERGARTEN_AUTH_CODE"

@@ -35,13 +35,11 @@ class TableGenTest {
     }
     @Test
     fun printPojiSqlTemplate(){
-        sqlManager.genPojoCodeToConsole("kg_profile")
-        sqlManager.genSQLTemplateToConsole("kg_profile")
+        sqlManager.genPojoCodeToConsole("kg_classroom")
+        sqlManager.genSQLTemplateToConsole("kg_classroom")
     }
 
     inner class MyGenFilter : GenFilter() {
-        override fun accept(tableName: String?): Boolean {
-            return !genTabNames.contains(tableName)
-        }
+        override fun accept(tableName: String?): Boolean = !genTabNames.contains(tableName)
     }
 }
