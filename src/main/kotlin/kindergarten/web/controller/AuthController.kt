@@ -1,7 +1,7 @@
 package kindergarten.web.controller
 
-import com.utils.kindergartens.otherwise
-import com.utils.kindergartens.yes
+import kindergarten.ext.otherwise
+import kindergarten.ext.yes
 import io.swagger.annotations.Api
 import io.swagger.annotations.ApiImplicitParam
 import io.swagger.annotations.ApiImplicitParams

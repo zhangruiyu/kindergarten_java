@@ -1,7 +1,7 @@
 buildscript {
     ext {
         kotlinVersion = '1.1.4'
-        springBootVersion = '1.5.6.RELEASE'
+        springBootVersion = '1.5.7.RELEASE'
         swaggerVersion = "2.6.1"
     }
     repositories {
@@ -53,7 +53,7 @@ configurations {
 }
 
 dependencies {
-    compile project(":kotlin_ext_library")
+//    compile project(":kotlin_ext_library")
     compile('org.springframework.boot:spring-boot-starter-web')
     compile('org.springframework.boot:spring-boot-starter-log4j2')
     compile('org.springframework.boot:spring-boot-starter-aop')

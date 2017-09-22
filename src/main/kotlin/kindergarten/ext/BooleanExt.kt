@@ -1,4 +1,4 @@
-package com.utils.kindergartens
+package kindergarten.ext
 
 /**
  * Created by zhangruiyu on 2017/6/20.
