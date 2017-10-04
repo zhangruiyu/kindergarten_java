@@ -17,7 +17,6 @@ class KgDynamic : TailBean() {
     @JSONField(serialize = false)
     var visibilityType: Int = 0 //0是班级 1是全园
     @JSONField(format = "yyyy-MM-dd HH:mm:ss")
-
     var createTime: Date? = null
     var content: String? = null
     var userId: Int? = null //应该再查询用户的昵称

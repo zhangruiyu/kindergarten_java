@@ -35,8 +35,8 @@ class TableGenTest {
     }
     @Test
     fun printPojiSqlTemplate(){
-        sqlManager.genPojoCodeToConsole("kg_classroom")
-        sqlManager.genSQLTemplateToConsole("kg_classroom")
+        sqlManager.genPojoCodeToConsole("kg_eat")
+        sqlManager.genSQLTemplateToConsole("kg_eat")
     }
 
     inner class MyGenFilter : GenFilter() {
