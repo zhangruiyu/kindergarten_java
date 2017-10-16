@@ -10,7 +10,7 @@ class KgDynamicPics {
     @JSONField(serialize = false)
     var id: Int? = null
     @JSONField(serialize = false)
-    var dynamicId: Int? = null
+    var dynamicId: String? = null
     var picUrl: String? = null
         set(value) {
             field = CustomConstants.COSURL.picUrl + value

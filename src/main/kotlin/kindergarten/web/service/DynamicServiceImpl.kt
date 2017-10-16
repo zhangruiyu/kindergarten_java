@@ -10,6 +10,7 @@ import kindergarten.web.entity.DynamicProfile
 import kindergarten.web.entity.WrapperDynamic
 import kindergarten.web.entity.custom.DynamicPicUrl
 import org.beetl.sql.core.SQLManager
+import org.beetl.sql.core.SQLReady
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 import org.springframework.util.AlternativeJdkIdGenerator
@@ -29,7 +30,7 @@ interface DynamicService {
 class DynamicServiceImpl(@Autowired private val kgProfileDao: KgProfileDao,
                          @Autowired private val dynamicDao: KgDynamicDao,
                          @Autowired private val authService: AuthService,
-//                         @Autowired private val sqlManager: SQLManager,
+                         @Autowired private val sqlManager: SQLManager,
                          @Autowired private val oCSConfig: OCSConfig
 ) : DynamicService {
 
@@ -74,10 +75,10 @@ class DynamicServiceImpl(@Autowired private val kgProfileDao: KgProfileDao,
         dynamicDao.commitDynamic(id, dynamicId, kgProfile.schoolId, kgProfile.classroomId, dynamic_content, DynamicTypePic, 0)
         val sql = "INSERT INTO kg_dynamic_pics (dynamic_id,pic_url, sequence) VALUES ${
         urls.joinToString {
-            "($dynamicId,'${it.url}',${it.position})"
+            "('$dynamicId','${it.url}',${it.position})"
         }
         } "
-//        sqlManager.executeUpdate(SQLReady(sql))
+        sqlManager.executeUpdate(SQLReady(sql))
         return "动态发布成功".jsonOKNoData()
     }
 
