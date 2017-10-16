@@ -1,6 +1,6 @@
 package kindergarten.web.entity
 
-import com.alibaba.fastjson.annotation.JSONField
+import com.fasterxml.jackson.annotation.JsonIgnore
 import org.beetl.sql.core.TailBean
 import java.io.Serializable
 
@@ -10,16 +10,16 @@ import java.io.Serializable
 */
 class KgUser : TailBean(), Serializable {
     var id: String? = null
-    @JSONField(serialize = false)
+    @JsonIgnore
     var loginCount: Int? = null
-    @JSONField(serialize = false)
+    @JsonIgnore
     var loginPassword: String? = null
-    @JSONField(serialize = false)
+    @JsonIgnore
     var wxOpenId: String? = null
 
     var token: String? = null
     var tel: String? = null
-    @JSONField(serialize = false)
+    @JsonIgnore
     var roleName: String? = null
     var gender: String? = null
     var address: String? = null

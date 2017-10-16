@@ -1,8 +1,7 @@
-package main.kotlin.kindergarten.web.entity;
+package kindergarten.web.entity;
+
 import java.io.Serializable;
-import java.math.*;
 import java.util.Date;
-import java.sql.Timestamp;
 
 /*
 * 

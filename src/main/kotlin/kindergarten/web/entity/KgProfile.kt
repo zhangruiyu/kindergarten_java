@@ -1,6 +1,6 @@
 package kindergarten.web.entity
 
-import com.alibaba.fastjson.annotation.JSONField
+import com.fasterxml.jackson.annotation.JsonIgnore
 import kindergarten.comm.vals.CustomConstants
 import java.io.Serializable
 import java.util.*
@@ -10,15 +10,15 @@ import java.util.*
 * gen by beetlsql 2017-06-20
 */
 class KgProfile : Serializable {
-    @JSONField(serialize = false)
+    @JsonIgnore
     var genderId: Int? = null
-    @JSONField(serialize = false)
+    @JsonIgnore
     var loginCount: Int? = null
-    @JSONField(serialize = false)
+    @JsonIgnore
     var userId: String? = null
     var schoolId: String? = null
     var classroomId: String? = null
-    @JSONField(serialize = false)
+    @JsonIgnore
     var address: String? = null
     var avatar: String? = null
         set(value) {
@@ -26,21 +26,21 @@ class KgProfile : Serializable {
                 field = CustomConstants.COSURL.picUrl + value
             }
         }
-    @JSONField(serialize = false)
+    @JsonIgnore
     var lastLoginIp: String? = null
-    @JSONField(serialize = false)
+    @JsonIgnore
     var realName: String? = null
-    @JSONField(serialize = false)
+    @JsonIgnore
     var registerIp: String? = null
-    @JSONField(serialize = false)
+    @JsonIgnore
     var tel: String? = null
-    @JSONField(serialize = false)
+    @JsonIgnore
     var addTime: Date? = null
-    @JSONField(serialize = false)
+    @JsonIgnore
     var birthday: Date? = null
-    @JSONField(serialize = false)
+    @JsonIgnore
     var lastLoginTime: Date? = null
-    @JSONField(serialize = false)
+    @JsonIgnore
     var registerTime: Date? = null
     var nickName: String? = null
     var ysRegisterPassword: String? = null

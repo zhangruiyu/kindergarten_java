@@ -78,7 +78,7 @@ dependencies {
 //    compile 'com.ibeetl:beetl-framework-starter:1.1.13.RELEASE'
 //    compile 'com.alibaba:druid-spring-boot-starter:1.1.2'
 
-    compile 'com.alibaba:fastjson:1.2.35'
+//    compile 'com.alibaba:fastjson:1.2.35'
     compile 'com.qcloud:qcloud-sdk:2.1.6'
     compile("io.springfox:springfox-swagger2:$swaggerVersion",
             "io.springfox:springfox-swagger-ui:$swaggerVersion")

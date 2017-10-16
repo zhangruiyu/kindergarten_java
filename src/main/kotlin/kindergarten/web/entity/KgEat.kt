@@ -1,18 +1,18 @@
 package kindergarten.web.entity
 
-import com.alibaba.fastjson.annotation.JSONField
+import com.fasterxml.jackson.annotation.JsonIgnore
 import java.io.Serializable
-import java.util.Date
+import java.util.*
 
 class KgEat : Serializable {
-    @JSONField(serialize = false)
+    @JsonIgnore
     var id: Int? = null
-    @JSONField(serialize = false)
+    @JsonIgnore
     var schoolId: Int? = null
     var breakfast: String? = null
     var lunch: String? = null
     var supper: String? = null
-    @JSONField(format = "yyyy-MM-dd")
+    @JsonIgnore
     var createTime: Date? = null
 
 

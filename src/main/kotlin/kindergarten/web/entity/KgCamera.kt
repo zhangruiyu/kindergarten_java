@@ -1,13 +1,13 @@
 package kindergarten.web.entity
 
-import com.alibaba.fastjson.annotation.JSONField
+import com.fasterxml.jackson.annotation.JsonIgnore
 
 class KgCamera {
-    @JSONField(serialize = false)
+    @JsonIgnore
     var id: String? = null
-    @JSONField(serialize = false)
+    @JsonIgnore
     var schoolId: String? = null
-    @JSONField(serialize = false)
+    @JsonIgnore
     var classroomId: String? = null
     var deviceSerial: String? = null
     var deviceName: String? = null

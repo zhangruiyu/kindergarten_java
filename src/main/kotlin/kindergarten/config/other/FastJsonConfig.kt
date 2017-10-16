@@ -1,15 +1,10 @@
 package kindergarten.config.other
 
-import com.alibaba.fastjson.serializer.SerializerFeature
-import com.alibaba.fastjson.support.config.FastJsonConfig
-import com.alibaba.fastjson.support.spring.FastJsonHttpMessageConverter
-import org.springframework.boot.autoconfigure.web.HttpMessageConverters
-import org.springframework.context.annotation.Bean
-import org.springframework.context.annotation.Configuration
 
 /**
  * Created by zhangruiyu on 2017/5/11.
  */
+/*
 @Configuration
 open class FastJsonConfig {
 
@@ -24,4 +19,4 @@ open class FastJsonConfig {
         return HttpMessageConverters(fastConverter)
     }
 
-}
+}*/

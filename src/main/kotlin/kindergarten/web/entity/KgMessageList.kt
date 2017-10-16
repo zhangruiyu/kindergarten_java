@@ -1,6 +1,6 @@
 package kindergarten.web.entity
 
-import com.alibaba.fastjson.annotation.JSONField
+import com.fasterxml.jackson.annotation.JsonFormat
 import java.io.Serializable
 import java.util.*
 
@@ -12,7 +12,7 @@ class KgMessageList : Serializable {
     var id: Int? = null
     var schoolId: Int? = null
     var message: String? = null
-    @JSONField(format = "yyyy-MM-dd HH:mm")
+    @JsonFormat(locale="zh", timezone="GMT+8", pattern="yyyy-MM-dd HH:mm:ss")
     var createTime: Date? = null
 
 

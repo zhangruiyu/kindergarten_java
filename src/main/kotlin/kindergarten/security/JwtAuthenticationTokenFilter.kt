@@ -1,6 +1,6 @@
 package kindergarten.security
 
-import com.alibaba.fastjson.JSON
+import com.qcloud.cos.http.RequestHeaderValue.ContentType.JSON
 import kindergarten.custom.MessageException
 import kindergarten.ext.jsonNormalFail
 import kindergarten.web.service.JwtUserDetailsServiceImpl
@@ -17,6 +17,7 @@ import javax.servlet.FilterChain
 import javax.servlet.ServletException
 import javax.servlet.http.HttpServletRequest
 import javax.servlet.http.HttpServletResponse
+import com.fasterxml.jackson.databind.ObjectMapper
 
 
 /**
@@ -39,12 +40,12 @@ class JwtAuthenticationTokenFilter : OncePerRequestFilter() {
             response: HttpServletResponse,
             chain: FilterChain) {
         //不包含public才去查用户
-        if (request.requestURI.contains("/user")){
+        if (request.requestURI.contains("/user")) {
             val authHeader = request.getHeader(this.tokenHeader)
             if (authHeader == null) {
                 val printWriter = response.writer
                 printWriter.use {
-                    printWriter.append(JSON.toJSONString("请登录后再试".jsonNormalFail(code = MessageException.TRY_LOGIN_CODE)))
+                    printWriter.append(ObjectMapper().writeValueAsString("请登录后再试".jsonNormalFail(code = MessageException.TRY_LOGIN_CODE)))
                 }
                 return@doFilterInternal
             } else {
@@ -62,7 +63,7 @@ class JwtAuthenticationTokenFilter : OncePerRequestFilter() {
                             setAuthentication(jwtTokenUtil, authToken, userDetails, request, username)
                         } else {
                             val printWriter = response.writer
-                            printWriter.use { response.writer.append(JSON.toJSONString("认证已失效,请重新登录!".jsonNormalFail(code = MessageException.TRY_AGAIN_LOGIN_CODE))) }
+                            printWriter.use { response.writer.append(ObjectMapper().writeValueAsString("认证已失效,请重新登录!".jsonNormalFail(code = MessageException.TRY_AGAIN_LOGIN_CODE))) }
                             return@doFilterInternal
                         }
                     }

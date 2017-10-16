@@ -1,28 +1,29 @@
 package kindergarten.web.entity
 
-import com.alibaba.fastjson.annotation.JSONField
+import com.fasterxml.jackson.annotation.JsonFormat
+import com.fasterxml.jackson.annotation.JsonIgnore
+import kindergarten.custom.CustomTailBean
 import org.beetl.sql.core.TailBean
 import java.util.*
-import kotlin.collections.ArrayList
 
 /**
  * Created by zhangruiyu on 2017/7/11.
  */
-class KgDynamic : TailBean() {
+class KgDynamic : CustomTailBean() {
     var id: String? = null
-    @JSONField(serialize = false)
+    @JsonIgnore
     var schoolId: Int? = null
-    @JSONField(serialize = false)
+    @JsonIgnore
     var classroomId: Int? = null
-    @JSONField(serialize = false)
+    @JsonIgnore
     var visibilityType: Int = 0 //0是班级 1是全园
-    @JSONField(format = "yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(locale="zh", timezone="GMT+8", pattern="yyyy-MM-dd HH:mm:ss")
     var createTime: Date? = null
     var content: String? = null
     var userId: Int? = null //应该再查询用户的昵称
     var nickName: String? = null //应该再查询用户的昵称
     var dynamicType: String? = null //动态类型
-    //    @JSONField(serialize = false)
+    //    @JsonIgnore
 //    var kgDynamicPics: List<KgDynamicPics>? = null
 }
 
