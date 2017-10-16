@@ -9,7 +9,7 @@ import kotlin.collections.ArrayList
  * Created by zhangruiyu on 2017/7/11.
  */
 class KgDynamic : TailBean() {
-    var id: Int? = null
+    var id: String? = null
     @JSONField(serialize = false)
     var schoolId: Int? = null
     @JSONField(serialize = false)
@@ -21,6 +21,7 @@ class KgDynamic : TailBean() {
     var content: String? = null
     var userId: Int? = null //应该再查询用户的昵称
     var nickName: String? = null //应该再查询用户的昵称
+    var dynamicType: String? = null //动态类型
     //    @JSONField(serialize = false)
 //    var kgDynamicPics: List<KgDynamicPics>? = null
 }

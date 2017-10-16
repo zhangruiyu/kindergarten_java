@@ -64,7 +64,7 @@ class DynamicServiceImpl(@Autowired private val kgProfileDao: KgProfileDao,
         val kgProfile = authService.getKgProfile(userId)
         val dynamicId = AlternativeJdkIdGenerator().generateId().toString()
         dynamicDao.commitDynamic(userId, dynamicId, kgProfile.schoolId, kgProfile.classroomId, dynamic_content, DynamicTypeVideo, 0)
-        dynamicDao.commitDynamicVideo(screenshot_server_url, video_server_url, video_long)
+        dynamicDao.commitDynamicVideo(screenshot_server_url, video_server_url, video_long,dynamicId)
         return "动态发布成功".jsonOKNoData()
     }
 
