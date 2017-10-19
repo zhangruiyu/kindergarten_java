@@ -88,4 +88,12 @@ class DynamicController(private val dynamicService: DynamicService) {
                 dynamicId, parentCommentId, timePoke)
 
     }
+
+    @PostMapping(value = "/user/dynamic/commitLiked")
+    fun commitLiked(@RequestParam(required = true) dynamicId: String
+    ): ResponseData {
+        val jwt = JwtUserFactory.getJwtUserAfterFilter()
+        return dynamicService.commitLiked(jwt.id, dynamicId)
+
+    }
 }

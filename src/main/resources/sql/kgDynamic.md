@@ -30,11 +30,10 @@ selectDynamicLiked
 ====
 * 查询点赞动态
     SELECT
-      nick_name,
-      l.user_id
+    l.user_id,p.nick_name
     FROM kg_profile p INNER JOIN kg_dynamic_liked l ON l.user_id = p.user_id
     WHERE l.dynamic_id = #dynamic_id#
-    ORDER BY l.create_time DESC
+    
     
 commitDynamic
 ====

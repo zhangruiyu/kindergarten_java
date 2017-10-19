@@ -24,6 +24,7 @@ interface DynamicService {
     fun commitDynamicVideo(userId: String, dynamic_content: String, screenshot_server_url: String, video_server_url: String, video_long: String): ResponseData
     fun commitDynamicPic(id: String, dynamic_content: String, urls: List<DynamicPicUrl>): ResponseData
     fun commitComment(id: String, commentContent: String, dynamicId: String, parentCommentId: Int, timePoke: String): ResponseData
+    fun commitLiked(id: String, dynamicId: String): ResponseData
 }
 
 @Service
@@ -65,7 +66,7 @@ class DynamicServiceImpl(@Autowired private val kgProfileDao: KgProfileDao,
         val kgProfile = authService.getKgProfile(userId)
         val dynamicId = AlternativeJdkIdGenerator().generateId().toString()
         dynamicDao.commitDynamic(userId, dynamicId, kgProfile.schoolId, kgProfile.classroomId, dynamic_content, DynamicTypeVideo, 0)
-        dynamicDao.commitDynamicVideo(screenshot_server_url, video_server_url, video_long,dynamicId)
+        dynamicDao.commitDynamicVideo(screenshot_server_url, video_server_url, video_long, dynamicId)
         return "动态发布成功".jsonOKNoData()
     }
 
@@ -86,6 +87,11 @@ class DynamicServiceImpl(@Autowired private val kgProfileDao: KgProfileDao,
     override fun commitComment(id: String, commentContent: String, dynamicId: String, parentCommentId: Int, timePoke: String): ResponseData {
         dynamicDao.commitComment(id, commentContent, dynamicId, parentCommentId, timePoke)
         return "评论成功".jsonOKNoData()
+    } //提交评论
+
+    override fun commitLiked(id: String, dynamicId: String): ResponseData {
+        dynamicDao.commitLiked(id, dynamicId)
+        return "".jsonOKNoData()
     }
 
     companion object {

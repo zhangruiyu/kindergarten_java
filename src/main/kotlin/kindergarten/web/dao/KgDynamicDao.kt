@@ -23,4 +23,7 @@ interface KgDynamicDao : BaseMapper<KgDynamic> {
     @Sql(value = "INSERT INTO kg_dynamic_comment (user_id,comment_content, dynamic_id, state, parent_comment_id, group_tag) VALUES (?,?,?,1,?,?)")
     fun commitComment(id: String, commentContent: String, dynamicId: String, parentCommentId: Int, timePoke: String)
 
+    @Sql(value = "INSERT INTO kg_dynamic_liked (user_id,dynamic_id) VALUES (?,?)")
+    fun commitLiked(user_id: String, dynamicId: String)
+
 }
