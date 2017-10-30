@@ -3,7 +3,7 @@ selectClassroomAndCamera
 * 注释
 
 	select #use("cols")# from kg_classroom where #use("condition")#
-    @ orm.many({"id":"classroomId"},"kgClassroom.selectCameras","KgCamera");
+    @orm.single({"id":"classroomId"},"kgClassroom.selectCameras","KgCamera");
     
 selectCameras
 ====

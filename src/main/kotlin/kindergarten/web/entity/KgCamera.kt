@@ -1,8 +1,10 @@
 package kindergarten.web.entity
 
 import com.fasterxml.jackson.annotation.JsonIgnore
+import kindergarten.custom.CustomTailBean
+import java.io.Serializable
 
-class KgCamera {
+class KgCamera : Serializable, CustomTailBean() {
     @JsonIgnore
     var id: String? = null
     @JsonIgnore
@@ -13,4 +15,5 @@ class KgCamera {
     var deviceName: String? = null
     var model: String? = null
     var verifyCode: String? = null
+    var isEncrypt: String? = null
 }
