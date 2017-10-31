@@ -8,12 +8,12 @@ selectClassroomAndCamera
 selectCameras
 ====
 * 查询对应教室的摄像头
-    SELECT * FROM kg_camera WHERE classroom_id = #classroomId# 2 
+    SELECT * FROM kg_camera WHERE classroom_id = #classroomId#  
   
 cols
 ===
 
-	id,school_id,show_name,classroom_image,child_count,is_corridor
+	id,school_id,show_name,classroom_image,child_count,is_corridor,synopsis
 
 updateSample
 ===

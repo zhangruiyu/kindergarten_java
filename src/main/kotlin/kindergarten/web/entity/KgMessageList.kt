@@ -12,7 +12,6 @@ class KgMessageList : Serializable {
     var id: Int? = null
     var schoolId: Int? = null
     var message: String? = null
-    @JsonFormat(locale="zh", timezone="GMT+8", pattern="yyyy-MM-dd HH:mm:ss")
     var createTime: Date? = null
 
 

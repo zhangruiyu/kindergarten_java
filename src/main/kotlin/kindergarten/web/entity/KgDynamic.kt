@@ -17,7 +17,6 @@ class KgDynamic : CustomTailBean() {
     var classroomId: Int? = null
     @JsonIgnore
     var visibilityType: Int = 0 //0是班级 1是全园
-    @JsonFormat(locale="zh", timezone="GMT+8", pattern="yyyy-MM-dd HH:mm:ss")
     var createTime: Date? = null
     var content: String? = null
     var userId: Int? = null //应该再查询用户的昵称

@@ -16,6 +16,7 @@ class KgClassroom : Serializable, CustomTailBean() {
     var schoolId: Int? = null
     var classroomImage: String? = null
     var showName: String? = null
+    var synopsis: String? = null
 
 
 }
