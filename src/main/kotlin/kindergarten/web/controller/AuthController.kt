@@ -1,11 +1,11 @@
 package kindergarten.web.controller
 
-import kindergarten.ext.otherwise
-import kindergarten.ext.yes
+import com.zhangruiyu.github.youeryuanxiaozhushou.ValueScheme
 import io.swagger.annotations.Api
 import io.swagger.annotations.ApiImplicitParam
 import io.swagger.annotations.ApiImplicitParams
 import io.swagger.annotations.ApiOperation
+import kindergarten.config.SpringParamsValidate
 import kindergarten.ext.*
 import kindergarten.security.JwtUserFactory
 import kindergarten.utils.OCSUtils
@@ -82,6 +82,20 @@ class AuthController(
             }
 
         }
+    }
+
+    @PostMapping(value = "/public/auth/changePassword")
+    @ApiOperation(value = "修改密码", notes = "老密码和新密码")
+    fun changePassword(httpServletRequest: HttpServletRequest, @RequestParam(required = true) tel: String
+                       , @RequestParam(required = true) oldPassword: String
+                       , @RequestParam(required = true) newPassword: String): ResponseData {
+        val paramsValidate = SpringParamsValidate()
+        paramsValidate.add(oldPassword, "旧密码格式不符", ValueScheme.MinLength(6), ValueScheme.MinLength(15))
+                .add(newPassword, "新密码格式不符", ValueScheme.MinLength(6), ValueScheme.MinLength(15))
+        paramsValidate.test()
+        mPassportService.changePassword(oldPassword, newPassword)
+        return "密码修改成功".jsonOk()
+
     }
 
     @PostMapping(value = "/user/profile")

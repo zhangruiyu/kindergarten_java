@@ -1,6 +1,7 @@
 package kindergarten.web.dao
 
 import kindergarten.web.entity.KgUser
+import org.beetl.sql.core.annotatoin.Sql
 import org.beetl.sql.core.annotatoin.SqlStatement
 import org.beetl.sql.core.mapper.BaseMapper
 import org.springframework.stereotype.Repository
@@ -25,6 +26,9 @@ interface KgUserDao : BaseMapper<KgUser> {
 
     @SqlStatement(params = "id,checkGender,relationCheck,address,avatarUrl")
     fun updateProfile(id: String, checkGender: Int, relationCheck: Int, address: String, avatarUrl: String)
+
+    @Sql(value = "UPDATE kg_user SET login_password = (?) WHERE id = (?)")
+    fun changePassword(changePassword: String, id: String)
 
 
 }

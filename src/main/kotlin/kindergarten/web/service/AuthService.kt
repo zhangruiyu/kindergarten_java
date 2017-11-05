@@ -102,4 +102,15 @@ class AuthService(
         passportDao.updateProfile(id, checkGender, relationCheck, address, avatarUrl)
         return ProfileAlteredInfo(checkGender, relationCheck, address, OCSUtils.getPicUrl(avatarUrl))
     }
+
+    fun changePassword(oldPassword: String, newPassword: String) {
+        val jwtUserAfterFilter = JwtUserFactory.getJwtUserAfterFilter()
+        privateBCryptPasswordEncoder.matches(oldPassword, jwtUserAfterFilter.encryptPassword).yes {
+            val insertPassword = privateBCryptPasswordEncoder.encode(newPassword)
+            passportDao.changePassword(privateBCryptPasswordEncoder.encode(insertPassword),"118")
+        }.otherwise {
+            "旧密码错误,如果忘记密码,请联系幼儿园".throwMessageException()
+        }
+
+    }
 }
