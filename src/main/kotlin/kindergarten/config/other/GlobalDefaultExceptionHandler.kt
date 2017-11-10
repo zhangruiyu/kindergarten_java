@@ -1,5 +1,6 @@
 package kindergarten.config.other
 
+import com.zhangruiyu.github.youeryuanxiaozhushou.NextInputs.Companion.CUSTOM_PARAMS_VALIDATE
 import kindergarten.custom.MessageException
 import kindergarten.ext.ResponseData
 import kindergarten.ext.jsonNormalFail
@@ -14,6 +15,7 @@ import javax.servlet.http.HttpServletRequest
  */
 @ControllerAdvice
 open class GlobalDefaultExceptionHandler {
+
     @ResponseBody
     @ExceptionHandler(value = MessageException::class)
     fun defaultValidateFailedException(req: HttpServletRequest, e: MessageException): ResponseData {
@@ -26,9 +28,17 @@ open class GlobalDefaultExceptionHandler {
 
     }
 
+
     @ResponseBody
     @ExceptionHandler(value = Exception::class)
     fun defaultErrorHandler(req: HttpServletRequest, e: Exception): Any {
+        e.printStackTrace()
+        return if (e.message!!.startsWith(CUSTOM_PARAMS_VALIDATE)) {
+            //检验参数库的工具类抛出的异常
+            e.message?.splitToSequence(CUSTOM_PARAMS_VALIDATE).toString().jsonNormalFail(code = 1001)
+        } else {
+            e.message.jsonNormalFail(code = 1001)
+        }
         //      // If the exception is annotated with @ResponseStatus rethrow it and let
         //      // the framework handle it - like the OrderNotFoundException example
         //      // at the start of this post.
@@ -43,15 +53,13 @@ open class GlobalDefaultExceptionHandler {
         //      mav.setViewName(DEFAULT_ERROR_VIEW);
         //      return mav;
 
-        //打印异常信息：
-        e.printStackTrace()
 
         /*
         * 返回json数据或者String数据：
         * 那么需要在方法上加上注解：@ResponseBody
         * 添加return即可。
         */
-        return "{error:${e.localizedMessage}}"
+
         /*
         * 返回视图：
         * 定义一个ModelAndView即可，

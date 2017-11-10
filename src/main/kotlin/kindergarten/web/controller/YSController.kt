@@ -2,12 +2,19 @@ package kindergarten.web.controller
 
 import io.swagger.annotations.ApiOperation
 import kindergarten.comm.rest.ys.RestApi
-import kindergarten.comm.rest.ys.entity.*
-import kindergarten.ext.*
+import kindergarten.comm.rest.ys.entity.DeviceYSPermission
+import kindergarten.comm.rest.ys.entity.DeviceYSResource
+import kindergarten.comm.rest.ys.entity.YSStatement
+import kindergarten.comm.rest.ys.entity.YSToken
+import kindergarten.ext.ResponseData
+import kindergarten.ext.jsonNormalFail
+import kindergarten.ext.jsonOk
+import kindergarten.ext.throwMessageException
 import kindergarten.security.JwtUserFactory
 import kindergarten.web.dao.KgCameraDao
 import kindergarten.web.dao.KgClassroomDao
 import kindergarten.web.entity.KgProfile
+import kindergarten.web.entity.custom.WrapperInfo
 import kindergarten.web.service.AuthService
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Value
@@ -15,7 +22,9 @@ import org.springframework.util.AlternativeJdkIdGenerator
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
+import org.springframework.web.context.request.async.WebAsyncTask
 import java.util.concurrent.Callable
+
 
 /**
  * Created by zhangruiyu on 2017/7/18.
@@ -82,16 +91,23 @@ class YSController(val restApi: RestApi, val authService: AuthService, val kgCam
     @PostMapping(value = "/classroom/list")
     @ApiOperation(value = "获取教室和走廊", notes = "获取教室和走廊信息")
             //    @ApiImplicitParams(ApiImplicitParam(name = "t))
-    fun classroomList(): Callable<ResponseData>? {
-        return Callable {
+    fun classroomList(): WebAsyncTask<ResponseData> {
+        val callable = Callable {
             val jwtUserAfterFilter = JwtUserFactory.getJwtUserAfterFilter()
             val kgProfile = authService.getKgProfile(jwtUserAfterFilter.id)
             if (kgProfile.schoolId.isNullOrEmpty()) {
                 "请入园再次尝试".jsonNormalFail()
             } else {
-                kgClassroomDao.selectClassroomAndCamera(kgProfile.schoolId!!).jsonOk()
+                val restYSAdminToken = restApi.restYSAdminToken()
+                val classroomAndCamera = kgClassroomDao.selectClassroomAndCamera(kgProfile.schoolId!!)
+                WrapperInfo(classroomAndCamera, restYSAdminToken).jsonOk()
             }
         }
+        val asyncTask = WebAsyncTask(1500, callable)
+        asyncTask.onTimeout({
+            "请求超时".jsonNormalFail()
+        })
+        return WebAsyncTask(1500, callable)
     }
 
 }

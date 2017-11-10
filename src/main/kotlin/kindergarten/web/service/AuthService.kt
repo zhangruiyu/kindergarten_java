@@ -103,12 +103,15 @@ class AuthService(
         return ProfileAlteredInfo(checkGender, relationCheck, address, OCSUtils.getPicUrl(avatarUrl))
     }
 
-    fun changePassword(oldPassword: String, newPassword: String) {
+    fun changePassword(oldPassword: String, newPassword: String): ResponseData {
         val jwtUserAfterFilter = JwtUserFactory.getJwtUserAfterFilter()
-        privateBCryptPasswordEncoder.matches(oldPassword, jwtUserAfterFilter.encryptPassword).yes {
+        return if (privateBCryptPasswordEncoder.matches(oldPassword, jwtUserAfterFilter.encryptPassword)) {
             val insertPassword = privateBCryptPasswordEncoder.encode(newPassword)
-            passportDao.changePassword(privateBCryptPasswordEncoder.encode(insertPassword),"118")
-        }.otherwise {
+            passportDao.changePassword(insertPassword, jwtUserAfterFilter.id)
+            jwtUserAfterFilter.encryptPassword = insertPassword
+            valueOperations.set("$authTokenPrefix:${jwtUserAfterFilter.tel}", jwtUserAfterFilter, 60, TimeUnit.DAYS)
+            "密码修改成功".jsonOk()
+        } else {
             "旧密码错误,如果忘记密码,请联系幼儿园".throwMessageException()
         }
 

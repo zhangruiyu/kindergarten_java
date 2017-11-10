@@ -6,6 +6,7 @@ import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.config.BeanDefinition.SCOPE_SINGLETON
 import org.springframework.context.annotation.Scope
 import org.springframework.data.redis.core.ValueOperations
+import org.springframework.scheduling.annotation.Async
 import org.springframework.stereotype.Component
 import org.springframework.util.DigestUtils
 import org.springframework.util.LinkedMultiValueMap
@@ -37,7 +38,7 @@ class RestApi(var restTemplate: RestTemplate) {
         requestEntity.add("appKey", "b109fdee59b14b19b48927f627814c58")
         requestEntity.add("appSecret", "fa7d8a8c75176be997d80f13590dfaa6")
         val data = restTemplate.postForEntity<YSToken>("https://open.ys7.com/api/lapp/token/get", requestEntity, YSToken::class.java).body.composeApiException()
-        valueOperations.set("YSTOKEN", data.accessToken, 2, TimeUnit.DAYS)
+        valueOperations.set("YSTOKEN", data.accessToken, data.expireTime - System.currentTimeMillis(), TimeUnit.MILLISECONDS)
         return data.accessToken
     }
 

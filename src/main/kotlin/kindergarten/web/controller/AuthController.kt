@@ -84,18 +84,14 @@ class AuthController(
         }
     }
 
-    @PostMapping(value = "/public/auth/changePassword")
+    @PostMapping(value = "/user/auth/changePassword")
     @ApiOperation(value = "修改密码", notes = "老密码和新密码")
-    fun changePassword(httpServletRequest: HttpServletRequest, @RequestParam(required = true) tel: String
-                       , @RequestParam(required = true) oldPassword: String
+    fun changePassword(@RequestParam(required = true) oldPassword: String
                        , @RequestParam(required = true) newPassword: String): ResponseData {
         val paramsValidate = SpringParamsValidate()
-        paramsValidate.add(oldPassword, "旧密码格式不符", ValueScheme.MinLength(6), ValueScheme.MinLength(15))
-                .add(newPassword, "新密码格式不符", ValueScheme.MinLength(6), ValueScheme.MinLength(15))
-        paramsValidate.test()
-        mPassportService.changePassword(oldPassword, newPassword)
-        return "密码修改成功".jsonOk()
-
+        paramsValidate.add(oldPassword, "旧密码格式不符", ValueScheme.MinLength(6), ValueScheme.MaxLength(15))
+                .add(newPassword, "新密码格式不符", ValueScheme.MinLength(6), ValueScheme.MaxLength(15)).test()
+        return mPassportService.changePassword(oldPassword, newPassword)
     }
 
     @PostMapping(value = "/user/profile")
