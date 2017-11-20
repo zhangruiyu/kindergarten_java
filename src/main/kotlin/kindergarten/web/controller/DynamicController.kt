@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
 import java.time.LocalDateTime
-import java.time.format.DateTimeFormatter
 
 /**
  * Created by zhangruiyu on 2017/7/3.
@@ -68,12 +67,12 @@ class DynamicController(private val dynamicService: DynamicService) {
     @PostMapping(value = "/user/dynamic/commitComment")
     fun commitComment(@RequestParam(required = true) commentContent: String,
                       @RequestParam(required = true) dynamicId: String,
-                      @RequestParam(defaultValue = "0") parentCommentId: Int,
+                      @RequestParam(defaultValue = "0") parentCommentId: String,
                       @RequestParam(defaultValue = "") groupTag: String
     ): ResponseData {
         //说明子评论 那么parentID也不会为空
         if (groupTag.isNotEmpty()) {
-            if (parentCommentId == 0) {
+            if (parentCommentId == "0") {
                 return "子评论参数缺失:parentCommentId".jsonNormalFail()
             }
         }
@@ -85,7 +84,7 @@ class DynamicController(private val dynamicService: DynamicService) {
             groupTag
         }
         return dynamicService.commitComment(jwt.id, commentContent,
-                dynamicId, parentCommentId, timePoke)
+                dynamicId, parentCommentId, timePoke).jsonOk()
 
     }
 

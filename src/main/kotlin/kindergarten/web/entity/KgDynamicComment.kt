@@ -4,5 +4,5 @@ import kindergarten.annotation.PoKo
 import java.util.*
 
 @PoKo
-class KgDynamicComment(var id: Long, var userId: Long, var dynamicId: String, var commentContent: String,
+class KgDynamicComment(var id: String, var userId: String, var dynamicId: String, var commentContent: String,
                        var createTime: Date, var groupTag: String, var parentCommentId: String)

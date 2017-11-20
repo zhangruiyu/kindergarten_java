@@ -8,32 +8,29 @@ selectDynamic
 ====
 * 获取用户对应的校园信息 dynamic_type 0是班级
 
-    SELECT d.id,content,create_time,d.user_id,p.nick_name,d.dynamic_type FROM kg_dynamic d INNER JOIN kg_profile p ON  d.user_id = p.user_id
-    and d.school_id = #selectId#
-    ORDER BY  create_time DESC LIMIT #offset# ,#max_size#
-    @ orm.many({"id":"dynamic_id"},"kgDynamic.selectDynamicPic","KgDynamicPics");
-    @ orm.single({"id":"dynamic_id"},"kgDynamic.selectDynamicVideo","KgDynamicVideo");
-  	@ orm.many({"id":"dynamic_id"},"kgDynamic.selectDynamicLiked","KgDynamicLiked");
-  	@ orm.many({"id":"dynamic_id"},"kgDynamic.examineComment","KgDynamicComment");
-
-selectDynamicPic
-====
-* 查询动态的图片
-    SELECT * FROM kg_dynamic_pics WHERE dynamic_id = #dynamic_id# ORDER BY sequence
-
-selectDynamicVideo
-====
-* 查询动态的图片
-    SELECT * FROM kg_dynamic_video WHERE dynamic_id  = #dynamic_id#
-  
-selectDynamicLiked
-====
-* 查询点赞动态
-    SELECT
-    l.user_id,p.nick_name
-    FROM kg_profile p INNER JOIN kg_dynamic_liked l ON l.user_id = p.user_id
-    WHERE l.dynamic_id = #dynamic_id#
-    
+   SELECT
+     d.id,
+     content,
+     d.create_time,
+     d.user_id,
+     d.dynamic_type,
+     p.pic_url,
+     p.sequence,
+     p.video_length,
+     p.video_url,
+     kdc.id as comment_id,
+     kdc.comment_content,
+     kdc.group_tag,
+     kdc.parent_comment_id,
+     kdc.user_id as comment_user_id,
+     kdc.create_time as comment_create_time,
+     kdc.dynamic_id as comment_dynamic_id
+   FROM (SELECT *
+              FROM kg_dynamic
+              WHERE school_id = #selectId#
+              ORDER BY create_time DESC
+              LIMIT #offset# ,#max_size#)  d INNER JOIN kg_dynamic_content p ON d.id = p.dynamic_id LEFT JOIN kg_dynamic_comment kdc
+                                             ON kdc.dynamic_id = d.id ORDER BY create_time DESC
     
 commitDynamic
 ====
@@ -44,7 +41,7 @@ commitDynamic
 commitDynamicVideo
 ====
 * 插入视频
-   INSERT INTO kg_dynamic_video (dynamic_id, video_url, video_length, video_pic) SELECT #dynamicId#,#video_server_url#,#video_long#, #screenshot_server_url#
+   INSERT INTO kg_dynamic_content (dynamic_id, video_url, video_length, video_pic) SELECT #dynamicId#,#video_server_url#,#video_long#, #screenshot_server_url#
     
      
 examineComment
@@ -63,13 +60,6 @@ examineComment
     WHERE dynamic_id =  #dynamic_id# ORDER BY create_time
 
 
-commitComment
-====
-* 添加评论
-
-
-    INSERT INTO kg_dynamic_comment (user_id, dynamic_id, comment_content, state, parent_comment_id, group_tag)
-    VALUES ()
 
 cols
 ===
