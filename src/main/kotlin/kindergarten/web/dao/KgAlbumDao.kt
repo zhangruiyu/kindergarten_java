@@ -13,7 +13,7 @@ import org.springframework.stereotype.Repository
 @Repository
 interface KgAlbumDao : BaseMapper<KgAlbum> {
 
-    @Sql(value = "SELECT kd.id,kdp.pic_url,kdp.sequence,kd.create_time FROM kg_dynamic kd INNER JOIN kg_dynamic_pics kdp ON kd.school_id = ? AND kd.id = kdp.dynamic_id")
+    @Sql(value = "SELECT kd.id,kdp.pic_url,kdp.sequence,kd.create_time FROM kg_dynamic kd INNER JOIN kg_dynamic_content kdp ON kd.school_id = ? AND kd.id = kdp.dynamic_id")
     fun selectSchoolAlbum(school_id: String): ArrayList<KgAlbum>
 
 }
