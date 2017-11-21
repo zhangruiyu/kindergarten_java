@@ -41,7 +41,7 @@ commitDynamic
 commitDynamicVideo
 ====
 * 插入视频
-   INSERT INTO kg_dynamic_content (dynamic_id, video_url, video_length, video_pic) SELECT #dynamicId#,#video_server_url#,#video_long#, #screenshot_server_url#
+   INSERT INTO kg_dynamic_content (dynamic_id, video_url, video_length, pic_url) VALUES (#dynamicId#,#video_server_url#,#video_long#, #screenshot_server_url#);
     
      
 examineComment
