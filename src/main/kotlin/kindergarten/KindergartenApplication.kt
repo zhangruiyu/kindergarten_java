@@ -1,12 +1,20 @@
 package kindergarten
 
 import kindergarten.config.cos.OCSConfig
+import org.beetl.core.resource.WebAppResourceLoader
+import org.beetl.ext.spring.BeetlGroupUtilConfiguration
+import org.beetl.ext.spring.BeetlSpringViewResolver
+import org.springframework.beans.factory.annotation.Qualifier
 import org.springframework.boot.Banner
 import org.springframework.boot.CommandLineRunner
 import org.springframework.boot.SpringApplication
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.context.properties.EnableConfigurationProperties
+import org.springframework.context.annotation.Bean
+import org.springframework.core.io.DefaultResourceLoader
+import org.springframework.core.io.support.ResourcePatternUtils
 import org.springframework.scheduling.annotation.EnableAsync
+import java.io.IOException
 import java.lang.Exception
 
 
@@ -20,6 +28,32 @@ class KindergartenApplication : CommandLineRunner {
 //        System.out.println(this.mPersonDao!!.getById(1))
     }
 
+    @Bean(initMethod = "init", name = arrayOf("beetlConfig"))
+    fun getBeetlGroupUtilConfiguration(): BeetlGroupUtilConfiguration {
+
+        val beetlGroupUtilConfiguration = BeetlGroupUtilConfiguration()
+        val patternResolver = ResourcePatternUtils.getResourcePatternResolver(DefaultResourceLoader())
+        try {
+            val root = patternResolver.getResource("classpath:templates").file.toString()
+            val webAppResourceLoader = WebAppResourceLoader(root)
+            beetlGroupUtilConfiguration.setResourceLoader(webAppResourceLoader)
+
+            beetlGroupUtilConfiguration.setConfigFileResource(patternResolver.getResource("classpath:beetl.properties"))
+            return beetlGroupUtilConfiguration
+        } catch (e: IOException) {
+            throw RuntimeException(e)
+        }
+
+    }
+
+    @Bean(name = arrayOf("beetlViewResolver"))
+    fun getBeetlSpringViewResolver(@Qualifier("beetlConfig") beetlGroupUtilConfiguration: BeetlGroupUtilConfiguration): BeetlSpringViewResolver {
+        val beetlSpringViewResolver = BeetlSpringViewResolver()
+        beetlSpringViewResolver.setContentType("text/html;charset=UTF-8")
+        beetlSpringViewResolver.order = 0
+        beetlSpringViewResolver.config = beetlGroupUtilConfiguration
+        return beetlSpringViewResolver
+    }
 }
 
 fun main(args: Array<String>) {

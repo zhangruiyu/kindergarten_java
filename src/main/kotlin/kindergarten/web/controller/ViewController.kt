@@ -1,26 +1,23 @@
 package kindergarten.web.controller
 
-import kindergarten.web.entity.KgMessageList
 import kindergarten.web.service.MessageListService
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.web.bind.annotation.PostMapping
-import org.springframework.web.bind.annotation.RestController
+import org.springframework.stereotype.Controller
+import org.springframework.web.bind.annotation.GetMapping
+import org.springframework.web.servlet.ModelAndView
 
 
 /**
  * Created by zhangruiyu on 2017/4/11.
  */
-@RestController
-//@PreAuthorize(value = CustomConstants.CustomPermission.ADMIN)
+@Controller
 class ViewController {
     @Autowired
     lateinit var messageListService: MessageListService
 
-    @PostMapping("/")
-            //    @PreAuthorize("hasRole('ADMIN')")
-    fun index(): List<KgMessageList> {
-//        return CustomConstants.sendMessageCode().jsonOk()
-        return messageListService.getMessageListBySchoolId("1")
+    @GetMapping("/index.html")
+    fun index(): ModelAndView {
+        return ModelAndView("/index.html")
     }
 
 }
