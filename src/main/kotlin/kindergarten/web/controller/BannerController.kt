@@ -1,6 +1,7 @@
 package kindergarten.web.controller
 
 import kindergarten.annotation.PoKo
+import kindergarten.custom.CustomTailBean
 import kindergarten.ext.ResponseData
 import kindergarten.ext.jsonNormalFail
 import kindergarten.ext.jsonOk
@@ -23,14 +24,14 @@ class BannerController(@Autowired private val sqlManager: SQLManager) {
     fun addBanner(@RequestBody bannerBean: BannerBean): ResponseData {
         logger.debug("aaaagad")
         logger.error("aaa2222agad")
-        if (bannerBean.picUrl.startsWith("http")) {
+        /*if (bannerBean.picUrl.startsWith("http")) {
             "请不要添加前缀".jsonNormalFail()
-        }
+        }*/
         return if (bannerBean.picUrl.endsWith(".png")
                 || bannerBean.picUrl.endsWith(".gif") || bannerBean.picUrl.endsWith(".jpg")
                 || bannerBean.picUrl.endsWith(".bmp")
                        ) {
-            val sql = "INSERT INTO kg_banner (pic_url,title) VALUES ('${bannerBean.picUrl}','${bannerBean.title}')"
+            val sql = "INSERT INTO kg_banner (pic_url,title,url) VALUES ('${bannerBean.picUrl}','${bannerBean.title}','${bannerBean.url}')"
             sqlManager.executeUpdate(SQLReady(sql))
             "banner添加成功".jsonOk()
         } else {
@@ -39,7 +40,16 @@ class BannerController(@Autowired private val sqlManager: SQLManager) {
 
     }
 
+    @PostMapping("/public/getBanner")
+    fun getBanner(): ResponseData {
+        val sql = "SELECT * FROM kg_banner"
+        return sqlManager.execute(SQLReady(sql), BannerReturnBean::class.java).jsonOk()
+    }
+
 }
 
 @PoKo
-class BannerBean(val title: String, val picUrl: String)
+class BannerBean(val title: String, val picUrl: String, val url: String)
+
+@PoKo
+class BannerReturnBean: CustomTailBean()
