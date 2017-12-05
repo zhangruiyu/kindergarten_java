@@ -31,7 +31,7 @@ class AuthController(
 
 
     @PostMapping(value = "/public/auth/login")
-    fun login(@RequestParam(required = true) tel: String, @RequestParam(required = true) password: String): Callable<ResponseData> {
+    fun login(@RequestParam(required = true) tel: String, @RequestParam(required = true) password: String, @RequestParam(defaultValue = "") pushToken: String): Callable<ResponseData> {
         logger.debug("试着登陆")
         logger.error("试着登陆")
         logger.info("试着登陆")
@@ -41,14 +41,14 @@ class AuthController(
             (tel.isEmpty() || password.isEmpty()).yes {
                 "手机号或者密码不能不填".jsonNormalFail()
             }.otherwise {
-                mPassportService.login(tel, password).jsonOk()
+                mPassportService.login(tel, password,pushToken).jsonOk()
             }
 
         }
 
     }
 
-    @PostMapping(value = "/public/auth/register1")
+    @PostMapping(value = ["/public/auth/register1"])
     @ApiOperation(value = "注册第一步", notes = "根据手机号和密码注册")
     @ApiImplicitParams(ApiImplicitParam(name = "tel", value = "用户手机号", required = true, dataType = "Long"))
     fun register1(httpServletRequest: HttpServletRequest, @RequestParam(required = true) tel: String): ResponseData {

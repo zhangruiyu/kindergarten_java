@@ -3,6 +3,7 @@ package kindergarten.web.service
 import kindergarten.ext.otherwise
 import kindergarten.ext.yes
 import kindergarten.comm.method.MessageUitils
+import kindergarten.config.redis.RedisUtil
 import kindergarten.custom.PrivateBCryptPasswordEncoder
 import kindergarten.ext.*
 import kindergarten.security.JwtTokenUtil
@@ -30,11 +31,13 @@ class AuthService(
         @Autowired val kgProfileDao: KgProfileDao,
         @Autowired val jwtTokenUtil: JwtTokenUtil,
         @Autowired val stringRedisTemplate: StringRedisTemplate,
-        @Autowired val privateBCryptPasswordEncoder: PrivateBCryptPasswordEncoder
+        @Autowired val privateBCryptPasswordEncoder: PrivateBCryptPasswordEncoder,
+        @Autowired private val redisUtil: RedisUtil
 ) {
     companion object {
         const val authCodePrefix: String = "KINDERGARTEN_AUTH_CODE"
         const val authTokenPrefix: String = "KINDERGARTEN_AUTH_TOKEN"
+        const val pushTokenPrefix: String = "KINDERGARTEN_PUSH_TOKEN"
     }
 
     @Suppress("SpringKotlinAutowiring")
@@ -79,13 +82,14 @@ class AuthService(
         }
     }
 
-    fun login(tel: String, password: String): KgUser? {
+    fun login(tel: String, password: String, pushToken: String): KgUser? {
         val queryUser = passportDao.queryUserAndRole(tel) ?: "该手机号没有注册".throwMessageException()
         privateBCryptPasswordEncoder.matches(password, queryUser.loginPassword).yes {
             val generateToken = jwtTokenUtil.generateToken(tel)
             queryUser.token = generateToken
             val jwtUser = JwtUserFactory.create(queryUser)
             valueOperations.set("$authTokenPrefix:$tel", jwtUser, 60, TimeUnit.DAYS)
+            redisUtil.hmSet(pushTokenPrefix, queryUser.id, pushToken)
         }.otherwise {
             "手机号或密码错误".throwMessageException()
         }

@@ -23,6 +23,10 @@ public class RedisUtil {
     @Autowired
     private RedisTemplate redisTemplate;
 
+    public RedisTemplate getRedisTemplate() {
+        return redisTemplate;
+    }
+
     /**
      * 批量删除对应的value
      *
