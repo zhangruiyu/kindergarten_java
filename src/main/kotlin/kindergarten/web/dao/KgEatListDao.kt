@@ -11,6 +11,6 @@ import org.springframework.stereotype.Repository
  */
 @Repository
 interface KgEatListDao : BaseMapper<KgEat> {
-    @SqlStatement(params = "school_id,index")
-    fun getEatList(school_id: String, index: String): ArrayList<KgEat>
+    @SqlStatement(params = "school_id,formatDate")
+    fun getEatList(school_id: String, formatDate: String): ArrayList<KgEat>
 }

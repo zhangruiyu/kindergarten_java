@@ -1,5 +1,6 @@
 package kindergarten.web.controller
 
+import com.xiaoleilu.hutool.date.DateUtil
 import io.swagger.annotations.Api
 import kindergarten.comm.vals.CustomConstants
 import kindergarten.ext.ResponseData
@@ -8,6 +9,7 @@ import kindergarten.ext.jsonOk
 import kindergarten.security.JwtUserFactory
 import kindergarten.web.dao.KgEatListDao
 import kindergarten.web.service.AuthService
+import kindergarten.web.service.EatService
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.security.access.prepost.PreAuthorize
@@ -21,20 +23,20 @@ import java.util.concurrent.Callable
  * Created by zhangruiyu on 2017/7/3.
  */
 @RestController
-@RequestMapping(value = "/user/eat")
+@RequestMapping(value = ["/user/eat"])
 @Api(description = "饮食消息")
-class EatController(@Autowired private val kgEatListDao: KgEatListDao,
-                    @Autowired private var mPassportService: AuthService) {
+class EatController(
+        @Autowired private var mPassportService: AuthService,
+        @Autowired private var eatService: EatService
+) {
     private val logger = LoggerFactory.getLogger(this.javaClass)
-    @PostMapping(value = "/eatList")
+    @PostMapping(value = ["/eatList"])
     @PreAuthorize(CustomConstants.CustomPermission.USER)
-    fun getEatListByDate(@RequestParam(required = false, defaultValue = "0") index: String): Callable<ResponseData> {
+    fun getEatListByDate(@RequestParam(required = true) date: String): Callable<ResponseData> {
         return Callable {
-            if (index.toInt() > 2) {
-                "查询往期饮食信息,请联系幼儿园工作人员".jsonNormalFail()
-            }
+            val formatDate = DateUtil.format(DateUtil.parse(date), "yyyy-MM") + "%"
             val jwt = JwtUserFactory.getJwtUserAfterFilter()
-            kgEatListDao.getEatList(mPassportService.getKgProfile(jwt.id).schoolId!!, index).jsonOk()
+            eatService.getEatList(mPassportService.getKgProfile(jwt.id).schoolId!!, formatDate).jsonOk()
         }
     }
 }

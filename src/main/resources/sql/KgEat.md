@@ -2,9 +2,7 @@ getEatList
 ===
 * 注释
 
-    SELECT *
-    FROM kg_eat
-    WHERE school_id =  #school_id# AND YEARWEEK(date_format(create_time, '%Y-%m-%d')) = YEARWEEK(now()) - #index#;
+    SELECT ke.*,kep.eat_url FROM kg_eat ke LEFT JOIN kg_eat_pic kep ON kep.eat_id = ke.id AND  create_time LIKE #formatDate# AND school_id =  #school_id#  
 
 cols
 ===

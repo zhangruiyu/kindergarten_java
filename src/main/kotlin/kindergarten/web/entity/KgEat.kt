@@ -2,7 +2,6 @@ package kindergarten.web.entity
 
 import com.fasterxml.jackson.annotation.JsonIgnore
 import java.io.Serializable
-import java.util.*
 
 class KgEat : Serializable {
     @JsonIgnore
@@ -12,8 +11,10 @@ class KgEat : Serializable {
     var breakfast: String? = null
     var lunch: String? = null
     var supper: String? = null
+    var createTime: String? = null
     @JsonIgnore
-    var createTime: Date? = null
+    var eatUrl: String? = null
+    var eatUrls: ArrayList<String> = ArrayList()
 
 
 }
