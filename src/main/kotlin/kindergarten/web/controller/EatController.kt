@@ -1,8 +1,10 @@
 package kindergarten.web.controller
 
 import com.xiaoleilu.hutool.date.DateUtil
+import com.zhangruiyu.github.youeryuanxiaozhushou.ValueScheme
 import io.swagger.annotations.Api
 import kindergarten.comm.vals.CustomConstants
+import kindergarten.config.SpringParamsValidate
 import kindergarten.ext.ResponseData
 import kindergarten.ext.jsonNormalFail
 import kindergarten.ext.jsonOk
@@ -46,6 +48,9 @@ class EatController(
                @RequestParam(required = true) supper: String,
                @RequestParam(required = false) urls: String?): Callable<ResponseData> {
         return Callable {
+            SpringParamsValidate().add(breakfast, "早餐内容不能为空", ValueScheme.Required())
+                    .add(lunch, "午餐内容不能为空", ValueScheme.Required())
+                    .add(supper, "下午加餐内容不能为空", ValueScheme.Required()).test()
             val formatDate = DateUtil.format(DateUtil.parse(date), "yyyy-MM-dd")
             val jwt = JwtUserFactory.getJwtUserAfterFilter()
             try {
