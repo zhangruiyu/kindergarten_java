@@ -3,6 +3,7 @@ package kindergarten.web.entity
 import com.fasterxml.jackson.annotation.JsonIgnore
 import kindergarten.comm.vals.CustomConstants
 import kindergarten.custom.CustomTailBean
+import kindergarten.utils.OCSUtils
 import java.util.*
 
 /**
@@ -13,7 +14,7 @@ class KgAlbum : CustomTailBean() {
     var id: String? = null
     var picUrl: String? = null
         set(value) {
-            field = CustomConstants.COSURL.picUrl + value
+            field = OCSUtils.getPicUrl(value)
         }
     var sequence: Int? = null
     var createTime: Date? = null

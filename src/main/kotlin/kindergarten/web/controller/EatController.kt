@@ -7,7 +7,6 @@ import kindergarten.ext.ResponseData
 import kindergarten.ext.jsonNormalFail
 import kindergarten.ext.jsonOk
 import kindergarten.security.JwtUserFactory
-import kindergarten.web.dao.KgEatListDao
 import kindergarten.web.service.AuthService
 import kindergarten.web.service.EatService
 import org.slf4j.LoggerFactory
@@ -23,20 +22,39 @@ import java.util.concurrent.Callable
  * Created by zhangruiyu on 2017/7/3.
  */
 @RestController
-@RequestMapping(value = ["/user/eat"])
 @Api(description = "饮食消息")
 class EatController(
         @Autowired private var mPassportService: AuthService,
         @Autowired private var eatService: EatService
 ) {
     private val logger = LoggerFactory.getLogger(this.javaClass)
-    @PostMapping(value = ["/eatList"])
+    @PostMapping(value = ["/user/eat/eatList"])
     @PreAuthorize(CustomConstants.CustomPermission.USER)
     fun getEatListByDate(@RequestParam(required = true) date: String): Callable<ResponseData> {
         return Callable {
             val formatDate = DateUtil.format(DateUtil.parse(date), "yyyy-MM") + "%"
             val jwt = JwtUserFactory.getJwtUserAfterFilter()
             eatService.getEatList(mPassportService.getKgProfile(jwt.id).schoolId!!, formatDate).jsonOk()
+        }
+    }
+
+    @PostMapping(value = ["/user/teacher/eat/addEat"])
+    @PreAuthorize(CustomConstants.CustomPermission.TEACHER)
+    fun addEat(@RequestParam(required = true) date: String,
+               @RequestParam(required = true) breakfast: String,
+               @RequestParam(required = true) lunch: String,
+               @RequestParam(required = true) supper: String,
+               @RequestParam(required = false) urls: String?): Callable<ResponseData> {
+        return Callable {
+            val formatDate = DateUtil.format(DateUtil.parse(date), "yyyy-MM-dd")
+            val jwt = JwtUserFactory.getJwtUserAfterFilter()
+            try {
+                return@Callable eatService.addEat(mPassportService.getKgProfile(jwt.id).schoolId!!, formatDate
+                        , breakfast, lunch, supper, urls, formatDate).jsonOk()
+            } catch (e: Exception) {
+                return@Callable "今日数据已经存在".jsonNormalFail()
+            }
+
         }
     }
 }

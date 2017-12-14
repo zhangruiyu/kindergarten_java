@@ -13,11 +13,14 @@ class OCSUtils {
         }
 
         //访问图片的url
-        fun getPicUrl(path: String): String {
-            if (path.isEmpty()) {
-                return@getPicUrl ""
+        fun getPicUrl(path: String?): String {
+            when {
+                path == null || path.isEmpty() -> return@getPicUrl ""
+                path.startsWith("http") -> return@getPicUrl path
+                else -> return CustomConstants.COSURL.picUrl + path
             }
-            return CustomConstants.COSURL.picUrl + path
+
+
         }
     }
 }

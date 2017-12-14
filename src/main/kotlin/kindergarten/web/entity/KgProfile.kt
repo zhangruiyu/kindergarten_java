@@ -2,6 +2,7 @@ package kindergarten.web.entity
 
 import com.fasterxml.jackson.annotation.JsonIgnore
 import kindergarten.comm.vals.CustomConstants
+import kindergarten.utils.OCSUtils
 import java.io.Serializable
 import java.util.*
 
@@ -22,9 +23,7 @@ class KgProfile : Serializable {
     var address: String? = null
     var avatar: String? = null
         set(value) {
-            if(field?.isNotEmpty()?:false) {
-                field = CustomConstants.COSURL.picUrl + value
-            }
+            field = OCSUtils.getPicUrl(value)
         }
     @JsonIgnore
     var lastLoginIp: String? = null

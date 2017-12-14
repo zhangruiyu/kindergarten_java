@@ -6,7 +6,8 @@ package kindergarten.comm.vals
  */
 object CustomConstants {
     object CustomPermission {
-        const val USER = "hasAnyRole('USER','ADMIN')"
+        const val USER = "hasAnyRole('USER','TEACHER','ADMIN')"
+        const val TEACHER = "hasAnyRole('TEACHER','ADMIN')"
         val USER_Role = arrayOf("USER", "ADMIN")
         const val Admin_Role = "USER"
         const val ADMIN = "hasRole('ADMIN')"
@@ -17,9 +18,9 @@ object CustomConstants {
 
     object PicType {
         //图片类型
-        //0是发表动态
+        //0是发表动态 1是视频动态 2是饮食图片
         //多次签名
-        val periodTypes = arrayOf("dynamic/pic_dynamic", "dynamic/video_dynamic")
+        val periodTypes = arrayOf("dynamic/pic_dynamic", "dynamic/video_dynamic","eat/pic")
         val oneTypes = arrayOf("avatar")
     }
 

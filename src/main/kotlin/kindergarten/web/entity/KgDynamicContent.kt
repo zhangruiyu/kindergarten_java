@@ -2,6 +2,7 @@ package kindergarten.web.entity
 
 import com.fasterxml.jackson.annotation.JsonIgnore
 import kindergarten.comm.vals.CustomConstants
+import kindergarten.utils.OCSUtils
 
 /**
  * Created by zhangruiyu on 2017/7/11.
@@ -18,7 +19,7 @@ class KgDynamicPic() {
     var dynamicId: String? = null
     var picUrl: String? = null
         set(value) {
-            field = CustomConstants.COSURL.picUrl + value
+            field = OCSUtils.getPicUrl(value)
         }
     var sequence: Int? = null
 }
@@ -36,11 +37,11 @@ class KgDynamicVideo {
     var dynamicId: String? = null
     var videoPic: String? = null
         set(value) {
-            field = CustomConstants.COSURL.picUrl + value
+            field = OCSUtils.getPicUrl(value)
         }
     var videoUrl: String? = null
         set(value) {
-            field = CustomConstants.COSURL.picUrl + value
+            field = OCSUtils.getPicUrl(value)
         }
     var videoLength: String? = null
 }
