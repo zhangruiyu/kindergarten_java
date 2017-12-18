@@ -21,7 +21,7 @@ import java.util.concurrent.Callable
  * Created by zhangruiyu on 2017/7/18.
  */
 @RestController
-@RequestMapping(value = "user/album")
+@RequestMapping(value = "user/normal/album")
 class AlbumController(@Autowired val albumService: AlbumService, @Autowired val authService: AuthService) {
 
     val logger = LoggerFactory.getLogger(this.javaClass)

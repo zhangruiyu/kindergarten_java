@@ -17,11 +17,11 @@ import java.util.concurrent.Callable
  * Created by zhangruiyu on 2017/7/3.
  */
 @RestController
-@RequestMapping(value = "/user/messageList")
+@RequestMapping(value = ["/user/normal/messageList"])
 @Api(description = "学校消息")
 class MessageListController(@Autowired private val messageListService: MessageListService) {
 
-    @PostMapping(value = "/schoolMessage")
+    @PostMapping(value = ["/schoolMessage"])
     @PreAuthorize(CustomConstants.CustomPermission.USER)
     fun getMessageListBySchoolId(): Callable<ResponseData> {
         return Callable {

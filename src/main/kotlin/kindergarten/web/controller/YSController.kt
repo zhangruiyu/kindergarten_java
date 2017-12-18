@@ -30,7 +30,7 @@ import java.util.concurrent.Callable
  * Created by zhangruiyu on 2017/7/18.
  */
 @RestController
-@RequestMapping(value = "user/ys")
+@RequestMapping(value = "user/normal/ys")
 class YSController(val restApi: RestApi, val authService: AuthService, val kgCameraDao: KgCameraDao, val kgClassroomDao: KgClassroomDao) {
 
     @Value("\${ys.account.prefix}")

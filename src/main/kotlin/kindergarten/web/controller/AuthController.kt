@@ -84,7 +84,7 @@ class AuthController(
         }
     }
 
-    @PostMapping(value = "/user/auth/changePassword")
+    @PostMapping(value = "/user/normal/auth/changePassword")
     @ApiOperation(value = "修改密码", notes = "老密码和新密码")
     fun changePassword(@RequestParam(required = true) oldPassword: String
                        , @RequestParam(required = true) newPassword: String): ResponseData {
@@ -94,14 +94,14 @@ class AuthController(
         return mPassportService.changePassword(oldPassword, newPassword)
     }
 
-    @PostMapping(value = "/user/profile")
+    @PostMapping(value = "/user/normal/profile")
     @ApiImplicitParam(name = "获取用户信息")
     fun getProfile(httpServletRequest: HttpServletRequest): ResponseData {
         val jwt = JwtUserFactory.getJwtUserAfterFilter()
         return mPassportService.getKgProfile(jwt.id).jsonOk()
     }
 
-    @PostMapping(value = "/user/reviseProfile")
+    @PostMapping(value = "/user/normal/reviseProfile")
     @ApiImplicitParams(ApiImplicitParam(name = "avatarUrl", value = "如果没修改 传入空字符串", required = true, dataType = "String"))
     fun reviseProfile(httpServletRequest: HttpServletRequest, @RequestParam(required = true) checkGender: Int
                       , @RequestParam(required = true) relationCheck: Int,
