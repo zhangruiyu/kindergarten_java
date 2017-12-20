@@ -1,6 +1,7 @@
 package kindergarten.web.controller
 
 import io.swagger.annotations.ApiOperation
+import kindergarten.comm.vals.CustomConstants
 import kindergarten.ext.ResponseData
 import kindergarten.ext.jsonNormalFail
 import kindergarten.ext.jsonOk
@@ -21,7 +22,7 @@ import java.util.concurrent.Callable
  * Created by zhangruiyu on 2017/7/18.
  */
 @RestController
-@RequestMapping(value = "user/normal/album")
+@RequestMapping(value = [(CustomConstants.CustomPermission.USER_URL+"/album")])
 class AlbumController(@Autowired val albumService: AlbumService, @Autowired val authService: AuthService) {
 
     val logger = LoggerFactory.getLogger(this.javaClass)

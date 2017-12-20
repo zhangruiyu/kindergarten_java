@@ -6,6 +6,7 @@ import kindergarten.comm.rest.ys.entity.DeviceYSPermission
 import kindergarten.comm.rest.ys.entity.DeviceYSResource
 import kindergarten.comm.rest.ys.entity.YSStatement
 import kindergarten.comm.rest.ys.entity.YSToken
+import kindergarten.comm.vals.CustomConstants.CustomPermission.USER
 import kindergarten.ext.ResponseData
 import kindergarten.ext.jsonNormalFail
 import kindergarten.ext.jsonOk
@@ -30,7 +31,7 @@ import java.util.concurrent.Callable
  * Created by zhangruiyu on 2017/7/18.
  */
 @RestController
-@RequestMapping(value = "user/normal/ys")
+@RequestMapping(value = [USER+"/ys"])
 class YSController(val restApi: RestApi, val authService: AuthService, val kgCameraDao: KgCameraDao, val kgClassroomDao: KgClassroomDao) {
 
     @Value("\${ys.account.prefix}")

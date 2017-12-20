@@ -7,13 +7,14 @@ package kindergarten.comm.vals
 object CustomConstants {
     object CustomPermission {
         const val USER = "hasAnyRole('USER','TEACHER','ADMIN')"
+        const val USER_URL = "/user/normal"
+        const val USER_TEACHER = "/user/teacher"
         const val TEACHER = "hasAnyRole('TEACHER','ADMIN')"
         val USER_Role = arrayOf("USER", "ADMIN")
         const val Admin_Role = "USER"
         const val ADMIN = "hasRole('ADMIN')"
         //        const val ONLY_USER = "hasRole('USER')"
         const val USER_ADMIN = "hasRole('USER') AND hasRole('ADMIN')"
-
     }
 
     object PicType {

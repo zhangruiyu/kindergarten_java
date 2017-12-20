@@ -30,7 +30,7 @@ class EatController(
         @Autowired private var eatService: EatService
 ) {
     private val logger = LoggerFactory.getLogger(this.javaClass)
-    @PostMapping(value = ["/user/normal/eat/eatList"])
+    @PostMapping(value = [(CustomConstants.CustomPermission.USER_URL)+"/eat/eatList"])
     @PreAuthorize(CustomConstants.CustomPermission.USER)
     fun getEatListByDate(@RequestParam(required = true) date: String): Callable<ResponseData> {
         return Callable {
@@ -40,7 +40,7 @@ class EatController(
         }
     }
 
-    @PostMapping(value = ["/user/normal/teacher/eat/addEat"])
+    @PostMapping(value = [(CustomConstants.CustomPermission.USER_TEACHER)+"/eat/addEat"])
     @PreAuthorize(CustomConstants.CustomPermission.TEACHER)
     fun addEat(@RequestParam(required = true) date: String,
                @RequestParam(required = true) breakfast: String,

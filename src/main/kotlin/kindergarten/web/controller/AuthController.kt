@@ -5,6 +5,7 @@ import io.swagger.annotations.Api
 import io.swagger.annotations.ApiImplicitParam
 import io.swagger.annotations.ApiImplicitParams
 import io.swagger.annotations.ApiOperation
+import kindergarten.comm.vals.CustomConstants
 import kindergarten.config.SpringParamsValidate
 import kindergarten.ext.*
 import kindergarten.security.JwtUserFactory
@@ -84,7 +85,7 @@ class AuthController(
         }
     }
 
-    @PostMapping(value = "/user/normal/auth/changePassword")
+    @PostMapping(value = [(CustomConstants.CustomPermission.USER_URL)+"/auth/changePassword"])
     @ApiOperation(value = "修改密码", notes = "老密码和新密码")
     fun changePassword(@RequestParam(required = true) oldPassword: String
                        , @RequestParam(required = true) newPassword: String): ResponseData {
@@ -94,14 +95,14 @@ class AuthController(
         return mPassportService.changePassword(oldPassword, newPassword)
     }
 
-    @PostMapping(value = "/user/normal/profile")
+    @PostMapping(value = [(CustomConstants.CustomPermission.USER_URL)+"/profile"])
     @ApiImplicitParam(name = "获取用户信息")
     fun getProfile(httpServletRequest: HttpServletRequest): ResponseData {
         val jwt = JwtUserFactory.getJwtUserAfterFilter()
         return mPassportService.getKgProfile(jwt.id).jsonOk()
     }
 
-    @PostMapping(value = "/user/normal/reviseProfile")
+    @PostMapping(value = [(CustomConstants.CustomPermission.USER_URL)+"/reviseProfile"])
     @ApiImplicitParams(ApiImplicitParam(name = "avatarUrl", value = "如果没修改 传入空字符串", required = true, dataType = "String"))
     fun reviseProfile(httpServletRequest: HttpServletRequest, @RequestParam(required = true) checkGender: Int
                       , @RequestParam(required = true) relationCheck: Int,

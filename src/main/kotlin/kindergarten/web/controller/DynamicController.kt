@@ -1,6 +1,7 @@
 package kindergarten.web.controller
 
 import io.swagger.annotations.Api
+import kindergarten.comm.vals.CustomConstants.CustomPermission.USER_URL
 import kindergarten.ext.ResponseData
 import kindergarten.ext.jsonNormalFail
 import kindergarten.ext.jsonOk
@@ -21,7 +22,7 @@ import java.time.LocalDateTime
 @Api(description = "幼儿园动态")
 class DynamicController(private val dynamicService: DynamicService) {
     private val logger = LoggerFactory.getLogger(this.javaClass)
-    @PostMapping(value = "/user/normal/dynamic/list")
+    @PostMapping(value = [USER_URL + "/dynamic/list"])
             //默认是0  获取的是班级的动态  1是全校
     fun dynamicList(@RequestParam(defaultValue = "0") dynamic_type: Int,
                     @RequestParam(defaultValue = "0") page_index: Int,
@@ -33,7 +34,7 @@ class DynamicController(private val dynamicService: DynamicService) {
 
     }
 
-    @PostMapping(value = "/user/normal/dynamic/commitDynamicPic")
+    @PostMapping(value = [USER_URL + "/dynamic/commitDynamicPic"])
             //默认是0  获取的是班级的动态  1是全校
     fun commitDynamicPic(@RequestParam(required = true) dynamic_content: String,
                          @RequestParam(required = true) urls: String): ResponseData {
@@ -52,7 +53,7 @@ class DynamicController(private val dynamicService: DynamicService) {
         return dynamicService.commitDynamicPic(jwt.id, dynamic_content, dynamicPicUrls)
     }
 
-    @PostMapping(value = "/user/normal/dynamic/commitDynamicVideo")
+    @PostMapping(value = [USER_URL + "/dynamic/commitDynamicVideo"])
     fun commitDynamicVideo(@RequestParam(required = true) dynamic_content: String,
                            @RequestParam(required = true) screenshot_server_url: String,
                            @RequestParam(required = true) video_server_url: String,
@@ -64,7 +65,7 @@ class DynamicController(private val dynamicService: DynamicService) {
 
     }
 
-    @PostMapping(value = "/user/normal/dynamic/commitComment")
+    @PostMapping(value = [USER_URL + "/dynamic/commitComment"])
     fun commitComment(@RequestParam(required = true) commentContent: String,
                       @RequestParam(required = true) dynamicId: String,
                       @RequestParam(defaultValue = "0") parentCommentId: String,
@@ -88,7 +89,7 @@ class DynamicController(private val dynamicService: DynamicService) {
 
     }
 
-    @PostMapping(value = "/user/normal/dynamic/commitLiked")
+    @PostMapping(value = [USER_URL + "/dynamic/commitLiked"])
     fun commitLiked(@RequestParam(required = true) dynamicId: String
     ): ResponseData {
         val jwt = JwtUserFactory.getJwtUserAfterFilter()

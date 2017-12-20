@@ -6,6 +6,7 @@ import io.swagger.annotations.ApiImplicitParam
 import io.swagger.annotations.ApiImplicitParams
 import io.swagger.annotations.ApiOperation
 import kindergarten.comm.vals.CustomConstants
+import kindergarten.comm.vals.CustomConstants.CustomPermission.USER_URL
 import kindergarten.config.cos.OCSConfig
 import kindergarten.ext.ResponseData
 import kindergarten.ext.jsonOk
@@ -25,7 +26,7 @@ class COSSignController(private val ocsConfig: OCSConfig) {
     val logger = LoggerFactory.getLogger(this.javaClass)
     private val prefix = "/pic"
     //1是发表动态图片
-    @PostMapping(value = ["/user/normal/cos/periodEffectiveSign"])
+    @PostMapping(value = [USER_URL+"/cos/periodEffectiveSign"])
     @ApiOperation(value = "获取腾讯对象存储sign", notes = "传入上传类型")
     @ApiImplicitParams(ApiImplicitParam(name = "type", value = "0是图片动态 1是视频动态", required = true, dataType = "Int"))
     fun getCoSSign(@RequestParam(required = true) type: Int): ResponseData? {
@@ -37,7 +38,7 @@ class COSSignController(private val ocsConfig: OCSConfig) {
         return COSSignInfo(periodEffectiveSign, cosPath).jsonOk()
     }
 
-    @PostMapping(value = ["/user/normal/cos/oneEffectiveSign"])
+    @PostMapping(value = [USER_URL+"/cos/oneEffectiveSign"])
     @ApiOperation(value = "获取腾讯对象存储sign", notes = "传入上传类型")
     @ApiImplicitParams(ApiImplicitParam(name = "type", value = "0是头像", required = true, dataType = "Int"))
     fun getSCoSSign(@RequestParam(required = true) type: Int): ResponseData? {
