@@ -44,6 +44,7 @@ class KgProfile : Serializable {
     var nickName: String? = null
     var ysRegisterPassword: String? = null
     var ysAccountId: String? = null
+    var roleCode: String? = null
 
 
 }

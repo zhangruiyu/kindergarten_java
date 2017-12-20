@@ -42,7 +42,7 @@ class AuthController(
             (tel.isEmpty() || password.isEmpty()).yes {
                 "手机号或者密码不能不填".jsonNormalFail()
             }.otherwise {
-                mPassportService.login(tel, password,pushToken).jsonOk()
+                mPassportService.login(tel, password, pushToken).jsonOk()
             }
 
         }
@@ -85,7 +85,7 @@ class AuthController(
         }
     }
 
-    @PostMapping(value = [(CustomConstants.CustomPermission.USER_URL)+"/auth/changePassword"])
+    @PostMapping(value = [(CustomConstants.CustomPermission.USER_URL) + "/auth/changePassword"])
     @ApiOperation(value = "修改密码", notes = "老密码和新密码")
     fun changePassword(@RequestParam(required = true) oldPassword: String
                        , @RequestParam(required = true) newPassword: String): ResponseData {
@@ -95,14 +95,14 @@ class AuthController(
         return mPassportService.changePassword(oldPassword, newPassword)
     }
 
-    @PostMapping(value = [(CustomConstants.CustomPermission.USER_URL)+"/profile"])
+    @PostMapping(value = [(CustomConstants.CustomPermission.USER_URL) + "/profile"])
     @ApiImplicitParam(name = "获取用户信息")
     fun getProfile(httpServletRequest: HttpServletRequest): ResponseData {
         val jwt = JwtUserFactory.getJwtUserAfterFilter()
-        return mPassportService.getKgProfile(jwt.id).jsonOk()
+        return mPassportService.getKgProfileAndRoleCode(jwt).jsonOk()
     }
 
-    @PostMapping(value = [(CustomConstants.CustomPermission.USER_URL)+"/reviseProfile"])
+    @PostMapping(value = [(CustomConstants.CustomPermission.USER_URL) + "/reviseProfile"])
     @ApiImplicitParams(ApiImplicitParam(name = "avatarUrl", value = "如果没修改 传入空字符串", required = true, dataType = "String"))
     fun reviseProfile(httpServletRequest: HttpServletRequest, @RequestParam(required = true) checkGender: Int
                       , @RequestParam(required = true) relationCheck: Int,

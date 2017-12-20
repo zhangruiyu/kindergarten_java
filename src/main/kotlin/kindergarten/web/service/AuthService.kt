@@ -3,6 +3,7 @@ package kindergarten.web.service
 import kindergarten.ext.otherwise
 import kindergarten.ext.yes
 import kindergarten.comm.method.MessageUitils
+import kindergarten.comm.vals.CustomConstants.CustomPermission.getRoleCode
 import kindergarten.config.redis.RedisUtil
 import kindergarten.custom.PrivateBCryptPasswordEncoder
 import kindergarten.ext.*
@@ -95,6 +96,11 @@ class AuthService(
         }
 
         return queryUser
+    }
+    fun getKgProfileAndRoleCode(jwtUser: JwtUser): KgProfile {
+        val single = kgProfileDao.single(jwtUser.id)
+        single.roleCode = getRoleCode(valueOperations.get("$authTokenPrefix:${jwtUser.tel}").userAuthorities[0].authority)
+        return single
     }
 
     fun getKgProfile(id: String): KgProfile = kgProfileDao.single(id)

@@ -19,7 +19,6 @@ class KgUser : TailBean(), Serializable {
 
     var token: String? = null
     var tel: String? = null
-    @JsonIgnore
     var roleName: String? = null
     var gender: String? = null
     var address: String? = null
