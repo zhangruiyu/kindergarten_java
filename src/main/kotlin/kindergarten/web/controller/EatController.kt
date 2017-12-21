@@ -39,7 +39,7 @@ class EatController(
         }
     }
 
-    @PostMapping(value = [(CustomConstants.CustomPermission.USER_TEACHER)+"/eat/addEat"])
+    @PostMapping(value = [(CustomConstants.CustomPermission.TEACHER_URL)+"/eat/addEat"])
     @PreAuthorize(CustomConstants.CustomPermission.TEACHER)
     fun addEat(@RequestParam(required = true) date: String,
                @RequestParam(required = true) breakfast: String,

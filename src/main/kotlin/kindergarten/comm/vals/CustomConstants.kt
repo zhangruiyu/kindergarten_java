@@ -13,7 +13,7 @@ object CustomConstants {
         const val USER = "hasAnyRole('$Role_USER','$Role_TEACHER','$Role_ADMIN')"
         const val USER_URL = "/user/normal"
         const val TEACHER = "hasAnyRole('$Role_TEACHER','$Role_ADMIN')"
-        const val USER_TEACHER = "/user/teacher"
+        const val TEACHER_URL = "/user/teacher"
 
         val USER_Role = arrayOf("USER", "ADMIN")
         const val ADMIN = "hasRole('ADMIN')"

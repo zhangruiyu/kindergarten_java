@@ -2,6 +2,7 @@ package kindergarten.web.controller
 
 import io.swagger.annotations.Api
 import kindergarten.comm.vals.CustomConstants
+import kindergarten.comm.vals.CustomConstants.CustomPermission.USER_URL
 import kindergarten.ext.ResponseData
 import kindergarten.ext.jsonOk
 import kindergarten.security.JwtUserFactory
@@ -17,7 +18,7 @@ import java.util.concurrent.Callable
  * Created by zhangruiyu on 2017/7/3.
  */
 @RestController
-@RequestMapping(value = ["/user/normal/messageList"])
+@RequestMapping(value = [USER_URL+"/messageList"])
 @Api(description = "学校消息")
 class MessageListController(@Autowired private val messageListService: MessageListService) {
 
