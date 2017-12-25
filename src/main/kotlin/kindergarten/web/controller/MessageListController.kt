@@ -18,7 +18,7 @@ import java.util.concurrent.Callable
  * Created by zhangruiyu on 2017/7/3.
  */
 @RestController
-@RequestMapping(value = [USER_URL+"/messageList"])
+@RequestMapping(value = [USER_URL + "/messageList"])
 @Api(description = "学校消息")
 class MessageListController(@Autowired private val messageListService: MessageListService) {
 
@@ -28,6 +28,15 @@ class MessageListController(@Autowired private val messageListService: MessageLi
         return Callable {
             val jwt = JwtUserFactory.getJwtUserAfterFilter()
             messageListService.getMessageListBySchoolId(jwt.id).jsonOk()
+        }
+    }
+
+    @PostMapping(value = ["/classroomMessage"])
+    @PreAuthorize(CustomConstants.CustomPermission.USER)
+    fun getClassroomMessageListBySchoolId(): Callable<ResponseData> {
+        return Callable {
+            val jwt = JwtUserFactory.getJwtUserAfterFilter()
+            messageListService.getMessageListByClassroomId(jwt.id).jsonOk()
         }
     }
 }
