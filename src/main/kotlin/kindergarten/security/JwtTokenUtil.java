@@ -3,20 +3,27 @@ package kindergarten.security;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import kindergarten.custom.MessageException;
+import kindergarten.ext.StringExtKt;
+import kindergarten.web.service.JwtUserDetailsServiceImpl;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
+import javax.servlet.http.HttpServletRequest;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
+import static kindergarten.custom.MessageException.TRY_AGAIN_LOGIN_CODE;
+
 /**
  * Created by zhangruiyu on 2017/5/15.
  */
 @Component
-public class JwtTokenUtil  implements Serializable {
+public class JwtTokenUtil implements Serializable {
     private static final long serialVersionUID = -3301605591108950415L;
 
     private static final String CLAIM_KEY_USERNAME = "sub";
@@ -28,6 +35,12 @@ public class JwtTokenUtil  implements Serializable {
     @Value("${jwt.expiration}")
     private Long expiration;
 
+    @Autowired
+    private JwtUserDetailsServiceImpl userDetailsService;
+
+    @Value("${jwt.header}")
+    private String tokenHeader;
+
     public String getUsernameFromToken(String token) {
         String username;
         try {
@@ -37,6 +50,10 @@ public class JwtTokenUtil  implements Serializable {
             username = null;
         }
         return username;
+    }
+
+    public String getUsernameFromHttpServletRequest(HttpServletRequest httpServletRequest) {
+        return getUsernameFromToken(httpServletRequest.getHeader(tokenHeader));
     }
 
     private Date getCreatedDateFromToken(String token) {
@@ -100,7 +117,7 @@ public class JwtTokenUtil  implements Serializable {
     }
 
     public Boolean canTokenBeRefreshed(String token, Date lastPasswordReset) {
-        return  !isTokenExpired(token);
+        return !isTokenExpired(token);
     }
 
     public String refreshToken(String token) {
@@ -124,5 +141,20 @@ public class JwtTokenUtil  implements Serializable {
                 username.equals(user.getUsername())
                         && !isTokenExpired(token));
     }
+
+    //直接根据request 里的 token获取token  适合在不需要登录的方法里获取登陆信息
+    public JwtUser getJwtUser(HttpServletRequest httpServletRequest) {
+        String authToken = httpServletRequest.getHeader(tokenHeader);
+        JwtUser userDetails = (JwtUser) this.userDetailsService.loadUserByUsername(getUsernameFromToken(authToken));
+        if (userDetails != null) {
+            if (authToken.equals(userDetails.getToken())) {
+                return userDetails;
+            } else {
+                StringExtKt.throwMessageException("认证已失效,请重新登录!", TRY_AGAIN_LOGIN_CODE);
+            }
+        }
+        return null;
+    }
+
 
 }

@@ -30,6 +30,11 @@ object CustomConstants {
         }
     }
 
+    object ShoppingPoint {
+        const val NothingPoint = 0
+        const val FirstStart = 5
+    }
+
     object PicType {
         //图片类型
         //0是发表动态 1是视频动态 2是饮食图片
