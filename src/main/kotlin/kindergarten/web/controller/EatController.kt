@@ -1,7 +1,6 @@
 package kindergarten.web.controller
 
 import com.xiaoleilu.hutool.date.DateUtil
-import com.zhangruiyu.github.youeryuanxiaozhushou.ValueScheme
 import io.swagger.annotations.Api
 import kindergarten.comm.vals.CustomConstants
 import kindergarten.config.SpringParamsValidate
@@ -9,6 +8,7 @@ import kindergarten.ext.ResponseData
 import kindergarten.ext.jsonNormalFail
 import kindergarten.ext.jsonOk
 import kindergarten.security.JwtUserFactory
+import kindergarten.validate.library.ValueScheme
 import kindergarten.web.service.AuthService
 import kindergarten.web.service.EatService
 import org.slf4j.LoggerFactory

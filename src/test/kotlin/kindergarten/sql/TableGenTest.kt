@@ -1,3 +1,4 @@
+/*
 package kindergarten.sql
 
 import org.beetl.sql.core.SQLManager
@@ -10,9 +11,11 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.test.context.junit4.SpringRunner
 
+*/
 /**
  * Created by zhangruiyu on 2017/4/17.
- */
+ *//*
+
 
 @RunWith(SpringRunner::class)
 @SpringBootTest
@@ -39,7 +42,7 @@ class TableGenTest {
         sqlManager.genSQLTemplateToConsole("kg_eat")
     }
 
-    inner class MyGenFilter : GenFilter() {
+    inner class MyGenFilter : GenFilter {
         override fun accept(tableName: String?): Boolean = !genTabNames.contains(tableName)
     }
-}
+}*/

@@ -1,6 +1,5 @@
 package kindergarten.web.controller
 
-import com.zhangruiyu.github.youeryuanxiaozhushou.ValueScheme
 import io.swagger.annotations.Api
 import io.swagger.annotations.ApiImplicitParam
 import io.swagger.annotations.ApiImplicitParams
@@ -10,6 +9,7 @@ import kindergarten.config.SpringParamsValidate
 import kindergarten.ext.*
 import kindergarten.security.JwtUserFactory
 import kindergarten.utils.OCSUtils
+import kindergarten.validate.library.ValueScheme
 import kindergarten.web.service.AuthService
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired

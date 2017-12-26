@@ -81,7 +81,7 @@ class JwtAuthenticationTokenFilter : OncePerRequestFilter() {
     }
 
     private fun setAuthentication(jwtTokenUtil: JwtTokenUtil, authToken: String?, userDetails: UserDetails, request: HttpServletRequest, username: String?) {
-        if (jwtTokenUtil.validateToken(authToken, userDetails)!!) {
+        if (jwtTokenUtil.validateToken(authToken!!, userDetails)!!) {
             val authentication = UsernamePasswordAuthenticationToken(
                     userDetails, null, userDetails.authorities)
             authentication.details = WebAuthenticationDetailsSource().buildDetails(

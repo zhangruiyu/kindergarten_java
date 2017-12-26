@@ -40,6 +40,7 @@ class DeviceYSResource {
         return this
     }
 }
+/*
 
 fun main(args: Array<String>) {
     val policy = YSPolicy()
@@ -47,4 +48,4 @@ fun main(args: Array<String>) {
     policy.statements.add(statement)
     policy.statements.add(statement)
     print(policy)
-}
+}*/

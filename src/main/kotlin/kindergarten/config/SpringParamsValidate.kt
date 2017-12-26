@@ -1,8 +1,8 @@
 package kindergarten.config
 
-import com.zhangruiyu.github.youeryuanxiaozhushou.MessageDisplay
-import com.zhangruiyu.github.youeryuanxiaozhushou.ParamsValidate
 import kindergarten.ext.throwMessageException
+import kindergarten.validate.library.MessageDisplay
+import kindergarten.validate.library.ParamsValidate
 
 class SpringParamsValidate : ParamsValidate() {
     init {

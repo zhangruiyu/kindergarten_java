@@ -1,6 +1,6 @@
 package kindergarten.config.other
 
-import com.zhangruiyu.github.youeryuanxiaozhushou.NextInputs.Companion.CUSTOM_PARAMS_VALIDATE
+import kindergarten.validate.library.NextInputs.Companion.CUSTOM_PARAMS_VALIDATE
 import kindergarten.custom.MessageException
 import kindergarten.ext.ResponseData
 import kindergarten.ext.jsonNormalFail

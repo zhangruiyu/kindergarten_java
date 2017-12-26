@@ -57,7 +57,7 @@ class BannerController(@Autowired private val sqlManager: SQLManager,
     @PostMapping("/public/getBanner")
     fun getBanner(request: HttpServletRequest): ResponseData {
         val username = jwtTokenUtil.getUsernameFromHttpServletRequest(request)
-        val addShoppingPoint = if (username.isNotEmpty()) {
+        val addShoppingPoint = if (username!= null && username.isNotEmpty()) {
             val jwtUser = jwtTokenUtil.getJwtUser(request)
             if (jwtUser != null) {
                 val opsForValue = stringRedisTemplate.opsForValue()
