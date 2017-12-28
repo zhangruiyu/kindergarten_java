@@ -1,10 +1,462 @@
-<!DOCTYPE html>
-<html lang="en">
+<!DOCTYPE HTML>
+<html>
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Home</title>
+    <link href="${ctxPath}/css/bootstrap.css" rel="stylesheet" type="text/css" media="all">
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <!-- Custom Theme files -->
+    <link href="${ctxPath}/css/style.css" rel="stylesheet" type="text/css" media="all"/>
+    <link href="${ctxPath}/css/style1.css" rel="stylesheet" type="text/css" media="all"/>
+    <!-- Custom Theme files -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta name="keywords" content="Agility  Responsive web template, Bootstrap Web Templates, Flat Web Templates, Android Compatible web template,
+Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, SonyEricsson, Motorola web design"/>
+    <script type="application/x-javascript"> addEventListener("load", function () {
+        setTimeout(hideURLbar, 0);
+    }, false);
+
+    function hideURLbar() {
+        window.scrollTo(0, 1);
+    } </script>
+    <!--Google Fonts-->
+    <link href='https://fonts.googleapis.com/css?family=Marvel:400,700' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Roboto:400,300,500,700,900' rel='stylesheet' type='text/css'>
+    <!--google fonts-->
+    <script src="${ctxPath}/js/jquery-1.11.0.min.js"></script>
+    <link rel="stylesheet" href="${ctxPath}/css/flexslider.css" type="text/css" media="screen"/>
+
 </head>
 <body>
+<!--header strat here-->
+<div class="banner agileits">
+    <div class="header">
+        <div class="container">
+            <div class="header-main">
+                <div class="logo">
+                    <h1><span class="books"></span> <a href="index.html">Learning</a></h1>
+                </div>
+                <div class="top-nav">
+                    <span class="menu"> <img src="${ctxPath}/images/icon.png" alt=""></span>
+                    <nav class="cl-effect-21" id="cl-effect-21">
+                        <ul class="res">
+                            <li><a href="index.html" class="active">首页</a></li>
+                            <li><a href="about.html">关于</a></li>
+                            <li><a href="shortcodes.html">Short Codes</a></li>
+                            <li><a href="gallery.html">相册</a></li>
+                            <li><a href="contact.html">加入我们</a></li>
+                        </ul>
+                    </nav>
+                    <!-- script-for-menu -->
+                    <script>
+                        $("span.menu").click(function () {
+                            $("ul.res").slideToggle(300, function () {
+                                // Animation complete.
+                            });
+                        });
+                    </script>
+                    <!-- /script-for-menu -->
 
+                </div>
+                <div class="clearfix"></div>
+            </div>
+            <div class="banner-main">
+                <section class="slider">
+                    <div class="flexslider">
+                        <ul class="slides">
+                            <li>
+                                <div class="banner-main">
+                                    <h3>信任</h3>
+                                    <p>信赖、尊重，让每个孩子都有灿烂的微笑。
+                                    </p>
+                                    <div class="clearfix"></div>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="banner-main">
+                                    <h3>尊重</h3>
+                                    <p>面对孩子，有爱才会有责任感，有责任感才会始终付出爱的行动。</p>
+                                    <div class="clearfix"></div>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="banner-main">
+                                    <h3>关心</h3>
+                                    <p>将快乐传递给每一个孩子，让孩子的世界变得更加美丽精彩。</p>
+                                    <div class="clearfix"></div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="clearfix"></div>
+                </section>
+            </div>
+        </div>
+    </div>
+</div>
+<!--header end here-->
+<!-- FlexSlider -->
+<script defer src="${ctxPath}/js/jquery.flexslider.js"></script>
+<script type="text/javascript">
+    $(function () {
+    });
+    $(window).load(function () {
+        $('.flexslider').flexslider({
+            animation: "slide",
+            start: function (slider) {
+                $('body').removeClass('loading');
+            }
+        });
+    });
+</script>
+<!-- FlexSlider -->
+<!--banner end here-->
+<!--educate logos start here-->
+<div class="educate">
+    <div class="container">
+        <div class="education-main">
+            <ul class="ch-grid">
+                <div class="col-md-3 w3agile">
+                    <li>
+                        <div class="ch-item">
+                            <div class="ch-info">
+                                <div class="ch-info-front ch-img-1">
+                                    <span class="glyphicon glyphicon-grain" aria-hidden="true"> </span>
+                                    <h5>Training</h5>
+                                </div>
+                                <div class="ch-info-back">
+                                    <h3>Lorem ipsum</h3>
+                                    <p>Lorem ipsum dolor sit amet, consectetur elit</p>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                </div>
+                <div class="col-md-3 w3agile">
+                    <li>
+                        <div class="ch-item">
+                            <div class="ch-info">
+                                <div class="ch-info-front ch-img-2">
+                                    <span class="glyphicon glyphicon-education" aria-hidden="true"> </span>
+                                    <h5>Education</h5>
+                                </div>
+                                <div class="ch-info-back">
+                                    <h3>Lorem ipsum</h3>
+                                    <p>Lorem ipsum dolor sit amet, consectetur elit</p>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                </div>
+                <div class="col-md-3 w3agile">
+                    <li>
+                        <div class="ch-item">
+                            <div class="ch-info">
+                                <div class="ch-info-front ch-img-3">
+                                    <span class="glyphicon glyphicon-hourglass" aria-hidden="true"> </span>
+                                    <h5>Class</h5>
+                                </div>
+                                <div class="ch-info-back">
+                                    <h3>Lorem ipsum</h3>
+                                    <p>Lorem ipsum dolor sit amet, consectetur elit</p>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                </div>
+                <div class="col-md-3 w3agile">
+                    <li>
+                        <div class="ch-item">
+                            <div class="ch-info">
+                                <div class="ch-info-front ch-img-4">
+                                    <span class="glyphicon glyphicon-eye-open" aria-hidden="true"> </span>
+                                    <h5>Certificate</h5>
+                                </div>
+                                <div class="ch-info-back">
+                                    <h3>Lorem ipsum</h3>
+                                    <p>Lorem ipsum dolor sit amet, consectetur elit</p>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                </div>
+                <div class="clearfix"></div>
+            </ul>
+        </div>
+    </div>
+</div>
+<!--educate logos end here-->
+<!--we do start here-->
+<div class="we-do">
+    <div class="container">
+        <div class="we-do-main">
+            <h2>What We Do </h2>
+            <h4>建立幼儿园与家长之间的信任关系</h4>
+            <p> 园内动态使得老师们与家长生活贴切,可以了解到孩子在园动态,在线视频可以防止恶性虐童事件的发生,对于儿童的饮食安全也有较好的保障.</p>
+            <a href="single.html">Read More</a>
+            <div class="clearfix"></div>
+        </div>
+    </div>
+</div>
+<!--we do end here-->
+<!--pop-up-box-->
+<script type="text/javascript" src="${ctxPath}/js/modernizr.custom.53451.js"></script>
+<link href="${ctxPath}/css/popuo-box.css" rel="stylesheet" type="text/css" media="all"/>
+<script src="${ctxPath}/js/jquery.magnific-popup.js" type="text/javascript"></script>
+<!--pop-up-box-->
+
+<!--watch start here-->
+<div class="watch-video">
+    <div class="container">
+        <div class="watch-video-main">
+            <div class="video-bottom">
+                <a class="play-icon popup-with-zoom-anim" href="#small-dialog5"> <span
+                        class="glyphicon glyphicon-triangle-right" aria-hidden="true"> </span> </a>
+                <!--video-->
+                <div id="small-dialog5" class="mfp-hide">
+                    <iframe src="" width="640" height="361" frameborder="0" webkitallowfullscreen mozallowfullscreen
+                            allowfullscreen></iframe>
+                </div>
+                <script>
+                    $(document).ready(function () {
+                        $('.popup-with-zoom-anim').magnificPopup({
+                            type: 'inline',
+                            fixedContentPos: false,
+                            fixedBgPos: true,
+                            overflowY: 'auto',
+                            closeBtnInside: true,
+                            preloader: false,
+                            midClick: true,
+                            removalDelay: 300,
+                            mainClass: 'my-mfp-zoom-in'
+                        });
+
+                    });
+                </script>
+            </div>
+
+
+            <h3>Watch Our Video</h3>
+        </div>
+    </div>
+</div>
+<!--watch end here-->
+<!--event start here-->
+<div class="events">
+    <div class="container">
+        <div class="events-main">
+            <div class="events-top">
+                <h3>大事件</h3>
+            </div>
+            <div class="events-grid">
+                <div class="col-md-3 event-month wthree">
+                    <h3>20</h3>
+                    <h4>10月</h4>
+                </div>
+                <div class="col-md-5 event-text">
+                    <h4>徐东海加入</h4>
+                    <p>使用无敌脚皮.</p>
+                    <a href="single.html">Read More</a>
+                    <p></p>
+                </div>
+                <div class="col-md-4 event-img">
+                    <div class="item item-type-move">
+                        <a class="item-hover" href="single.html">
+                            <div class="item-info">
+                                <div class="headline">
+                                    Learning
+                                    <div class="line"></div>
+                                </div>
+                                <div class="date">Lorem ipsum dolor</div>
+                            </div>
+                            <div class="mask"></div>
+                        </a>
+                        <div class="item-img">
+                            <img src="${ctxPath}/images/e1.jpg" class="img-responsive" alt="">
+                        </div>
+                    </div>
+
+                </div>
+                <div class="clearfix"></div>
+            </div>
+            <div class="events-grid">
+                <div class="col-md-3 event-month wthree">
+                    <h3>24</h3>
+                    <h4>6月</h4>
+                </div>
+                <div class="col-md-5 event-text">
+                    <h4>哑巴加入</h4>
+                    <p>利用残疾人减税.</p>
+                    <a href="single.html">Read More</a>
+                    <p></p>
+                </div>
+                <div class="col-md-4 event-img">
+                    <div class="item item-type-move">
+                        <a class="item-hover" href="single.html">
+                            <div class="item-info">
+                                <div class="headline">
+                                    Learning
+                                    <div class="line"></div>
+                                </div>
+                                <div class="date">Lorem ipsum dolor</div>
+                            </div>
+                            <div class="mask"></div>
+                        </a>
+                        <div class="item-img">
+                            <img src="${ctxPath}/images/e2.jpg" class="img-responsive" alt="">
+                        </div>
+                    </div>
+                </div>
+                <div class="clearfix"></div>
+            </div>
+            <div class="events-grid">
+                <div class="col-md-3 event-month wthree">
+                    <h3>26</h3>
+                    <h4>4月</h4>
+                </div>
+                <div class="col-md-5 event-text">
+                    <h4>聂天云加入</h4>
+                    <p>成为第一个ui设计师.</p>
+                    <a href="single.html">Read More</a>
+                    <p></p>
+                </div>
+                <div class="col-md-4 event-img">
+                    <div class="item item-type-move">
+                        <a class="item-hover" href="single.html">
+                            <div class="item-info">
+                                <div class="headline">
+                                    Learning
+                                    <div class="line"></div>
+                                </div>
+                                <div class="date">Lorem ipsum dolor</div>
+                            </div>
+                            <div class="mask"></div>
+                        </a>
+                        <div class="item-img">
+                            <img src="${ctxPath}/images/e3.jpg" class="img-responsive" alt="">
+                        </div>
+                    </div>
+                </div>
+                <div class="clearfix"></div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--event end here-->
+<script src="${ctxPath}/js/responsiveslides.min.js"></script>
+<script>
+    // You can also use "$(window).load(function() {"
+    $(function () {
+        $("#slider2").responsiveSlides({
+            auto: true,
+            pager: true,
+            speed: 300,
+            namespace: "callbacks",
+        });
+    });
+</script>
+
+<!--clients star here-->
+<div class="clients">
+    <div class="container">
+        <div class="clients-main">
+            <div class="clients-top">
+                <h3>员工风采</h3>
+            </div>
+            <div class="slider-bann wow bounceInRight" data-wow-delay="0.3s">
+                <ul class="rslides" id="slider2">
+                    <li>
+                        <div class="clients-text">
+                            <img src="${ctxPath}/images/c1.png" alt="">
+                            <p>喜爱和残疾人哑巴一起打游戏.</p>
+                            <h4>聂天云</h4>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="clients-text">
+                            <img src="${ctxPath}/images/c2.png" alt="">
+                            <p>我的抠脚事业无敌.</p>
+                            <h4>徐东海</h4>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="clients-text">
+                            <img src="${ctxPath}/images/c3.png" alt="">
+                            <p>得益于前面2位的照顾,我成功成为哑巴.</p>
+                            <h4>哑巴</h4>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+    </div>
+</div>
+<!--clients end here-->
+<!--footer start here-->
+<div class="footer w3ls">
+    <div class="container">
+        <div class="footer-main">
+            <div class="footer-top">
+                <div class="col-md-4 ftr-grid">
+                    <h3>Thanks</h3>
+                    <p>感谢您选择我们</p>
+                </div>
+                <div class="col-md-4 ftr-grid">
+                    <h3>Our Address</h3>
+                    <div class="ftr-address">
+                        <div class="local">
+                            <span class="glyphicon glyphicon-map-marker" aria-hidden="true"></span>
+                        </div>
+                        <div class="ftr-text">
+                            <p>北京市朝阳区十里堡</p>
+                        </div>
+                        <div class="clearfix"></div>
+                    </div>
+                    <div class="ftr-address">
+                        <div class="local">
+                            <span class="glyphicon glyphicon-phone" aria-hidden="true"></span>
+                        </div>
+                        <div class="ftr-text">
+                            <p>15201231801</p>
+                        </div>
+                        <div class="clearfix"></div>
+                    </div>
+                </div>
+                <div class="col-md-4 ftr-grid">
+                    <h3>Stay In Touch</h3>
+                    <form action="#" method="post">
+                        <input type="text" placeholder="Enter Email" name="Enter Email" required>
+                        <input type="submit" value="">
+                    </form>
+                    <ul class="ftr-social-icons">
+                        <li><a class="fa" href="#"> </a></li>
+                        <li><a class="tw" href="#"> </a></li>
+                        <li><a class="dri" href="#"> </a></li>
+                        <li><a class="p" href="#"> </a></li>
+
+                    </ul>
+                </div>
+                <div class="clearfix"></div>
+            </div>
+            <div class="footer-bottom">
+                <div class="col-md-6 ftr-navg">
+                    <ul>
+                        <li><a href="index.html">首页</a></li>
+                        <li><a href="about.html">关于</a></li>
+                        <li><a href="shortcodes.html">Short Codes</a></li>
+                        <li><a href="gallery.html">相册</a></li>
+                        <li><a href="contact.html">加入我们</a></li>
+                    </ul>
+                </div>
+                <!--<div class="col-md-6 copyrights">
+                    <p>Copyright &copy; 2016.Company name All rights reserved.<a target="_blank" href="http://www.htmlsucai.com">&#72;&#84;&#77;&#76;&#32032;&#26448;&#32593;</a></p>
+                </div>-->
+                <div class="clearfix"></div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--footer end here-->
 </body>
 </html>

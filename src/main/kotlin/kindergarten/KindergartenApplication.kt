@@ -27,7 +27,7 @@ class KindergartenApplication : CommandLineRunner {
     override fun run(vararg args: String?) {
 //        System.out.println(this.mPersonDao!!.getById(1))
     }
-/*
+
     @Bean(initMethod = "init", name = arrayOf("beetlConfig"))
     fun getBeetlGroupUtilConfiguration(): BeetlGroupUtilConfiguration {
 
@@ -53,7 +53,7 @@ class KindergartenApplication : CommandLineRunner {
         beetlSpringViewResolver.order = 0
         beetlSpringViewResolver.config = beetlGroupUtilConfiguration
         return beetlSpringViewResolver
-    }*/
+    }
 }
 
 fun main(args: Array<String>) {
