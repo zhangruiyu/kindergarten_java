@@ -9,9 +9,16 @@ getMessage
 * 获取用户对应的校园信息
 
     SELECT message,create_time FROM kg_message_list WHERE school_id = (SELECT id FROM kg_school WHERE
-      id = (SELECT kg_profile.school_id FROM kg_profile WHERE kg_profile.user_id = #user_id#)) AND type = #type# ORDER BY create_time
+      id = (SELECT kg_profile.school_id FROM kg_profile WHERE kg_profile.user_id = #user_id#)) AND type = #type# ORDER BY create_time DESC
 
-     
+ 
+addMessage
+====
+* 添加消息
+
+    INSERT INTO kg_message_list (school_id, message, type) VALUES (#school_id#,#message#,#type#)
+
+      
 cols
 ===
 

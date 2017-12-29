@@ -11,5 +11,8 @@ import org.springframework.stereotype.Repository
 @Repository
 interface KgMessageListDao : BaseMapper<KgMessageList> {
     @SqlStatement(params = "user_id,type")
-    fun getMessage(user_id: String,type:Int): List<KgMessageList>
+    fun getMessage(user_id: String, type: Int): List<KgMessageList>
+
+    @SqlStatement(params = "school_id,message,type")
+    fun addMessage(schoold_id: String, message: String, type: Int): Any
 }
