@@ -3,6 +3,7 @@ package kindergarten.web.controller
 import com.xiaoleilu.hutool.date.DateUtil
 import kindergarten.annotation.PoKo
 import kindergarten.comm.vals.CustomConstants
+import kindergarten.comm.vals.CustomConstants.CustomPermission.CAN_USE_TOKEN_URL
 import kindergarten.comm.vals.CustomConstants.ShoppingPoint.FirstStart
 import kindergarten.comm.vals.CustomConstants.ShoppingPoint.NothingPoint
 import kindergarten.custom.CustomTailBean
@@ -54,7 +55,7 @@ class BannerController(@Autowired private val sqlManager: SQLManager,
 
     }
 
-    @PostMapping("/public/getBanner")
+    @PostMapping(CAN_USE_TOKEN_URL+"/getBanner")
     fun getBanner(request: HttpServletRequest): ResponseData {
         val username = jwtTokenUtil.getUsernameFromHttpServletRequest(request)
         val addShoppingPoint = if (username!= null && username.isNotEmpty()) {

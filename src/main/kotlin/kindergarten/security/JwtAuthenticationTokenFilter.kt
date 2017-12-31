@@ -1,6 +1,5 @@
 package kindergarten.security
 
-import com.qcloud.cos.http.RequestHeaderValue.ContentType.JSON
 import kindergarten.custom.MessageException
 import kindergarten.ext.jsonNormalFail
 import kindergarten.web.service.JwtUserDetailsServiceImpl
@@ -18,6 +17,7 @@ import javax.servlet.ServletException
 import javax.servlet.http.HttpServletRequest
 import javax.servlet.http.HttpServletResponse
 import com.fasterxml.jackson.databind.ObjectMapper
+import kindergarten.comm.vals.CustomConstants
 
 
 /**
@@ -39,9 +39,12 @@ class JwtAuthenticationTokenFilter : OncePerRequestFilter() {
             request: HttpServletRequest,
             response: HttpServletResponse,
             chain: FilterChain) {
-        //不包含public才去查用户
-        if (request.requestURI.contains("/user")) {
-            val authHeader = request.getHeader(this.tokenHeader)
+        val authHeader = request.getHeader(this.tokenHeader)
+        //去查询但是不踢下线
+        if (request.requestURI.contains(CustomConstants.CustomPermission.CAN_USE_TOKEN_URL)) {
+            if (setSecurityContextHolder(authHeader, request, response)) return@doFilterInternal
+        } else if (request.requestURI.contains("/user")) {
+            //不包含public才去查用户9
             if (authHeader == null) {
                 val printWriter = response.writer
                 printWriter.use {
@@ -49,26 +52,9 @@ class JwtAuthenticationTokenFilter : OncePerRequestFilter() {
                 }
                 return@doFilterInternal
             } else {
-                val authToken = authHeader/*.substring(tokenHead.length) // The part after "Bearer "*/
-                val username = jwtTokenUtil.getUsernameFromToken(authToken)
+                if (setSecurityContextHolder(authHeader, request, response)) return@doFilterInternal
 
-                logger.info("checking authentication " + username)
-
-                if (username != null && SecurityContextHolder.getContext().authentication == null) {
-
-                    val userDetails = this.userDetailsService.loadUserByUsername(username)
-                    if (userDetails != null && userDetails is JwtUser) {
-
-                        if (authToken == userDetails.token) {
-                            setAuthentication(jwtTokenUtil, authToken, userDetails, request, username)
-                        } else {
-                            val printWriter = response.writer
-                            printWriter.use { response.writer.append(ObjectMapper().writeValueAsString("认证已失效,请重新登录!".jsonNormalFail(code = MessageException.TRY_AGAIN_LOGIN_CODE))) }
-                            return@doFilterInternal
-                        }
-                    }
-
-                }/*else{
+                /*else{
                     val printWriter = response.writer
                     printWriter.use { response.writer.append(JSON.toJSONString("认证已失效,请重新登录!".jsonNormalFail(code = MessageException.TRY_AGAIN_LOGIN_CODE))) }
                     return
@@ -78,6 +64,29 @@ class JwtAuthenticationTokenFilter : OncePerRequestFilter() {
 
         }
         chain.doFilter(request, response)
+    }
+
+    private fun setSecurityContextHolder(authHeader: String?, request: HttpServletRequest, response: HttpServletResponse): Boolean {
+        val username = jwtTokenUtil.getUsernameFromToken(authHeader)
+
+        logger.info("checking authentication " + username)
+
+        if (username != null && SecurityContextHolder.getContext().authentication == null) {
+
+            val userDetails = this.userDetailsService.loadUserByUsername(username)
+            if (userDetails != null && userDetails is JwtUser) {
+
+                if (authHeader == userDetails.token) {
+                    setAuthentication(jwtTokenUtil, authHeader, userDetails, request, username)
+                } else {
+                    val printWriter = response.writer
+                    printWriter.use { response.writer.append(ObjectMapper().writeValueAsString("认证已失效,请重新登录!".jsonNormalFail(code = MessageException.TRY_AGAIN_LOGIN_CODE))) }
+                    return true
+                }
+            }
+
+        }
+        return false
     }
 
     private fun setAuthentication(jwtTokenUtil: JwtTokenUtil, authToken: String?, userDetails: UserDetails, request: HttpServletRequest, username: String?) {

@@ -17,11 +17,13 @@ queryUserAndRole
       r.role_name,
       pro.gender,
       pro.address,
-      pro.relation
+      pro.relation,
+      ks.school_name
     FROM (kg_user u
       LEFT JOIN kg_role_user sru ON u.id = sru.user_id
       LEFT JOIN kg_role r ON sru.role_id = r.id)
       LEFT JOIN kg_profile pro ON pro.user_id = u.id
+      LEFT JOIN kg_school ks  ON pro.school_id = ks.id
     WHERE u.tel =  #tel#
   
 updateProfile

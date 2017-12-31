@@ -23,5 +23,6 @@ class KgUser : TailBean(), Serializable {
     var gender: String? = null
     var address: String? = null
     var relation: String? = null
+    var schoolName: String? = null
 
 }

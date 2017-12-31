@@ -10,6 +10,8 @@ object CustomConstants {
         const val Role_TEACHER = "TEACHER"
         const val Role_ADMIN = "ADMIN"
 
+        //接口如果有token那么就查询  不会做踢下线操作
+        const val CAN_USE_TOKEN_URL = "/canUserToken"
         const val USER = "hasAnyRole('$Role_USER','$Role_TEACHER','$Role_ADMIN')"
         const val USER_URL = "/user/normal"
         const val TEACHER = "hasAnyRole('$Role_TEACHER','$Role_ADMIN')"

@@ -24,7 +24,7 @@ class AlbumController(@Autowired val albumService: AlbumService, @Autowired val 
 
     val logger = LoggerFactory.getLogger(this.javaClass)
 
-    @PostMapping(value = "/schoolAlbum")
+    @PostMapping(value = ["/schoolAlbum"])
     @ApiOperation(value = "获取校园相册", notes = "获取校园相册")
             //    @ApiImplicitParams(ApiImplicitParam(name = "t))
     fun schoolAlbum(): Callable<ResponseData>? {

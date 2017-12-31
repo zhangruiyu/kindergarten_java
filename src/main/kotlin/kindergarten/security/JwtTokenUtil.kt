@@ -35,7 +35,10 @@ class JwtTokenUtil : Serializable {
     @Value("\${jwt.header}")
     private val tokenHeader: String? = null
 
-    fun getUsernameFromToken(token: String): String? {
+    fun getUsernameFromToken(token: String?): String? {
+        if (token == null) {
+            return ""
+        }
         var username: String?
         try {
             val claims = getClaimsFromToken(token)
