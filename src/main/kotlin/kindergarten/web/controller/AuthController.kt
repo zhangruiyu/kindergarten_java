@@ -31,7 +31,7 @@ class AuthController(
     private val logger = LoggerFactory.getLogger(this.javaClass)
 
 
-    @PostMapping(value = "/public/auth/login")
+    @PostMapping("/public/auth/login")
     fun login(@RequestParam(required = true) tel: String, @RequestParam(required = true) password: String, @RequestParam(defaultValue = "") pushToken: String): Callable<ResponseData> {
         logger.debug("试着登陆")
         logger.error("试着登陆")
@@ -49,7 +49,7 @@ class AuthController(
 
     }
 
-    @PostMapping(value = ["/public/auth/register1"])
+    @PostMapping("/public/auth/register1")
     @ApiOperation(value = "注册第一步", notes = "根据手机号和密码注册")
     @ApiImplicitParams(ApiImplicitParam(name = "tel", value = "用户手机号", required = true, dataType = "Long"))
     fun register1(httpServletRequest: HttpServletRequest, @RequestParam(required = true) tel: String): ResponseData {
@@ -60,7 +60,7 @@ class AuthController(
         }
     }
 
-    @PostMapping(value = "/public/auth/register2")
+    @PostMapping("/public/auth/register2")
     @ApiImplicitParam(name = "tel", value = "用户手机号", required = true)
     fun test(httpServletRequest: HttpServletRequest, @RequestParam(required = true) tel: String
              , @RequestParam(required = true) password: String
@@ -85,7 +85,7 @@ class AuthController(
         }
     }
 
-    @PostMapping(value = [(CustomConstants.CustomPermission.USER_URL) + "/auth/changePassword"])
+    @PostMapping("${CustomConstants.CustomPermission.USER_URL}/auth/changePassword")
     @ApiOperation(value = "修改密码", notes = "老密码和新密码")
     fun changePassword(@RequestParam(required = true) oldPassword: String
                        , @RequestParam(required = true) newPassword: String): ResponseData {
@@ -95,7 +95,7 @@ class AuthController(
         return mPassportService.changePassword(oldPassword, newPassword)
     }
 
-    @PostMapping(value = [(CustomConstants.CustomPermission.USER_URL) + "/profile"])
+    @PostMapping("${CustomConstants.CustomPermission.USER_URL}/profile")
     @ApiImplicitParam(name = "获取用户信息")
     fun getProfile(httpServletRequest: HttpServletRequest): ResponseData {
         val jwt = JwtUserFactory.getJwtUserAfterFilter()
