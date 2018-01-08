@@ -7,7 +7,7 @@ import kindergarten.ext.jsonNormalFail
 import kindergarten.ext.jsonOk
 import kindergarten.security.JwtUserFactory
 import kindergarten.web.service.AlbumService
-import kindergarten.web.service.AuthService
+import kindergarten.web.service.ProfileService
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.web.bind.annotation.PostMapping
@@ -20,7 +20,7 @@ import java.util.concurrent.Callable
  */
 @RestController
 @RequestMapping(value = [(CustomConstants.CustomPermission.USER_URL+"/album")])
-class AlbumController(@Autowired val albumService: AlbumService, @Autowired val authService: AuthService) {
+class AlbumController(@Autowired val albumService: AlbumService, @Autowired val profileService: ProfileService) {
 
     val logger = LoggerFactory.getLogger(this.javaClass)
 
@@ -30,7 +30,7 @@ class AlbumController(@Autowired val albumService: AlbumService, @Autowired val 
     fun schoolAlbum(): Callable<ResponseData>? {
         return Callable {
             val jwtUserAfterFilter = JwtUserFactory.getJwtUserAfterFilter()
-            val kgProfile = authService.getKgProfile(jwtUserAfterFilter.id)
+            val kgProfile = profileService.getKgProfile(jwtUserAfterFilter.id)
             if (kgProfile.schoolId.isNullOrEmpty()) {
                 "请加入幼儿园后再次尝试".jsonNormalFail()
             } else {

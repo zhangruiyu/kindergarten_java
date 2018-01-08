@@ -10,7 +10,8 @@ import kindergarten.ext.*
 import kindergarten.security.JwtUserFactory
 import kindergarten.utils.OCSUtils
 import kindergarten.validate.library.ValueScheme
-import kindergarten.web.service.AuthService
+import kindergarten.web.service.PassportService
+import kindergarten.web.service.ProfileService
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.web.bind.annotation.PostMapping
@@ -25,9 +26,11 @@ import javax.servlet.http.HttpServletRequest
  */
 @RestController
 //@RequestMapping(value = "/")
-@Api(description = "登陆注册")
+@Api(description = "登陆注册,修改密码操作")
 class AuthController(
-        @Autowired private var mPassportService: AuthService) {
+        @Autowired private var mPassportService: PassportService,
+        @Autowired private var mProfileService: ProfileService
+) {
     private val logger = LoggerFactory.getLogger(this.javaClass)
 
 
@@ -69,7 +72,7 @@ class AuthController(
             "手机号,密码和验证码不能不填".throwMessageException()
         }.otherwise {
             //从redis里查看验证码
-            /*   if (stringRedisTemplate.opsForValue().get("${AuthService.authCodePrefix}:$tel") == authCode) {
+            /*   if (stringRedisTemplate.opsForValue().get("${ProfileService.authCodePrefix}:$tel") == authCode) {
                    mPassportService.registerUser(tel, password, httpServletRequest.getIpAddr())
                    return "注册成功,请登录".jsonOKNoData()
                } else {
@@ -99,7 +102,7 @@ class AuthController(
     @ApiImplicitParam(name = "获取用户信息")
     fun getProfile(httpServletRequest: HttpServletRequest): ResponseData {
         val jwt = JwtUserFactory.getJwtUserAfterFilter()
-        return mPassportService.getKgProfileAndRoleCode(jwt).jsonOk()
+        return mProfileService.getKgProfileAndRoleCode(jwt).jsonOk()
     }
 
     @PostMapping(value = [(CustomConstants.CustomPermission.USER_URL) + "/reviseProfile"])
@@ -112,6 +115,20 @@ class AuthController(
             return "数据格式不对,请联系管理人员".jsonNormalFail()
         }
         val jwt = JwtUserFactory.getJwtUserAfterFilter()
-        return mPassportService.reviseProfile(jwt.id, checkGender, relationCheck, address, OCSUtils.toLocation(avatarUrl)).jsonOk()
+        return mProfileService.reviseProfile(jwt.id, checkGender, relationCheck, address, OCSUtils.toLocation(avatarUrl)).jsonOk()
+    }
+
+    @PostMapping("/public/qqWeixinLogin")
+    @ApiImplicitParams(ApiImplicitParam(name = "avatarUrl", value = "如果没修改 传入空字符串", required = true, dataType = "String"))
+    fun qqWexinLogin(httpServletRequest: HttpServletRequest, @RequestParam(required = true) uid: String, @RequestParam(required = true) name: String, @RequestParam(required = true) gender: String,
+                     @RequestParam(required = true) iconurl: String, @RequestParam(required = true) platform: String,
+                     @RequestParam(defaultValue = "") pushToken: String): ResponseData {
+        val kgProfileByQQORWeiXin = mProfileService.getKgProfileByQQORWeiXin(uid, platform)
+        //说明没有授权过这个号
+        return if (kgProfileByQQORWeiXin == null) {
+            return "没授权过".jsonNormalFail()
+        } else {
+            mPassportService.login(kgProfileByQQORWeiXin.tel!!, "", pushToken, true).jsonOk()
+        }
     }
 }

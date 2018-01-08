@@ -9,7 +9,7 @@ import kindergarten.ext.jsonNormalFail
 import kindergarten.ext.jsonOk
 import kindergarten.security.JwtUserFactory
 import kindergarten.validate.library.ValueScheme
-import kindergarten.web.service.AuthService
+import kindergarten.web.service.ProfileService
 import kindergarten.web.service.EatService
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
@@ -25,7 +25,7 @@ import java.util.concurrent.Callable
 @RestController
 @Api(description = "饮食消息")
 class EatController(
-        @Autowired private var mPassportService: AuthService,
+        @Autowired private var mPassportService: ProfileService,
         @Autowired private var eatService: EatService
 ) {
     private val logger = LoggerFactory.getLogger(this.javaClass)

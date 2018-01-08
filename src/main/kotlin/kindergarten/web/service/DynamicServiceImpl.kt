@@ -32,7 +32,7 @@ interface DynamicService {
 @Service
 class DynamicServiceImpl(@Autowired private val kgProfileDao: KgProfileDao,
                          @Autowired private val dynamicDao: KgDynamicDao,
-                         @Autowired private val authService: AuthService,
+                         @Autowired private val profileService: ProfileService,
                          @Autowired private val sqlManager: SQLManager,
                          @Autowired private val oCSConfig: OCSConfig,
                          @Autowired private val redisUtil: RedisUtil
@@ -95,7 +95,7 @@ class DynamicServiceImpl(@Autowired private val kgProfileDao: KgProfileDao,
     }
 
     override fun commitDynamicVideo(userId: String, dynamic_content: String, screenshot_server_url: String, video_server_url: String, video_long: String): ResponseData {
-        val kgProfile = authService.getKgProfile(userId)
+        val kgProfile = profileService.getKgProfile(userId)
         val dynamicId = AlternativeJdkIdGenerator().generateId().toString()
         dynamicDao.commitDynamic(userId, dynamicId, kgProfile.schoolId, kgProfile.classroomId, dynamic_content, DynamicTypeVideo, 0)
         dynamicDao.commitDynamicVideo(screenshot_server_url, video_server_url, video_long, dynamicId)
@@ -103,7 +103,7 @@ class DynamicServiceImpl(@Autowired private val kgProfileDao: KgProfileDao,
     }
 
     override fun commitDynamicPic(id: String, dynamic_content: String, urls: List<DynamicPicUrl>): ResponseData {
-        val kgProfile = authService.getKgProfile(id)
+        val kgProfile = profileService.getKgProfile(id)
         val dynamicId = AlternativeJdkIdGenerator().generateId().toString()
         dynamicDao.commitDynamic(id, dynamicId, kgProfile.schoolId, kgProfile.classroomId, dynamic_content, DynamicTypePic, 0)
         val sql = "INSERT INTO kg_dynamic_content (dynamic_id,pic_url, sequence) VALUES ${

@@ -1,5 +1,6 @@
 package kindergarten.web.service
 
+import com.sun.org.apache.xpath.internal.operations.Bool
 import kindergarten.ext.otherwise
 import kindergarten.ext.yes
 import kindergarten.comm.method.MessageUitils
@@ -26,8 +27,9 @@ import org.springframework.util.AlternativeJdkIdGenerator
 import java.util.concurrent.TimeUnit
 import javax.annotation.Resource
 
+//登陆注册的service
 @Service
-class AuthService(
+class PassportService(
         @Autowired val passportDao: KgUserDao,
         @Autowired val kgProfileDao: KgProfileDao,
         @Autowired val jwtTokenUtil: JwtTokenUtil,
@@ -83,35 +85,27 @@ class AuthService(
         }
     }
 
-    fun login(tel: String, password: String, pushToken: String): KgUser? {
+    /**
+     * ignorePassword 是否忽略密码验证
+     */
+    fun login(tel: String, password: String, pushToken: String, ignorePassword: Boolean = false): KgUser? {
         val queryUser = passportDao.queryUserAndRole(tel) ?: "该手机号没有注册".throwMessageException()
-        privateBCryptPasswordEncoder.matches(password, queryUser.loginPassword).yes {
-            val generateToken = jwtTokenUtil.generateToken(tel)
-            queryUser.token = generateToken
-            val jwtUser = JwtUserFactory.create(queryUser)
-            valueOperations.set("$authTokenPrefix:$tel", jwtUser, 60, TimeUnit.DAYS)
-            redisUtil.hmSet(pushTokenPrefix, queryUser.id, pushToken)
-        }.otherwise {
-            "手机号或密码错误".throwMessageException()
+        if (!ignorePassword) {
+            val matches = privateBCryptPasswordEncoder.matches(password, queryUser.loginPassword)
+            //是否密码匹配
+            if (!matches) {
+                "手机号或密码错误".throwMessageException()
+            }
         }
+        val generateToken = jwtTokenUtil.generateToken(tel)
+        queryUser.token = generateToken
+        val jwtUser = JwtUserFactory.create(queryUser)
+        valueOperations.set("$authTokenPrefix:$tel", jwtUser, 60, TimeUnit.DAYS)
+        redisUtil.hmSet(pushTokenPrefix, queryUser.id, pushToken)
 
         return queryUser
     }
-    fun getKgProfileAndRoleCode(jwtUser: JwtUser): KgProfile {
-        val single = kgProfileDao.single(jwtUser.id)
-        single.roleCode = getRoleCode(valueOperations.get("$authTokenPrefix:${jwtUser.tel}").userAuthorities[0].authority)
-        return single
-    }
 
-    fun getKgProfile(id: String): KgProfile = kgProfileDao.single(id)
-
-    fun updateKgProfile(kgProfile: KgProfile) = kgProfileDao.updateById(kgProfile)
-
-
-    fun reviseProfile(id: String, checkGender: Int, relationCheck: Int, address: String, avatarUrl: String): ProfileAlteredInfo {
-        passportDao.updateProfile(id, checkGender, relationCheck, address, avatarUrl)
-        return ProfileAlteredInfo(checkGender, relationCheck, address, OCSUtils.getPicUrl(avatarUrl))
-    }
 
     fun changePassword(oldPassword: String, newPassword: String): ResponseData {
         val jwtUserAfterFilter = JwtUserFactory.getJwtUserAfterFilter()
@@ -126,4 +120,5 @@ class AuthService(
         }
 
     }
+
 }

@@ -2,7 +2,6 @@ package kindergarten.web.service
 
 import kindergarten.security.JwtUser
 import org.springframework.data.redis.core.ValueOperations
-import org.springframework.security.core.authority.SimpleGrantedAuthority
 import org.springframework.security.core.userdetails.UserDetails
 import org.springframework.security.core.userdetails.UserDetailsService
 import org.springframework.stereotype.Service
@@ -19,7 +18,7 @@ open class JwtUserDetailsServiceImpl : UserDetailsService {
     lateinit var valueOperations: ValueOperations<String, JwtUser>
     //可以从缓存里取数据  不一定从数据库里取
     override fun loadUserByUsername(tel: String): UserDetails? {
-        val user = valueOperations.get("${AuthService.authTokenPrefix}:$tel")
+        val user = valueOperations.get("${ProfileService.authTokenPrefix}:$tel")
         if (user is JwtUser) {
 //            user.userAuthorities = listOf(SimpleGrantedAuthority("ROLE_USER"))
             return user

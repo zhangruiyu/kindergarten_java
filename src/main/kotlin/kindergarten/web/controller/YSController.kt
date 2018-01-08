@@ -16,7 +16,7 @@ import kindergarten.web.dao.KgCameraDao
 import kindergarten.web.dao.KgClassroomDao
 import kindergarten.web.entity.KgProfile
 import kindergarten.web.entity.custom.WrapperInfo
-import kindergarten.web.service.AuthService
+import kindergarten.web.service.ProfileService
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.util.AlternativeJdkIdGenerator
@@ -32,7 +32,7 @@ import java.util.concurrent.Callable
  */
 @RestController
 @RequestMapping(value = [CustomConstants.CustomPermission.USER_URL+"/ys"])
-class YSController(val restApi: RestApi, val authService: AuthService, val kgCameraDao: KgCameraDao, val kgClassroomDao: KgClassroomDao) {
+class YSController(val restApi: RestApi, val profileService: ProfileService, val kgCameraDao: KgCameraDao, val kgClassroomDao: KgClassroomDao) {
 
     @Value("\${ys.account.prefix}")
     lateinit var prefix: String
@@ -44,7 +44,7 @@ class YSController(val restApi: RestApi, val authService: AuthService, val kgCam
     fun registerAndGenerateToken(): Callable<ResponseData>? {
         return Callable {
             val jwtUserAfterFilter = JwtUserFactory.getJwtUserAfterFilter()
-            val kgProfile = authService.getKgProfile(jwtUserAfterFilter.id)
+            val kgProfile = profileService.getKgProfile(jwtUserAfterFilter.id)
             //如果有萤石账号
             if (kgProfile.ysAccountId.isNullOrEmpty()) {
                 if (kgProfile.classroomId.isNullOrEmpty()) {
@@ -58,7 +58,7 @@ class YSController(val restApi: RestApi, val authService: AuthService, val kgCam
                     if (registerYSAccount.code == 200) {
                         kgProfile.ysAccountId = registerYSAccount.data!!.accountId
                         kgProfile.ysRegisterPassword = password
-                        authService.updateKgProfile(kgProfile)
+                        profileService.updateKgProfile(kgProfile)
                     }
                     //设置权限
                     kgProfile.ysAccountId?.let {
@@ -95,7 +95,7 @@ class YSController(val restApi: RestApi, val authService: AuthService, val kgCam
     fun classroomList(): WebAsyncTask<ResponseData> {
         val callable = Callable {
             val jwtUserAfterFilter = JwtUserFactory.getJwtUserAfterFilter()
-            val kgProfile = authService.getKgProfile(jwtUserAfterFilter.id)
+            val kgProfile = profileService.getKgProfile(jwtUserAfterFilter.id)
             if (kgProfile.schoolId.isNullOrEmpty()) {
                 "请入园再次尝试".jsonNormalFail()
             } else {

@@ -6,8 +6,7 @@ import kindergarten.ext.ResponseData
 import kindergarten.ext.jsonOk
 import kindergarten.security.JwtTokenUtil
 import kindergarten.security.JwtUserFactory
-import kindergarten.web.service.AuthService
-import kindergarten.web.service.EatService
+import kindergarten.web.service.ProfileService
 import kindergarten.web.service.SchoolService
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
@@ -22,7 +21,7 @@ import java.util.concurrent.Callable
 @RestController
 @Api(description = "学校信息")
 class SchoolController(
-        @Autowired private var mPassportService: AuthService,
+        @Autowired private var mPassportService: ProfileService,
         @Autowired private var schoolService: SchoolService,
         @Autowired
         private var jwtTokenUtil: JwtTokenUtil

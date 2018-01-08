@@ -10,6 +10,17 @@ insertProfile
 
    INSERT INTO kg_profile(user_id,tel,register_ip) VALUES (#passport_id#,#tel#,#register_ip#)
 
+getKgProfileByQQORWeiXin
+===
+    SELECT * FROM kg_user WHERE
+    1=1
+    @if(platform == "QQ"){
+    and qq_open_id = #uid#
+    @} 
+    @if(platform == "WEIXIN"){
+    and wx_open_id = #uid#
+    @} 
+    
 cols
 ===
   
