@@ -6,10 +6,12 @@ import io.swagger.annotations.ApiImplicitParams
 import io.swagger.annotations.ApiOperation
 import kindergarten.comm.vals.CustomConstants
 import kindergarten.config.SpringParamsValidate
+import kindergarten.custom.MessageException
 import kindergarten.ext.*
 import kindergarten.security.JwtUserFactory
 import kindergarten.utils.OCSUtils
 import kindergarten.validate.library.ValueScheme
+import kindergarten.web.entity.custom.WrapperInfo
 import kindergarten.web.service.PassportService
 import kindergarten.web.service.ProfileService
 import org.slf4j.LoggerFactory
@@ -126,9 +128,21 @@ class AuthController(
         val kgProfileByQQORWeiXin = mProfileService.getKgProfileByQQORWeiXin(uid, platform)
         //说明没有授权过这个号
         return if (kgProfileByQQORWeiXin == null) {
-            return "没授权过".jsonNormalFail()
+            return "没授权过".jsonNormalFail(MessageException.TRY_QQ_WECHAT_LOGIN_NOT_AUTH)
         } else {
             mPassportService.login(kgProfileByQQORWeiXin.tel!!, "", pushToken, true).jsonOk()
+        }
+    }
+
+    @PostMapping("/public/verifyIsRegister")
+    @ApiImplicitParams(ApiImplicitParam(name = "tel", value = "验证的手机号,1是老用户,0是新用户", required = true, dataType = "String"))
+    fun verifyIsRegister(httpServletRequest: HttpServletRequest, @RequestParam(required = true) tel: String): ResponseData {
+        val paramsValidate = SpringParamsValidate()
+        paramsValidate.add(tel, "手机号长度应为11位", ValueScheme.MinLength(11), ValueScheme.MaxLength(11)).test()
+        return if (mProfileService.getUserByTel(tel) != null) {
+            WrapperInfo("1").jsonOk()
+        } else {
+            WrapperInfo("0").jsonOk()
         }
     }
 }

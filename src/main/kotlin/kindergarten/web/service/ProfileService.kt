@@ -57,4 +57,8 @@ class ProfileService(
     fun getKgProfileByQQORWeiXin(uid: String, platform: String): KgUser? {
         return kgProfileDao.getKgProfileByQQORWeiXin(platform, uid)
     }
+
+    fun getUserByTel(tel: String):KgUser? {
+        return passportDao.getUserByTel(tel)
+    }
 }
