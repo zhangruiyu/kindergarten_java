@@ -19,6 +19,7 @@ import kindergarten.web.entity.KgProfile
 import kindergarten.web.entity.KgUser
 import kindergarten.web.entity.custom.ProfileAlteredInfo
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.beans.factory.annotation.Value
 import org.springframework.data.redis.core.StringRedisTemplate
 import org.springframework.data.redis.core.ValueOperations
 import org.springframework.stereotype.Service
@@ -47,16 +48,25 @@ class PassportService(
     @Resource(name = "redisTemplate")
     lateinit var valueOperations: ValueOperations<String, JwtUser>
 
+    @Value("\${spring.profiles.active}")
+    private val active: String? = null
+
     //尝试发送验证码
     fun trySendAuthCode(tel: String, ipAddress: String): ResponseData {
         //根据手机号查找
         val queryUserByTel = passportDao.queryUser(tel)
         return if (queryUserByTel == null) {
-            val authCode = RandomUtils.getRandNum()
+            var authCode = RandomUtils.getRandNum()
             //写入redis  1小时过期
+            if (active == "dev") {
+                authCode = "888888"
+            }
             stringRedisTemplate.opsForValue().set("$authCodePrefix:$tel", authCode, 1, TimeUnit.HOURS)
-            MessageUitils.sendMessageCode(authCode, tel)
-            jsonOKNoData("验证码发送成功")
+            if (active != "dev") {
+                MessageUitils.sendMessageCode(authCode, tel)
+            }
+
+            "验证码发送成功".jsonOKNoData()
         } else {
             "该手机号已经注册".jsonNormalFail()
         }
