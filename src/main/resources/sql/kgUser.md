@@ -14,10 +14,14 @@ queryUserAndRole
       u.id,
       u.tel,
       u.login_password,
+      u.wx_open_id,
+      u.qq_open_id,
       r.role_name,
       pro.gender,
       pro.address,
       pro.relation,
+      pro.qq_nick_name,
+      pro.wx_nick_name,
       ks.school_name
     FROM (kg_user u
       LEFT JOIN kg_role_user sru ON u.id = sru.user_id

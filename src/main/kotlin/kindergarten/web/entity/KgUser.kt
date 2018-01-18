@@ -1,6 +1,7 @@
 package kindergarten.web.entity
 
 import com.fasterxml.jackson.annotation.JsonIgnore
+import kindergarten.custom.CustomTailBean
 import org.beetl.sql.core.TailBean
 import java.io.Serializable
 
@@ -8,15 +9,12 @@ import java.io.Serializable
 *
 * gen by beetlsql 2017-06-20
 */
-class KgUser : TailBean(), Serializable {
+class KgUser : CustomTailBean(), Serializable {
     var id: String? = null
     @JsonIgnore
     var loginCount: Int? = null
     @JsonIgnore
     var loginPassword: String? = null
-    @JsonIgnore
-    var wxOpenId: String? = null
-
     var token: String? = null
     var tel: String? = null
     var roleName: String? = null
@@ -24,5 +22,8 @@ class KgUser : TailBean(), Serializable {
     var address: String? = null
     var relation: String? = null
     var schoolName: String? = null
-
+    var qqOpenId: String? = null
+    var qqNickName: String? = null
+    var wxNickName: String? = null
+    var wxOpenId: String? = null
 }
