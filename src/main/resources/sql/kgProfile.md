@@ -20,6 +20,27 @@ getKgProfileByQQORWeiXin
     @if(platform == "WEIXIN"){
     and wx_open_id = #uid#
     @} 
+
+
+updateQQORWechat
+===
+
+*更新qq或者微信信息
+
+    UPDATE kg_profile
+    SET 
+    @if(platform == "QQ"){
+      qq_nick_name = #nickName#
+     @} 
+     @if(platform == "WEIXIN"){
+      wx_nick_name = #nickName#
+     @} 
+     @if(avatarUrl != ""){
+      avatar = #avatarUrl#
+     @} 
+    WHERE user_id = #id#
+
+
     
 cols
 ===

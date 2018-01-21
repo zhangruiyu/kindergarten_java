@@ -2,8 +2,8 @@ package kindergarten.web.entity
 
 import com.fasterxml.jackson.annotation.JsonIgnore
 import kindergarten.custom.CustomTailBean
-import org.beetl.sql.core.TailBean
 import java.io.Serializable
+
 
 /*
 *

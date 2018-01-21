@@ -3,6 +3,7 @@ package kindergarten.web.service
 import kindergarten.comm.vals.CustomConstants.CustomPermission.getRoleCode
 import kindergarten.config.redis.RedisUtil
 import kindergarten.custom.PrivateBCryptPasswordEncoder
+import kindergarten.ext.jsonOk
 import kindergarten.security.JwtTokenUtil
 import kindergarten.security.JwtUser
 import kindergarten.utils.OCSUtils
@@ -11,27 +12,20 @@ import kindergarten.web.dao.KgUserDao
 import kindergarten.web.entity.KgProfile
 import kindergarten.web.entity.KgUser
 import kindergarten.web.entity.custom.ProfileAlteredInfo
+import kindergarten.web.service.PassportService.Companion.authTokenPrefix
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.data.redis.core.StringRedisTemplate
 import org.springframework.data.redis.core.ValueOperations
 import org.springframework.stereotype.Service
+import org.springframework.transaction.annotation.Transactional
 import javax.annotation.Resource
 
 //修改 获取用户信息的server
 @Service
 class ProfileService(
         @Autowired val passportDao: KgUserDao,
-        @Autowired val kgProfileDao: KgProfileDao,
-        @Autowired val jwtTokenUtil: JwtTokenUtil,
-        @Autowired val stringRedisTemplate: StringRedisTemplate,
-        @Autowired val privateBCryptPasswordEncoder: PrivateBCryptPasswordEncoder,
-        @Autowired private val redisUtil: RedisUtil
+        @Autowired val kgProfileDao: KgProfileDao
 ) {
-    companion object {
-        const val authCodePrefix: String = "KINDERGARTEN_AUTH_CODE"
-        const val authTokenPrefix: String = "KINDERGARTEN_AUTH_TOKEN"
-        const val pushTokenPrefix: String = "KINDERGARTEN_PUSH_TOKEN"
-    }
 
     @Suppress("SpringKotlinAutowiring")
     @Resource(name = "redisTemplate")
@@ -58,7 +52,27 @@ class ProfileService(
         return kgProfileDao.getKgProfileByQQORWeiXin(platform, uid)
     }
 
-    fun getUserByTel(tel: String):KgUser? {
+    fun getUserByTel(tel: String): KgUser? {
         return passportDao.getUserByTel(tel)
+    }
+
+    fun unbindQQORWechat(id: String, platform: String): Any {
+        passportDao.updateQQORWechatOpenid(id, platform)
+        return "解绑成功"
+    }
+
+    @Transactional
+    fun bindQQORWechat(jwt: JwtUser, platform: String, uid: String, nickName: String, iconurl: String): String {
+        val id = jwt.id
+        passportDao.updateQQORWechatOpenid(id, platform, uid)
+        val kgProfile = getKgProfile(id)
+        //如果之前没有头像 则用第三方的头像
+        val avatarUrl = if (kgProfile.avatar.isNullOrEmpty()) {
+            iconurl
+        } else {
+            ""
+        }
+        kgProfileDao.updateQQORWechat(id, platform, nickName, avatarUrl)
+        return "绑定成功"
     }
 }

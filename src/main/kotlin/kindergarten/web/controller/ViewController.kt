@@ -17,7 +17,7 @@ class ViewController {
         return ModelAndView("/index.html")
     }
 
-    @GetMapping("/*.html")
+    @GetMapping(value = ["/about.html", "/contact.html", "/gallery.html", "/index.html", "/shortcodes.html", "/single.html"])
     fun indexHtml(request: HttpServletRequest): ModelAndView {
         val url = request.requestURI.toString()
         return ModelAndView(url)

@@ -33,5 +33,8 @@ interface KgUserDao : BaseMapper<KgUser> {
     @Sql(value = "SELECT * FROM kg_user WHERE tel = ?")
     fun getUserByTel(tel: String): KgUser?
 
+    @SqlStatement(params = "id,platform,uid")
+    fun updateQQORWechatOpenid(id: String, platform: String, uid: String = "")
+
 
 }

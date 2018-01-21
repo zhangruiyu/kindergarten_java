@@ -1,23 +1,16 @@
 package kindergarten.web.service
 
-import com.sun.org.apache.xpath.internal.operations.Bool
-import kindergarten.ext.otherwise
-import kindergarten.ext.yes
 import kindergarten.comm.method.MessageUitils
-import kindergarten.comm.vals.CustomConstants.CustomPermission.getRoleCode
 import kindergarten.config.redis.RedisUtil
 import kindergarten.custom.PrivateBCryptPasswordEncoder
 import kindergarten.ext.*
 import kindergarten.security.JwtTokenUtil
 import kindergarten.security.JwtUser
 import kindergarten.security.JwtUserFactory
-import kindergarten.utils.OCSUtils
 import kindergarten.utils.RandomUtils
 import kindergarten.web.dao.KgProfileDao
 import kindergarten.web.dao.KgUserDao
-import kindergarten.web.entity.KgProfile
 import kindergarten.web.entity.KgUser
-import kindergarten.web.entity.custom.ProfileAlteredInfo
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.data.redis.core.StringRedisTemplate

@@ -42,6 +42,22 @@ updateProfile
     @}
     WHERE user_id = #id#
 
+updateQQORWechatOpenid
+===
+
+*更新qq或者微信openid
+
+    UPDATE kg_user
+    SET 
+    @if(platform=='QQ'){
+      qq_open_id = #uid#
+    @}
+    @if(platform=='WEIXIN'){
+       wx_open_id = #uid#
+    @}
+    WHERE id = #id#
+
+
 insertUserRole
 ===
 

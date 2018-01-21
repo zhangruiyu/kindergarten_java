@@ -25,4 +25,7 @@ interface KgProfileDao : BaseMapper<KgProfile> {
 
     @SqlStatement(params = "platform,uid")
     fun getKgProfileByQQORWeiXin(platform: String, uid: String): KgUser?
+
+    @SqlStatement(params = "id,platform,nickName,avatarUrl")
+    fun updateQQORWechat(id: String, platform: String, nickName: String, avatarUrl: String)
 }
