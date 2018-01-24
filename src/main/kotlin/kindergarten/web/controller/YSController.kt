@@ -12,6 +12,8 @@ import kindergarten.ext.jsonNormalFail
 import kindergarten.ext.jsonOk
 import kindergarten.ext.throwMessageException
 import kindergarten.security.JwtUserFactory
+import kindergarten.utils.CameraUtils
+import kindergarten.utils.DateUtils
 import kindergarten.web.dao.KgCameraDao
 import kindergarten.web.dao.KgClassroomDao
 import kindergarten.web.entity.KgProfile
@@ -24,6 +26,7 @@ import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 import org.springframework.web.context.request.async.WebAsyncTask
+import java.util.*
 import java.util.concurrent.Callable
 
 
@@ -31,14 +34,14 @@ import java.util.concurrent.Callable
  * Created by zhangruiyu on 2017/7/18.
  */
 @RestController
-@RequestMapping(value = [CustomConstants.CustomPermission.USER_URL+"/ys"])
+@RequestMapping(value = [CustomConstants.CustomPermission.USER_URL + "/ys"])
 class YSController(val restApi: RestApi, val profileService: ProfileService, val kgCameraDao: KgCameraDao, val kgClassroomDao: KgClassroomDao) {
 
     @Value("\${ys.account.prefix}")
     lateinit var prefix: String
     val logger = LoggerFactory.getLogger(this.javaClass)
 
-    @PostMapping(value = "/registerAndGenerateToken")
+    @PostMapping("/registerAndGenerateToken")
     @ApiOperation(value = "注册子账户到萤石云", notes = "注册子用户到萤石云")
             //    @ApiImplicitParams(ApiImplicitParam(name = "t))
     fun registerAndGenerateToken(): Callable<ResponseData>? {
@@ -89,7 +92,7 @@ class YSController(val restApi: RestApi, val profileService: ProfileService, val
 
     }
 
-    @PostMapping(value = "/classroom/list")
+    @PostMapping("/classroom/list")
     @ApiOperation(value = "获取教室和走廊", notes = "获取教室和走廊信息")
             //    @ApiImplicitParams(ApiImplicitParam(name = "t))
     fun classroomList(): WebAsyncTask<ResponseData> {
@@ -101,6 +104,10 @@ class YSController(val restApi: RestApi, val profileService: ProfileService, val
             } else {
                 val restYSAdminToken = restApi.restYSAdminToken()
                 val classroomAndCamera = kgClassroomDao.selectClassroomAndCamera(kgProfile.schoolId!!)
+                val unWatch = CameraUtils.isUnWatch()
+                classroomAndCamera.map { kgClassroom ->
+                    kgClassroom.unWatch = unWatch
+                }
                 WrapperInfo(classroomAndCamera, restYSAdminToken).jsonOk()
             }
         }
