@@ -41,6 +41,19 @@ updateQQORWechat
     WHERE user_id = #id#
 
 
+getTelsByClassroom
+===
+
+*获取班级里的所有人的手机号
+
+    SELECT
+      kru.role_id,
+      kp.real_name,
+      avatar
+    FROM kg_role_user kru INNER JOIN kg_profile kp
+        ON (kru.role_id = 2 AND kru.user_id = kp.user_id AND kp.classroom_id = #classroomId# AND kp.school_id = #schoolId#) OR
+           (kru.role_id = 3 AND kru.user_id = kp.user_id AND kp.school_id = #schoolId#)
+    
     
 cols
 ===

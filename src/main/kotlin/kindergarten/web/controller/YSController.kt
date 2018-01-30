@@ -108,7 +108,7 @@ class YSController(val restApi: RestApi, val profileService: ProfileService, val
                 classroomAndCamera.map { kgClassroom ->
                     kgClassroom.unWatch = unWatch
                 }
-                WrapperInfo(classroomAndCamera, restYSAdminToken).jsonOk()
+                WrapperInfo(classroomAndCamera, WrapperInfo(restYSAdminToken, "目前为公测版本,不收取费用")).jsonOk()
             }
         }
         val asyncTask = WebAsyncTask(1500, callable)

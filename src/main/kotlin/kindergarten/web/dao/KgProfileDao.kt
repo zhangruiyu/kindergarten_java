@@ -3,6 +3,7 @@ package kindergarten.web.dao
 import kindergarten.web.entity.DynamicProfile
 import kindergarten.web.entity.KgProfile
 import kindergarten.web.entity.KgUser
+import kindergarten.web.entity.custom.KgAny
 import org.beetl.sql.core.annotatoin.Sql
 import org.beetl.sql.core.annotatoin.SqlStatement
 import org.beetl.sql.core.mapper.BaseMapper
@@ -28,4 +29,7 @@ interface KgProfileDao : BaseMapper<KgProfile> {
 
     @SqlStatement(params = "id,platform,nickName,avatarUrl")
     fun updateQQORWechat(id: String, platform: String, nickName: String, avatarUrl: String)
+
+    @SqlStatement(params = "schoolId,classroomId")
+    fun getTelsByClassroom(schoolId: String, classroomId: String): ArrayList<KgAny>
 }
