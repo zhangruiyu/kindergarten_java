@@ -44,16 +44,17 @@ updateQQORWechat
 getTelsByClassroom
 ===
 
-*获取班级里的所有人的手机号
+*获取班级里的所有人的手机号   如果是老师(role 3),那么久要只查询学校  如果是学生(role 2)那么需要查询班级和学校 因为只可看本班同学
 
     SELECT
       kru.role_id,
       kp.real_name,
-      avatar
+      avatar,
+      kc.show_name
     FROM kg_role_user kru INNER JOIN kg_profile kp
         ON (kru.role_id = 2 AND kru.user_id = kp.user_id AND kp.classroom_id = #classroomId# AND kp.school_id = #schoolId#) OR
            (kru.role_id = 3 AND kru.user_id = kp.user_id AND kp.school_id = #schoolId#)
-    
+        LEFT JOIN kg_classroom kc ON kp.classroom_id = kc.id
     
 cols
 ===

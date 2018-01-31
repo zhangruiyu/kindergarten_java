@@ -1,5 +1,7 @@
 package kindergarten.web.service
 
+import kindergarten.comm.vals.CustomConstants.CustomPermission.Role_TEACHER_CODE
+import kindergarten.comm.vals.CustomConstants.CustomPermission.Role_USER_CODE
 import kindergarten.comm.vals.CustomConstants.CustomPermission.getRoleCode
 import kindergarten.security.JwtUser
 import kindergarten.utils.OCSUtils
@@ -74,12 +76,15 @@ class ProfileService(
     }
 
     fun getTelsByClassroom(schoolId: String, classroomId: String): Any {
-        val groupBy = kgProfileDao.getTelsByClassroom(schoolId, classroomId).groupBy {
-            it.tails["roleId"].toString()
-        }
+        val groupBy = kgProfileDao.getTelsByClassroom(schoolId, classroomId).map {
+            it["avatar"] = OCSUtils.getPicUrl(it["avatar"].toString())
+            it
+        }.groupBy {
+                    it.tails["roleId"].toString()
+                }
         val kgAny = KgAny()
-        kgAny.tails["teachers"] = groupBy["3"]
-        kgAny.tails["students"] = groupBy["2"]
+        kgAny.tails["teachers"] = groupBy[Role_TEACHER_CODE]
+        kgAny.tails["students"] = groupBy[Role_USER_CODE]
         return kgAny
     }
 
