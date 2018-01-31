@@ -10,6 +10,7 @@ import org.springframework.cache.annotation.EnableCaching
 import org.springframework.cache.interceptor.KeyGenerator
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
+import org.springframework.data.redis.cache.RedisCacheConfiguration
 import org.springframework.data.redis.cache.RedisCacheManager
 import org.springframework.data.redis.connection.RedisConnectionFactory
 import org.springframework.data.redis.core.RedisTemplate
@@ -49,8 +50,8 @@ class RedisConfig : CachingConfigurerSupport() {
 
     // 要启用缓存支持，我们需要创建一个新的 CacheManager bean
     @Bean
-    fun cacheManager(redisTemplate: RedisTemplate<*, *>): CacheManager {
-        val manager = RedisCacheManager(redisTemplate)
+    fun cacheManager(connectionFactory: RedisConnectionFactory): CacheManager {
+        val manager = RedisCacheManager.create(connectionFactory)
         return manager
     }
 

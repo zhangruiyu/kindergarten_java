@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component
  * Created by zhangruiyu on 2017/7/18.
  */
 
-@ConfigurationProperties(prefix = "Tencent.cos")
+@ConfigurationProperties(prefix = "tencent.cos")
 @Scope(scopeName = ConfigurableBeanFactory.SCOPE_SINGLETON)
 class OCSConfig {
     var AppId: Long? = null
