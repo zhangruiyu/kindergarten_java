@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonFormat
 import com.fasterxml.jackson.annotation.JsonIgnore
 import kindergarten.comm.vals.CustomConstants
 import kindergarten.custom.CustomTailBean
+import kindergarten.utils.OCSUtils
 import org.beetl.sql.core.TailBean
 import java.util.*
 
@@ -53,4 +54,8 @@ class WrapperDynamic(var allClassRoomUserInfo: List<DynamicProfile>, var dynamic
 class DynamicProfile {
     var userId: String? = null
     var nickName: String? = null
+    var avatar: String? = null
+        set(value) {
+            field = OCSUtils.getPicUrl(value)
+        }
 }

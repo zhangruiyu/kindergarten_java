@@ -21,7 +21,7 @@ interface KgProfileDao : BaseMapper<KgProfile> {
     @SqlStatement(params = "passport_id,tel,register_ip")
     fun insertProfile(passport_id: String?, tel: String, register_ip: String)
 
-    @Sql("SELECT user_id,nick_name FROM kg_profile WHERE classroom_id = ?")
+    @Sql("SELECT user_id,nick_name,avatar FROM kg_profile WHERE classroom_id = ?")
     fun selectAllClassUserInfo(classroomId: String): ArrayList<DynamicProfile>
 
     @SqlStatement(params = "platform,uid")
