@@ -37,7 +37,7 @@ class RestApi(var restTemplate: RestTemplate) {
         val requestEntity = LinkedMultiValueMap<String, String>()
         requestEntity.add("appKey", "b109fdee59b14b19b48927f627814c58")
         requestEntity.add("appSecret", "fa7d8a8c75176be997d80f13590dfaa6")
-        val data = restTemplate.postForEntity<YSToken>("https://open.ys7.com/api/lapp/token/get", requestEntity, YSToken::class.java).body.composeApiException()
+        val data = restTemplate.postForEntity<YSToken>("https://open.ys7.com/api/lapp/token/get", requestEntity, YSToken::class.java).body!!.composeApiException()
         valueOperations.set("YSTOKEN", data.accessToken, data.expireTime - System.currentTimeMillis(), TimeUnit.MILLISECONDS)
         return data.accessToken
     }
@@ -47,7 +47,7 @@ class RestApi(var restTemplate: RestTemplate) {
         requestEntity.add("accessToken", restYSAdminToken())
         requestEntity.add("accountName", accountName)
         requestEntity.add("password", DigestUtils.md5DigestAsHex(password.toByteArray()).toLowerCase())
-        return restTemplate.postForEntity("https://open.ys7.com/api/lapp/ram/account/create", requestEntity, YSRegisterEntity::class.java).body.composeApi()
+        return restTemplate.postForEntity("https://open.ys7.com/api/lapp/ram/account/create", requestEntity, YSRegisterEntity::class.java).body!!.composeApi()
     }
 
     fun policySet(accountId: String, polices: List<YSStatement>) {
@@ -59,14 +59,14 @@ class RestApi(var restTemplate: RestTemplate) {
             ysPolicy.statements.add(police)
         }
         requestEntity.add("policy", ysPolicy.toString())
-        restTemplate.postForEntity("https://open.ys7.com/api/lapp/ram/policy/set", requestEntity, YSRegisterEntity::class.java).body.composeApi()
+        restTemplate.postForEntity("https://open.ys7.com/api/lapp/ram/policy/set", requestEntity, YSRegisterEntity::class.java).body!!.composeApi()
     }
 
     fun generateToken(accountId: String): YSBasicEntity<YSToken.Data> {
         val requestEntity = LinkedMultiValueMap<String, String>()
         requestEntity.add("accessToken", restYSAdminToken())
         requestEntity.add("accountId", accountId)
-        return restTemplate.postForEntity("https://open.ys7.com/api/lapp/ram/token/get", requestEntity, YSToken::class.java).body.composeApi()
+        return restTemplate.postForEntity("https://open.ys7.com/api/lapp/ram/token/get", requestEntity, YSToken::class.java).body!!.composeApi()
     }
 
     fun <T> YSBasicEntity<T>.composeApi(): YSBasicEntity<T> {

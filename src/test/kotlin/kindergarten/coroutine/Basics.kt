@@ -5,7 +5,6 @@ import kotlinx.coroutines.experimental.delay
 import kotlinx.coroutines.experimental.launch
 import kotlinx.coroutines.experimental.runBlocking
 import org.junit.Test
-import kotlin.concurrent.thread
 
 /**
  * Created by zhangruiyu on 2017/7/15.

@@ -20,7 +20,7 @@ class AsyncApplicationWithAnnotation {
     @Bean
     fun taskExecutor(): AsyncTaskExecutor {
         val executor = ThreadPoolTaskExecutor()
-        executor.threadNamePrefix = "Anno-Executor"
+        executor.setThreadNamePrefix("Anno-Executor")
         executor.maxPoolSize = 10
         executor.corePoolSize = 10
         // 设置拒绝策略

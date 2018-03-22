@@ -33,7 +33,7 @@ class ProfileService(
 
     fun getKgProfileAndRoleCode(jwtUser: JwtUser): KgProfile {
         val single = kgProfileDao.single(jwtUser.id)
-        single.roleCode = getRoleCode(valueOperations.get("$authTokenPrefix:${jwtUser.tel}").userAuthorities[0].authority)
+        single.roleCode = getRoleCode(valueOperations.get("$authTokenPrefix:${jwtUser.tel}")!!.userAuthorities[0].authority)
         return single
     }
 

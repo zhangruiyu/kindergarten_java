@@ -6,10 +6,6 @@ buildscript {
     }
     repositories {
         mavenCentral()
-        maven { url 'http://maven.aliyun.com/nexus/content/groups/public/' }
-        maven { url 'http://dl.bintray.com/kotlin/kotlin-eap-1.2' }
-        maven { url "https://repo.spring.io/snapshot" }
-        maven { url "https://repo.spring.io/milestone" }
     }
     dependencies {
         classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
@@ -42,18 +38,21 @@ sourceSets {
     main.java.srcDirs += 'src/main/kotlin'
 }
 compileKotlin {
-    kotlinOptions.jvmTarget = "1.8"
+    kotlinOptions {
+        freeCompilerArgs = ["-Xjsr305=strict"]
+        jvmTarget = "1.8"
+    }
 }
 compileTestKotlin {
-    kotlinOptions.jvmTarget = "1.8"
+    kotlinOptions {
+        freeCompilerArgs = ["-Xjsr305=strict"]
+        jvmTarget = "1.8"
+    }
 }
 
 repositories {
     mavenCentral()
-    maven { url 'http://maven.aliyun.com/nexus/content/groups/public/' }
-    maven { url 'http://dl.bintray.com/kotlin/kotlin-eap-1.2' }
-    maven { url "https://repo.spring.io/snapshot" }
-    maven { url "https://repo.spring.io/milestone" }
+    jcenter()
 }
 
 configurations {
@@ -72,7 +71,7 @@ dependencies {
     compile('org.springframework.boot:spring-boot-starter-jdbc')
     compile('org.springframework.boot:spring-boot-starter-actuator')
     compile('org.springframework.integration:spring-integration-mail')
-    compile('org.springframework.security.oauth:spring-security-oauth')
+//    compile('org.springframework.security.oauth:spring-security-oauth')
     runtime('mysql:mysql-connector-java')
 
 
@@ -98,7 +97,7 @@ dependencies {
 
     compile("org.jetbrains.kotlin:kotlin-stdlib-jdk8:${kotlinVersion}")
     compile("org.jetbrains.kotlin:kotlin-reflect:${kotlinVersion}")
-
+    compile('com.fasterxml.jackson.module:jackson-module-kotlin')
     compile files("libs/aliyun-java-sdk-core-3.2.3.jar")
     compile files("libs/aliyun-java-sdk-dysmsapi-1.0.0-SNAPSHOT.jar")
 
@@ -106,7 +105,7 @@ dependencies {
 
     //tools
     compile 'cn.hutool:hutool-core:4.0.0'
-    compile 'org.jetbrains.kotlinx:kotlinx-coroutines-core:0.16'
+    compile "org.jetbrains.kotlinx:kotlinx-coroutines-core:0.21"
     compile 'com.qcloud:cos_api:4.4'
 }
 kotlin {
