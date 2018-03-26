@@ -1,5 +1,6 @@
 package kindergarten
 
+import kindergarten.config.task.TaskThreadPoolConfig
 import kindergarten.config.cos.OCSConfig
 import org.beetl.core.resource.WebAppResourceLoader
 import org.beetl.ext.spring.BeetlGroupUtilConfiguration
@@ -19,7 +20,7 @@ import java.lang.Exception
 
 
 @SpringBootApplication
-@EnableConfigurationProperties(OCSConfig::class)
+@EnableConfigurationProperties(value = [OCSConfig::class, TaskThreadPoolConfig::class])
 @EnableAsync
 class KindergartenApplication : CommandLineRunner {
     //    @Autowired

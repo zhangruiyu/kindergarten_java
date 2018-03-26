@@ -1,7 +1,7 @@
 package kindergarten.task
 
-import kindergarten.annotation.PoKo
 import org.springframework.context.annotation.Configuration
+import org.springframework.scheduling.annotation.Async
 import org.springframework.scheduling.annotation.EnableScheduling
 import org.springframework.scheduling.annotation.Scheduled
 
@@ -10,8 +10,7 @@ import org.springframework.scheduling.annotation.Scheduled
  */
 @Configuration
 @EnableScheduling
-@PoKo
-open class MyTask {
+class MyTask {
     /**
      * 希望每10秒钟执行一次
      * cron:定时任务表达式
@@ -21,12 +20,15 @@ open class MyTask {
 
     //10秒
     @Scheduled(cron = "0/10 * * * * *")
-    fun task1(){
-        println("TASK1()")
+    @Async
+    fun task1() {
+        println("TASK1()${Thread.currentThread().name}")
     }
+
     // 1分钟
     @Scheduled(cron = "0 0/1 * * * * ")
-    fun task2(){
+    @Async
+    fun task2() {
         println("TASK2()")
     }
 }
