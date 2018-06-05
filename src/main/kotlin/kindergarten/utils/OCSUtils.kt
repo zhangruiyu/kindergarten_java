@@ -17,7 +17,14 @@ class OCSUtils {
             when {
                 path == null || path.isEmpty() -> return@getPicUrl ""
                 path.startsWith("http") -> return@getPicUrl path
-                else -> return CustomConstants.COSURL.picUrl + path+"?imageView2/q/50"
+                else -> {
+                    return if (path.endsWith(".mp4")) {
+                        CustomConstants.COSURL.picUrl + path
+                    } else {
+                        CustomConstants.COSURL.picUrl + path + "?imageView2/q/50"
+                    }
+                }
+
             }
         }
     }
