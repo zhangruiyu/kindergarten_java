@@ -106,7 +106,7 @@ dependencies {
     //tools
     compile 'cn.hutool:hutool-core:4.0.0'
     compile "org.jetbrains.kotlinx:kotlinx-coroutines-core:0.21"
-    compile 'com.qcloud:cos_api:4.4'
+    compile 'com.qcloud:qcloud-java-sdk:2.0.6'
 }
 kotlin {
     experimental {
