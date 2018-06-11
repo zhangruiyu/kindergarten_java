@@ -38,11 +38,14 @@ class COSSignController(private val ocsConfig: OCSConfig) {
 // 您的 SecretID
         config["SecretId"] = ocsConfig.SecretId!!
 // 您的 SecretKey
-        config["SecretKey"] =  ocsConfig.SecretKey!!
+        config["SecretKey"] = ocsConfig.SecretKey!!
 // 临时密钥有效时长，单位是秒，如果没有设置，默认是30分钟
         config["durationInSeconds"] = 1800
+        val jwt = JwtUserFactory.getJwtUserAfterFilter()
+        val cosPath = "$prefix/${CustomConstants.PicType.periodTypes[type]}/${jwt.id}"
+        val data  = StorageSts.getCredential(config).getJSONObject("data")
 
-        val credential = StorageSts.getCredential(config).toString()
+        val credential = data.getJSONObject("credentials").put("cosPath", cosPath).put("expiredTime", data.getLong("expiredTime")).toString()
 //        val credential = StorageSts.getCredential(config)
 //        val expired = System.currentTimeMillis() / 1000 + 3600
 //        val cred = BasicCOSCredentials(ocsConfig.SecretId, ocsConfig.SecretKey)

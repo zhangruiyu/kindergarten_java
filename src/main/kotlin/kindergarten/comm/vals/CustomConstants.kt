@@ -52,7 +52,7 @@ object CustomConstants {
     object COSURL {
         //图片类型
         //0是发表动态
-        val picUrl = "http://kindergartens-1253631018.pictj.myqcloud.com"
+        val picUrl = "http://kindergartens-1253631018.cos.ap-beijing-1.myqcloud.com"
 
     }
 }

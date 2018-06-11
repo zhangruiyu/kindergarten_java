@@ -9,7 +9,7 @@ class OCSUtils {
             if (path.isEmpty()) {
                 return@toLocation ""
             }
-            return path.substringAfter("/1253631018/kindergartens")
+            return path.substringAfter(" http://kindergartens-1253631018.cos.ap-beijing-1.myqcloud.com")
         }
 
         //访问图片的url
